@@ -10,29 +10,31 @@ namespace Avalanche.Console
         public ConsoleGameView() {}
 
         public void Initialize() {
+            System.Console.ForegroundColor = ConsoleColor.White;
+            System.Console.BackgroundColor = ConsoleColor.Black;
             // System.Console.SetWindowSize(ScreenCharWidth, ScreenCharHeight);
             // // System.Console.SetBufferSize(ScreenWidth, ScreenHeight);
 
             System.Console.Clear();
-            for (int i = 0; i < ScreenCharHeight; i++) {
-                System.Console.Write('|');
-                for (int j = 1; j < ScreenCharWidth-1; j++) {
-                    switch (i) {
-                        case 0:
-                            System.Console.Write('T');
-                            break;
-                        case ScreenCharHeight - 1:
-                            System.Console.Write('_');
-                            break;
-                        default:
-                            System.Console.Write(' ');
-                            break;
-                    }
+            // for (int i = 0; i < ScreenCharHeight; i++) {
+            //     System.Console.Write('|');
+            //     for (int j = 1; j < ScreenCharWidth-1; j++) {
+            //         switch (i) {
+            //             case 0:
+            //                 System.Console.Write('T');
+            //                 break;
+            //             case ScreenCharHeight - 1:
+            //                 System.Console.Write('_');
+            //                 break;
+            //             default:
+            //                 System.Console.Write(' ');
+            //                 break;
+            //         }
                     
-                }
-                System.Console.Write("|\n");
-            }
-
+            //     }
+            //     System.Console.Write("|\n");
+            // }
+            System.Console.Write("You pressed: ");
         }
 
         public void Render() {

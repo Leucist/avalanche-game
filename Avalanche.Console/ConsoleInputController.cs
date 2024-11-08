@@ -1,59 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using Avalanche.Core;
-// using SadConsole.Input;
-// using SadRogue.Primitives;
+﻿using Avalanche.Core;
 
 
 namespace Avalanche.Console
 {
     public class ConsoleInputController : IInputController
     {
+        private Dictionary<ConsoleKey, ActionType> _keyValuePairs;
+
+        public ConsoleInputController() {
+            _keyValuePairs = new Dictionary<ConsoleKey, ActionType>() {
+                { ConsoleKey.W, ActionType.Up },
+                { ConsoleKey.A, ActionType.Left },
+                { ConsoleKey.S, ActionType.Down },
+                { ConsoleKey.D, ActionType.Right },
+                { ConsoleKey.Spacebar, ActionType.StraightAttack },
+                { ConsoleKey.F, ActionType.SplashAttack },
+                { ConsoleKey.R, ActionType.Shoot },
+                { ConsoleKey.E, ActionType.Interact },
+                { ConsoleKey.Enter, ActionType.Enter }
+            };
+        }
+        
+        private ConsoleKey GetInputKey() {
+            return System.Console.ReadKey(intercept: true).Key;
+        }
         public ActionType GetKeyboardInput()
         {
-            // if (SadConsole.GameHost.Instance.Keyboard.IsKeyPressed(Keys.W))
-            // {
-            //     return ActionType.Up;   
-            // }
-            // else if (SadConsole.GameHost.Instance.Keyboard.IsKeyPressed(Keys.A))
-            // {
-            //     return ActionType.Left;
-            // }
-            // else if (SadConsole.GameHost.Instance.Keyboard.IsKeyPressed(Keys.S))
-            // {
-            //     return ActionType.Down;
-            // }
-            // else if (SadConsole.GameHost.Instance.Keyboard.IsKeyPressed(Keys.D))
-            // {
-            //     return ActionType.Right;
-            // }
-            // else if (SadConsole.GameHost.Instance.Keyboard.IsKeyPressed(Keys.Space))
-            // {
-            //     return ActionType.StraightAttack;
-            // }
-            // else if (SadConsole.GameHost.Instance.Keyboard.IsKeyPressed(Keys.F))
-            // {
-            //     return ActionType.SplashAttack;
-            // }
-            // else if (SadConsole.GameHost.Instance.Keyboard.IsKeyPressed(Keys.R))
-            // {
-            //     return ActionType.Shoot;
-            // }
-            // else if (SadConsole.GameHost.Instance.Keyboard.IsKeyPressed(Keys.E))
-            // {
-            //     return ActionType.Interact;
-            // }
-            // else if (SadConsole.GameHost.Instance.Keyboard.IsKeyPressed(Keys.Enter))
-            // {
-            //     return ActionType.Enter;
-            // }
-
-            return ActionType.NullAction;
-
+            ConsoleKey pressedKey = GetInputKey();
+            if (_keyValuePairs.ContainsKey(pressedKey))
+                return _keyValuePairs[pressedKey];
+            else
+                return ActionType.NullAction;
         }
 
     }

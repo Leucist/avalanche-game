@@ -16,6 +16,9 @@ public class GameController {
     public void StartGame() {
         _gameView.Initialize();
 
+        ActionType action = _inputController.GetKeyboardInput();
+        System.Console.WriteLine(action.ToString());
+
         // while (_isRunning) {
         //     Update();
         // }
