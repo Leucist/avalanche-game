@@ -1,4 +1,7 @@
 using Avalanche.Core;
+using SadConsole;
+using SadConsole.Configuration;
+using Microsoft.Xna.Framework;
 
 using static Avalanche.Core.AppConstants;
 
@@ -6,38 +9,34 @@ namespace Avalanche.Console
 {
     public class ConsoleGameView : IGameView
     {
+        private ScreenObject _screenContainer;
+        private SadConsole.Console _screenConsole;
 
-        public ConsoleGameView() {}
+        private int _counter = 0;
+
+        public ConsoleGameView() {
+            _screenContainer = new ScreenObject();
+            // _screenConsole = new SadConsole.Console(ScreenCharWidth, ScreenCharHeight);
+        }
 
         public void Initialize() {
-            // System.Console.SetWindowSize(ScreenCharWidth, ScreenCharHeight);
-            // // System.Console.SetBufferSize(ScreenWidth, ScreenHeight);
+            SadConsole.Settings.WindowTitle = AppName;
+            Builder configuration = new Builder()
+                .SetScreenSize(ScreenCharWidth, ScreenCharHeight)
+                .OnStart(StartUp);
+            SadConsole.Game.Create(configuration);
 
-            System.Console.Clear();
-            for (int i = 0; i < ScreenCharHeight; i++) {
-                System.Console.Write('|');
-                for (int j = 1; j < ScreenCharWidth-1; j++) {
-                    switch (i) {
-                        case 0:
-                            System.Console.Write('T');
-                            break;
-                        case ScreenCharHeight - 1:
-                            System.Console.Write('_');
-                            break;
-                        default:
-                            System.Console.Write(' ');
-                            break;
-                    }
-                    
-                }
-                System.Console.Write("|\n");
-            }
-
+            SadConsole.Game.Instance.Run();
+            SadConsole.Game.Instance.Dispose();
         }
 
-        public void Render() {
-
+        private void StartUp(object? sender, GameHost host)
+        {
+            _screenConsole = new GameConsole(ScreenCharWidth, ScreenCharHeight);
+            SadConsole.Game.Instance.Screen = _screenConsole;
         }
+
+        public void Render() {}
         
     }
 }

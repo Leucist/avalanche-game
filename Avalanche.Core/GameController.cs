@@ -4,13 +4,13 @@ public class GameController {
     IGameView _gameView;
     IInputController _inputController;
     ISceneController _currentSceneController;
-    bool _isRunning;
+    // bool _isRunning;
 
     public GameController(IGameView gameView, IInputController inputController) {
         _gameView = gameView;
         _inputController = inputController;
         // _currentSceneController = new MainMenuController();
-        _isRunning = true;
+        // _isRunning = true;
     }
 
     public void StartGame() {
@@ -23,7 +23,7 @@ public class GameController {
 
     private void Update() {
         _gameView.Render();
-        // ActionType action = _inputController.GetKeyboardInput();
+        ActionType action = _inputController.GetKeyboardInput();
         // _currentSceneController.Handle(action);
         Thread.Sleep(200);
     }

@@ -4,12 +4,12 @@
     <ProjectReference Include="..\Avalanche.Core\Avalanche.Core.csproj" />
   </ItemGroup>
 
-  <!-- <ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.1105" />
     <PackageReference Include="SadConsole" Version="10.4.2" />
     <PackageReference Include="SadConsole.Host.MonoGame" Version="10.4.1" />
-    <PackageReference Include="SadConsole.Extended" Version="10.4.0" />
-  </ItemGroup> -->
+    <!-- <PackageReference Include="SadConsole.Extended" Version="10.4.0" /> -->
+  </ItemGroup>
 
   <!-- <ItemGroup>
     <Using Include="SadConsole" />
