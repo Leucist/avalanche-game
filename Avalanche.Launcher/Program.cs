@@ -2,6 +2,7 @@
 using Avalanche.Core;
 using Avalanche.Console;
 using Avalanche.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace Avalanche.Launcher
 {
@@ -10,27 +11,40 @@ namespace Avalanche.Launcher
         static void Main(string[] args)
         {
             // Check command line arguments
-            bool useConsole = args.Length > 0 && args[0].Equals("console", StringComparison.OrdinalIgnoreCase);
-            
-            // Creates new game instance
-            var gameController = new GameController();
- 
-            IGameView gameView;
+            // TEMP CHANGE from > bool useConsole = args.Length > 0 && args[0].Equals("console", StringComparison.OrdinalIgnoreCase);
+            bool useGraphics = args.Length > 0 && args[0].Equals("graphics", StringComparison.OrdinalIgnoreCase);
 
-            if (useConsole)
+            IGameView gameView;
+            IInputController inputController;
+
+            // TEMP CHANGE from > if (useConsole)
+            if (!useGraphics)
             {
-                Console.WriteLine("Launching console version of the game...");
-                gameView = new ConsoleGameView();  // Console View
+                System.Console.WriteLine("Launching console version of the game...");
+                gameView = new ConsoleGameView();
+                inputController = new ConsoleInputController();
+                
             }
             else
             {
-                Console.WriteLine("Launching graphical version of the game...");
-                gameView = new GraphicsGameView();  // Graphical View
+                throw new NotImplementedException("The graphical interface has not been implemented yet.");
+                // System.Console.WriteLine("Launching graphical version of the game...");
+                // gameView = new GraphicsGameView();
+                // inputController = new GraphicsInputController();
             }
 
-            // Pass the view and launches the game
-            gameController.SetView(gameView);
-            gameController.Run();
+            // Creates new game instance
+            GameController gameController = new GameController(gameView, inputController);
+
+            gameController.StartGame();
         }
+
+        // private static void InitConsole() {
+        //     IGameView gameView = new ConsoleGameView();
+        // }
+
+        // private static void InitGraphics() {
+        //     IGameView gameView = new GraphicsGameView();
+        // }
     }
 }
