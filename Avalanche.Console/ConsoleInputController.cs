@@ -21,12 +21,12 @@ namespace Avalanche.Console
             };
         }
         
-        private ConsoleKey GetInputKey() {
+        private ConsoleKey GetKeyboardInput() {
             return System.Console.ReadKey(intercept: true).Key;
         }
-        public ActionType GetKeyboardInput()
+        public ActionType GetUserAction()
         {
-            ConsoleKey pressedKey = GetInputKey();
+            ConsoleKey pressedKey = GetKeyboardInput();
             if (_keyValuePairs.ContainsKey(pressedKey))
                 return _keyValuePairs[pressedKey];
             else
