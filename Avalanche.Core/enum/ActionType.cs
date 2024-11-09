@@ -1,7 +1,7 @@
 ﻿namespace Avalanche.Core
 {
-   public enum ActionType
-   {
+    public enum ActionType
+    {
         Up,
         Down,
         Left,
@@ -13,5 +13,5 @@
         Enter,
         NullAction
 
-   }
+    }
 }
