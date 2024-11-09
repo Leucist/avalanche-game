@@ -33,13 +33,14 @@ namespace Avalanche.Console
         private void CheckWindowSize() {
             (int, int) screenSize = (0, 0);
             (int, int) prevScreenSize = screenSize;
-            while ((screenSize.Item1 != ScreenCharWidth) && 
-                (screenSize.Item2 != ScreenCharHeight))
+            while ((screenSize.Item1 < ScreenCharWidth) && 
+                (screenSize.Item2 < ScreenCharHeight))
             {
                 screenSize = (System.Console.WindowWidth, System.Console.WindowHeight);
                 if (screenSize != prevScreenSize) {
                     ConsoleRenderer.ClearScreen();
-                    ConsoleRenderer.Alert("PLEASE EXPAND THIS WINDOW");
+                    // ConsoleRenderer.Alert("PLEASE EXPAND THIS WINDOW");
+                    ConsoleRenderer.Alert(screenSize.ToString());
                     prevScreenSize = screenSize;
                 }
             }
