@@ -1,8 +1,6 @@
-﻿using System;
-using Avalanche.Core;
+﻿using Avalanche.Core;
 using Avalanche.Console;
 using Avalanche.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace Avalanche.Launcher
 {
