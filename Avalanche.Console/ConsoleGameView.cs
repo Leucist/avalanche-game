@@ -18,9 +18,9 @@ namespace Avalanche.Console
             ConsoleRenderer.ClearScreen();
             System.Console.Write("\x1B[?25l");  // hides the cursor
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                System.Console.SetWindowSize(ScreenCharWidth, ScreenCharHeight);
-            }
+            // if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+            //     System.Console.SetWindowSize(ScreenCharWidth, ScreenCharHeight);
+            // }
             CheckWindowSize();
 
             System.Console.Write("\x1B[?25h");  // returns cursor visibility
@@ -33,17 +33,18 @@ namespace Avalanche.Console
         private void CheckWindowSize() {
             (int, int) screenSize = (0, 0);
             (int, int) prevScreenSize = screenSize;
-            while ((screenSize.Item1 < ScreenCharWidth) && 
-                (screenSize.Item2 < ScreenCharHeight))
+            while ((screenSize.Item1 < ScreenCharWidth) || (screenSize.Item2 < ScreenCharHeight))
             {
                 screenSize = (System.Console.WindowWidth, System.Console.WindowHeight);
                 if (screenSize != prevScreenSize) {
                     ConsoleRenderer.ClearScreen();
-                    // ConsoleRenderer.Alert("PLEASE EXPAND THIS WINDOW");
-                    ConsoleRenderer.Alert(screenSize.ToString());
+                    ConsoleRenderer.DrawWidthArrows();
+                    ConsoleRenderer.DrawAlert("PLEASE EXPAND THIS WINDOW or change the font size so that you'll see unwrapped one-line arrows");
                     prevScreenSize = screenSize;
                 }
             }
+            ConsoleRenderer.ClearScreen();
+            ConsoleRenderer.DrawAlert("DONE! I've always had faith in you 😎");
         }
     }
 }

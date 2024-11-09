@@ -4,20 +4,22 @@ namespace Avalanche.Console
 {
     public static class ConsoleRenderer
     {
-        // private (int, int) _screenSize;
-
-        // public ConsoleRenderer((int, int) screenSize) {
-        //     _screenSize = screenSize;
-        // }
-
         public static void ClearScreen() {
             System.Console.Clear();
         }
+        
+        public static void HideCursor() {
+            System.Console.Write("\x1B[?25l");
+        }
 
-        public static void Alert(string message) {
-            int centerX = System.Console.WindowWidth / 2 - message.Length / 2 - 1;
+        public static void ShowCursor() {
+            System.Console.Write("\x1B[?25h");
+        }
+
+        public static void DrawAlert(string message) {
+            int centerX = GetCenterX() - message.Length / 2 - 1;
             if (centerX < 0) centerX = 0;
-            int centerY = System.Console.WindowHeight / 2;
+            int centerY = GetCenterY();
 
             System.Console.SetCursorPosition(centerX, centerY);
 
@@ -26,25 +28,34 @@ namespace Avalanche.Console
             System.Console.WriteLine('|');
         }
 
-        public static void DrawBorderBox() {
-            for (int i = 0; i < ScreenCharHeight; i++) {
-                System.Console.Write('|');
-                for (int j = 1; j < ScreenCharWidth-1; j++) {
-                    switch (i) {
-                        case 0:
-                            System.Console.Write('T');
-                            break;
-                        case ScreenCharHeight - 1:
-                            System.Console.Write('_');
-                            break;
-                        default:
-                            System.Console.Write(' ');
-                            break;
-                    }
-                    
-                }
-                System.Console.Write("|\n");
+        public static void DrawCornerMarkers() {
+            int[][] corners = {
+                [0, 0], 
+                [ScreenCharWidth, 0], 
+                [0, ScreenCharHeight], 
+                [ScreenCharWidth, ScreenCharHeight]};
+
+            foreach (int[] corner in corners) {
+                System.Console.SetCursorPosition(corner[0], corner[1]);
+                System.Console.Write('#');
             }
+        }
+
+        public static void DrawWidthArrows() {
+            for (int i = 0; i < ScreenCharHeight; i+=4) {
+                System.Console.Write('<');
+                for (int j = 1; j < ScreenCharWidth-1; j++) {
+                    System.Console.Write('-');
+                }
+                System.Console.Write(">\n");
+            }
+        }
+
+        private static int GetCenterX() {
+            return System.Console.WindowWidth / 2;
+        }
+        private static int GetCenterY() {
+            return System.Console.WindowHeight / 2;
         }
     }
 }
