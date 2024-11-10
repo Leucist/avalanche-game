@@ -13,19 +13,19 @@
 
         private void HandleSelection(GameStateType stateType) {
             GameState._state = stateType;
-            ISceneController? newController = null;
-            switch (stateType)
-            {
-                case GameStateType.Game:
-                    newController = new LevelController();
-                    break;
-                // case GameStateType.OptionsMenu:
-                //     newController = new OptionsMenuController();
-                //     break;
-                case GameStateType.Exit:
-                    break;
-            }
-            ControllerManager.SetController(newController);
+            // ISceneController? newController = null;
+            // switch (stateType)
+            // {
+            //     case GameStateType.Game:
+            //         newController = new LevelController();
+            //         break;
+            //     // case GameStateType.OptionsMenu:
+            //     //     newController = new OptionsMenuController();
+            //     //     break;
+            //     case GameStateType.Exit:
+            //         break;
+            // }
+            // ControllerManager.SetController(newController);
         }
 
         public void Handle(ActionType action) {

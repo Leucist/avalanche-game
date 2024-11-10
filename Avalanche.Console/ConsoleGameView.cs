@@ -41,11 +41,14 @@ namespace Avalanche.Console
             _views[GameState._state].Render();
         }
         
-        public void AddView(ISceneController controller) {
+        public void AddView(GameStateType gameState, ISceneController controller) {
             IView view;
-            switch (GameState._state) {
+            switch (gameState) {
                 case GameStateType.MainMenu:
                     view = new ConsoleMainMenuView((MainMenuModel)controller.GetModel());
+                    break;
+                case GameStateType.Game:
+                    view = new ConsoleLevelView((LevelModel)controller.GetModel());
                     break;
                 default:
                     view = new ConsoleMainMenuView((MainMenuModel)controller.GetModel());

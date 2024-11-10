@@ -4,6 +4,6 @@ namespace Avalanche.Core
     {
         void Initialize();
         void Render();
-        void AddView(ISceneController controller);
+        void AddView(GameStateType gameState, ISceneController controller);
     }
 }

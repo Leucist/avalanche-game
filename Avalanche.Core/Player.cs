@@ -17,9 +17,11 @@ namespace Avalanche.Core
         public int _rocks { get; set; }
 
 
-        public Player(int x, int y, DirectionType directionAxis = DirectionType.East,
-                      int health=DefaultEntityHealth, int damage = DefaultEntityDamage)
-                      : base(x, y, directionAxis, health, damage)
+        public Player(
+            int x = RoomCharWidth / 2, int y = RoomCharHeight / 2, 
+            DirectionType directionAxis = DirectionType.East,
+            int health=DefaultEntityHealth, int damage = DefaultEntityDamage)
+            : base(x, y, directionAxis, health, damage)
         {
             _mushrooms = 0;
             _rocks = 0;
