@@ -2,8 +2,8 @@ namespace Avalanche.Core
 {
     public enum GameStateType
     {
-        NewGame,
-        LoadGame,
+        Game,
+        LoadGameMenu,
         MainMenu,
         OptionsMenu,
         Exit,

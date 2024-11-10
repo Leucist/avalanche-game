@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection.Metadata;
 
 namespace Avalanche.Core
 {
-    public class LevelController
+    public class LevelController : ISceneController
     {
+        public void Handle(ActionType action) {
 
+        }
+
+        public object GetModel() {
+            return null;
+        }
     }
 }

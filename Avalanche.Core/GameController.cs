@@ -20,6 +20,8 @@ public class GameController {
 
         _gameView.Initialize();
 
+
+
         while (GameState._state != GameStateType.Exit) {
             Update();
         }
@@ -30,5 +32,9 @@ public class GameController {
         ActionType action = _inputController.GetUserAction();
         _currentSceneController.Handle(action);
         // Thread.Sleep(200);
+    }
+
+    private void HandleMenu() {
+        _gameView.Render();
     }
 }
