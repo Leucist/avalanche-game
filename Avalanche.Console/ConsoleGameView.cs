@@ -60,7 +60,6 @@ namespace Avalanche.Console
                 }
             }
             ConsoleRenderer.ClearScreen();
-            ConsoleRenderer.DrawAlert("DONE! I've always had faith in you 😎");
         }
     }
 }

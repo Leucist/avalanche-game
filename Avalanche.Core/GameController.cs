@@ -29,6 +29,6 @@ public class GameController {
         _gameView.Render();
         ActionType action = _inputController.GetUserAction();
         _currentSceneController.Handle(action);
-        Thread.Sleep(200);
+        // Thread.Sleep(200);
     }
 }
