@@ -8,7 +8,7 @@
         public MainMenuModel()
         {
             _options = new List<(string, GameStateType)> { 
-                ("New Game", GameStateType.Game), 
+                ("New Game", GameStateType.NameInput), 
                 ("Options", GameStateType.OptionsMenu), 
                 ("Exit", GameStateType.Exit)};
             _currentIndex = 0;
