@@ -15,5 +15,6 @@ namespace Avalanche.Core
             Player = player;
         }
 
+        Dictionary<int, RoomController> ages = new Dictionary<int, RoomController>();
     }
 }
