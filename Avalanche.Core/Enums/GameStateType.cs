@@ -5,6 +5,7 @@ namespace Avalanche.Core
         Game,
         LoadGameMenu,
         MainMenu,
+        NameInput,
         OptionsMenu,
         Exit,
         Cutscene

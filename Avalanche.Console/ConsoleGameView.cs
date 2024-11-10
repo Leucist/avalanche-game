@@ -19,20 +19,10 @@ namespace Avalanche.Console
             System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.BackgroundColor = ConsoleColor.Black;
 
-
             ConsoleRenderer.ClearScreen();
             ConsoleRenderer.HideCursor();
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                System.Console.SetBufferSize(ScreenCharWidth+1, ScreenCharHeight+1);
-            }
-
-            CheckWindowSize();
-
-
-
-            // ConsoleRenderer.ShowCursor();
+            // CheckWindowSize();
         }
 
         public void Render() {
@@ -47,14 +37,16 @@ namespace Avalanche.Console
                 case GameStateType.MainMenu:
                     view = new ConsoleMainMenuView((MainMenuModel)controller.GetModel());
                     break;
+                case GameStateType.NameInput:
+                    view = new ConsoleNameInputView((NameInputModel)controller.GetModel());
+                    break;
                 case GameStateType.Game:
                     view = new ConsoleLevelView((LevelModel)controller.GetModel());
                     break;
                 default:
-                    view = new ConsoleMainMenuView((MainMenuModel)controller.GetModel());
-                    break;
+                    throw new ArgumentOutOfRangeException();
             }
-            _views[GameState._state] = view;
+            _views[gameState] = view;
         }
         
         private void CheckWindowSize() {
