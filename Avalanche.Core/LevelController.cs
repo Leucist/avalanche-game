@@ -4,7 +4,7 @@ namespace Avalanche.Core
 {
     public class LevelController : ISceneController
     {
-<<<<<<< HEAD
+
         LevelModel _model;
         RoomController _roomController;
         public LevelController(Player player)
@@ -22,18 +22,6 @@ namespace Avalanche.Core
         {
             return _model;
         }
-
-
-   
-
-=======
-        public void Handle(ActionType action) {
->>>>>>> e51b7a0e869aed422b16db8638e6072340a1a7b2
-
-        }
-
-        public object GetModel() {
-            return null;
-        }
+        
     }
 }
