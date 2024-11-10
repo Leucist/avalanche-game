@@ -19,10 +19,18 @@ namespace Avalanche.Console
             System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.BackgroundColor = ConsoleColor.Black;
 
+
             ConsoleRenderer.ClearScreen();
             ConsoleRenderer.HideCursor();
 
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                System.Console.SetBufferSize(ScreenWidth+1, ScreenHeight+1);
+            }
+
             CheckWindowSize();
+
+
 
             // ConsoleRenderer.ShowCursor();
         }
