@@ -24,11 +24,26 @@ namespace Avalanche.Console
 
             CheckWindowSize();
 
-            ConsoleRenderer.ShowCursor();
+            // ConsoleRenderer.ShowCursor();
         }
 
         public void Render() {
-            ViewManager._views[GameState._state].Render();
+            ConsoleRenderer.ClearScreen();
+
+            _views[GameState._state].Render();
+        }
+        
+        public void AddView(ISceneController controller) {
+            IView view;
+            switch (GameState._state) {
+                case GameStateType.MainMenu:
+                    view = new ConsoleMainMenuView((MainMenuModel)controller.GetModel());
+                    break;
+                default:
+                    view = new ConsoleMainMenuView((MainMenuModel)controller.GetModel());
+                    break;
+            }
+            _views[GameState._state] = view;
         }
         
         private void CheckWindowSize() {

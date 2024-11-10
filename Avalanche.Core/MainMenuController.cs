@@ -8,6 +8,7 @@
         public MainMenuController()
         {
             _model = new MainMenuModel();
+            
         }
 
         private void HandleSelection(GameStateType stateType) {
@@ -40,7 +41,7 @@
             }
         }
 
-        public MainMenuModel GetModel() {
+        public object GetModel() {
             return _model;
         }
     }

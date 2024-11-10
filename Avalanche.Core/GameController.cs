@@ -16,7 +16,7 @@ public class GameController {
     public void StartGame() {
         GameState._state = GameStateType.MainMenu;
 
-        _gameView.AddSceneView(_currentSceneController);
+        _gameView.AddView(_currentSceneController);
 
         _gameView.Initialize();
 
@@ -26,7 +26,7 @@ public class GameController {
     }
 
     private void Update() {
-        _gameView.Render(_currentSceneController.GetView());
+        _gameView.Render();
         ActionType action = _inputController.GetUserAction();
         _currentSceneController.Handle(action);
         Thread.Sleep(200);

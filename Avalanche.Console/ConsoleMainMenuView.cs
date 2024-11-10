@@ -2,9 +2,9 @@
 
 namespace Avalanche.Console
 {
-    public class ConsoleMainMenuView
+    public class ConsoleMainMenuView : IView
     {
-        private MainMenuModel _model;
+        public MainMenuModel _model { get; }
         public ConsoleMainMenuView(MainMenuModel model) {
             _model = model;
         }

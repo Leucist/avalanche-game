@@ -4,5 +4,6 @@ namespace Avalanche.Core
     {
         void Initialize();
         void Render();
+        void AddView(ISceneController controller);
     }
 }
