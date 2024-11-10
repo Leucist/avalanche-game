@@ -1,3 +1,4 @@
+using Avalanche.Core;
 using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Console
@@ -56,7 +57,10 @@ namespace Avalanche.Console
                 }
                 else {
                     System.Console.Write('|');
-                    System.Console.SetCursorPosition(ScreenCharWidth, y);
+                    for (int x = 1; x < ScreenCharWidth - 1; x++)
+                    {
+                        System.Console.Write(' ');
+                    }
                     System.Console.Write('|');
                 }
                 System.Console.Write('\n');
