@@ -10,11 +10,20 @@ namespace Avalanche.Core
     public class LevelModel
     {
         public Player Player { get; set; }
-        public LevelModel(Player player)
+        int _levelNumber;
+        int _enemiesCount;
+
+        public LevelModel(Player player, int levelNumber, int enemiesCount)
         {
             Player = player;
+            _levelNumber = levelNumber;
+            _enemiesCount = enemiesCount;
         }
 
         Dictionary<int, RoomController> ages = new Dictionary<int, RoomController>();
+
+
+
+
     }
 }

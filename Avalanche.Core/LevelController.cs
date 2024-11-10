@@ -7,9 +7,9 @@ namespace Avalanche.Core
 
         LevelModel _model;
         RoomController _roomController;
-        public LevelController(Player player)
+        public LevelController(Player player, int levelNumber, int enemiesCount)
         {
-            _model = new LevelModel(player);
+            _model = new LevelModel(player, levelNumber, enemiesCount);
             _roomController = new RoomController();
         }
 
