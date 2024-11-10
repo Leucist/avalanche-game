@@ -7,27 +7,28 @@ namespace Avalanche.Console
 {
     public class ConsoleGameView : IGameView
     {
-        // private IGameSceneModel gameSceneModel;
+        // private IGameSceneModel _gameSceneModel;
+        private Dictionary<GameStateType, IView> _views;
 
-        public ConsoleGameView() {}
+        public ConsoleGameView() {
+            _views = new Dictionary<GameStateType, IView>();
+            // _views[GameStateType.MainMenu] = new ConsoleMainMenuView();
+        }
 
         public void Initialize() {
             System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.BackgroundColor = ConsoleColor.Black;
 
             ConsoleRenderer.ClearScreen();
-            System.Console.Write("\x1B[?25l");  // hides the cursor
+            ConsoleRenderer.HideCursor();
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                System.Console.SetWindowSize(ScreenCharWidth, ScreenCharHeight);
-            }
             CheckWindowSize();
 
-            System.Console.Write("\x1B[?25h");  // returns cursor visibility
+            ConsoleRenderer.ShowCursor();
         }
 
         public void Render() {
-
+            ViewManager._views[GameState._state].Render();
         }
         
         private void CheckWindowSize() {

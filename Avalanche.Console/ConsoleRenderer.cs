@@ -14,8 +14,21 @@ namespace Avalanche.Console
             System.Console.Clear();
         }
 
+<<<<<<< HEAD
         public static void Alert(string message) {
             int centerX = System.Console.WindowWidth / 2 - message.Length / 2 - 1;
+=======
+        public static void ShowCursor() {
+            System.Console.Write("\x1B[?25h");
+        }
+
+        public static void SetTextColor(ConsoleColor color) {
+            System.Console.ForegroundColor = color;
+        }
+
+        public static void DrawAlert(string message) {
+            int centerX = GetCenterX() - message.Length / 2 - 1;
+>>>>>>> 0e5cabb (Backup)
             if (centerX < 0) centerX = 0;
             int centerY = System.Console.WindowHeight / 2;
 

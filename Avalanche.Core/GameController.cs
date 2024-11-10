@@ -3,32 +3,32 @@
 public class GameController {
     IGameView _gameView;
     IInputController _inputController;
-    // ISceneController _currentSceneController;
-    bool _isRunning;
+    ISceneController _currentSceneController;
+    // bool _isRunning;
 
     public GameController(IGameView gameView, IInputController inputController) {
         _gameView = gameView;
         _inputController = inputController;
-        // _currentSceneController = new InputNameMenuController(_gameView);
-        _isRunning = true;
+        _currentSceneController = new MainMenuController();
+        // _isRunning = true;
     }
 
     public void StartGame() {
+        GameState._state = GameStateType.MainMenu;
+
+        _gameView.AddSceneView(_currentSceneController);
+
         _gameView.Initialize();
 
-        // ActionType action = _inputController.GetUserAction();
-        // System.Console.WriteLine(action.ToString());
-        // System.Console.Write("\x1B[?25h");
-
-        // while (_isRunning) {
-        //     Update();
-        // }
+        while (GameState._state != GameStateType.Exit) {
+            Update();
+        }
     }
 
     private void Update() {
-        _gameView.Render();
+        _gameView.Render(_currentSceneController.GetView());
         ActionType action = _inputController.GetUserAction();
-        // _currentSceneController.Handle(action);
+        _currentSceneController.Handle(action);
         Thread.Sleep(200);
     }
 }
