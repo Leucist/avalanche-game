@@ -15,7 +15,7 @@ namespace Avalanche.Core
             this._x = x;
             this._y = y;
         }
-        protected int _x { get; set; }
-        protected int _y { get; set; }
+        public int _x { get; set; }
+        public int _y { get; set; }
     }
 }

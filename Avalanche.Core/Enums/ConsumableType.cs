@@ -3,7 +3,8 @@
     public enum ConsumableType
     {
         mushroom,
-        rock
+        rock,
+        door
 
     }
 }

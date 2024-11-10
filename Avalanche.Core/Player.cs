@@ -18,9 +18,9 @@ namespace Avalanche.Core
 
 
         public Player(
-            int x = RoomCharWidth / 2, int y = RoomCharHeight / 2, 
+            int x = RoomCharWidth / 2, int y = RoomCharHeight / 2,
             DirectionType directionAxis = DirectionType.East,
-            int health=DefaultEntityHealth, int damage = DefaultEntityDamage)
+            int health = DefaultEntityHealth, int damage = DefaultEntityDamage)
             : base(x, y, directionAxis, health, damage)
         {
             _mushrooms = 0;
@@ -30,17 +30,22 @@ namespace Avalanche.Core
 
         void ConsumeMushroom()
         {
-           
+
             if (_mushrooms >= 1)
             {
                 _mushrooms--;
 
                 Random random = new Random();
-                
+
                 int HpChange = random.Next(DefaultMushroomsMinimalHpChange, DefaultMushroomsMaximalHpChange);
                 base._health += HpChange;
             }
 
+        }
+
+        void ThrowRock()
+        {
+            
         }
 
         void UpdateHeat(int delta)
@@ -60,6 +65,19 @@ namespace Avalanche.Core
                     break;
             }
         }
+
+        public void UseIteractiveObject(ConsumableType consumableType)
+        {
+            switch (consumableType)
+            {
+                case ConsumableType.mushroom:
+                    ConsumeMushroom();
+                    break;
+                case ConsumableType.rock:
+                    ThrowRock();
+                    break;
+                }
+            }
+        }
     }
     
-}
