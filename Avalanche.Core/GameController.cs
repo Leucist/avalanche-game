@@ -3,33 +3,37 @@
 public class GameController {
     IGameView _gameView;
     IInputController _inputController;
-    ISceneController _currentSceneController;
+    ISceneController? _currentSceneController;
     // bool _isRunning;
 
     public GameController(IGameView gameView, IInputController inputController) {
         _gameView = gameView;
         _inputController = inputController;
-        _currentSceneController = new MainMenuController();
+        _currentSceneController = null;
         // _isRunning = true;
     }
 
     public void StartGame() {
-        GameState._state = GameStateType.MainMenu;
+        Dictionary<GameStateType, ISceneController> controllers = new Dictionary<GameStateType, ISceneController>();
 
         _gameView.Initialize();
 
-        Player player = new Player();
+        Player player = new Player();  
 
         // Initialise Scene Controllers
-        ISceneController mainMenuController = new MainMenuController();
-        ISceneController levelController = new LevelController(player);
+        controllers[GameStateType.MainMenu] = new MainMenuController();
+        controllers[GameStateType.NameInput] = new NameInputController(player);
+        controllers[GameStateType.Game] = new LevelController(player);
 
         // Initialise Scene Views & Link them to the main View
-        _gameView.AddView(GameStateType.MainMenu, mainMenuController);
-        _gameView.AddView(GameStateType.Game, levelController);
+        _gameView.AddView(GameStateType.MainMenu, controllers[GameStateType.MainMenu]);
+        _gameView.AddView(GameStateType.NameInput, controllers[GameStateType.NameInput]);
+        _gameView.AddView(GameStateType.Game, controllers[GameStateType.Game]);
 
         // Main Game loop
+        GameState._state = GameStateType.MainMenu;
         while (GameState._state != GameStateType.Exit) {
+            _currentSceneController = controllers[GameState._state];
             Update();
         }
     }
@@ -37,7 +41,7 @@ public class GameController {
     private void Update() {
         _gameView.Render();
         ActionType action = _inputController.GetUserAction();
-        _currentSceneController.Handle(action);
-        // Thread.Sleep(200);
+        _currentSceneController!.Handle(action);
+        // Thread.Sleep(2000);
     }
 }

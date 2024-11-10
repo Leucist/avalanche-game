@@ -20,6 +20,7 @@ namespace Avalanche.Core
 
         //  Player setting
         public const int DefaultPlayerHeat = 1000;
+        public const string DefaultPlayerName = "Jack";
 
         // Mushrooms settings
         public const int DefaultMushroomsMinimalHpChange = -2;

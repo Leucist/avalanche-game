@@ -20,10 +20,14 @@ namespace Avalanche.Core
             _enemiesCount = enemiesCount;
         }
 
+<<<<<<< HEAD
         Dictionary<int, RoomController> ages = new Dictionary<int, RoomController>();
 
 
 
 
+=======
+        Dictionary<int, RoomController> rooms = new Dictionary<int, RoomController>();
+>>>>>>> a8fb6a4d9fcc2184ac38f821fc2e7423c7a41ad7
     }
 }
