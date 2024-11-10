@@ -25,7 +25,7 @@ namespace Avalanche.Console
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                System.Console.SetBufferSize(ScreenWidth+1, ScreenHeight+1);
+                System.Console.SetBufferSize(ScreenCharWidth+1, ScreenCharHeight+1);
             }
 
             CheckWindowSize();
