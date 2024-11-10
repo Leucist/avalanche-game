@@ -12,13 +12,13 @@ namespace Avalanche.Core
 {
     public class Player : Entity
     {
-        int _heat { get; set; }
-        int _mushrooms { get; set; }
-        int _rocks { get; set; }
+        public int _heat { get; set; }
+        public int _mushrooms { get; set; }
+        public int _rocks { get; set; }
 
 
-        public Player(int x, int y, DirectionType directionAxis,
-                      int health, int damage)
+        public Player(int x, int y, DirectionType directionAxis = DirectionType.East,
+                      int health=DefaultEntityHealth, int damage = DefaultEntityDamage)
                       : base(x, y, directionAxis, health, damage)
         {
             _mushrooms = 0;
@@ -28,10 +28,16 @@ namespace Avalanche.Core
 
         void ConsumeMushroom()
         {
-            Random random = new Random();
+           
+            if (_mushrooms >= 1)
+            {
+                _mushrooms--;
 
-            int HpChange = random.Next(DefaultMushroomsMinimalHpChange, DefaultMushroomsMaximalHpChange);
-            base._health += HpChange;
+                Random random = new Random();
+                
+                int HpChange = random.Next(DefaultMushroomsMinimalHpChange, DefaultMushroomsMaximalHpChange);
+                base._health += HpChange;
+            }
 
         }
 
@@ -39,7 +45,19 @@ namespace Avalanche.Core
         {
             _heat -= delta;
         }
-    }
 
+        void AddConsumable(ConsumableType consumableType)
+        {
+            switch (consumableType)
+            {
+                case ConsumableType.mushroom:
+                    _mushrooms++;
+                    break;
+                case ConsumableType.rock:
+                    _rocks++;
+                    break;
+            }
+        }
+    }
     
 }
