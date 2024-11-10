@@ -10,6 +10,10 @@ namespace Avalanche.Core
         public const int ScreenCharWidth = 200;
         public const int ScreenCharHeight = 50;
 
+        // Room
+        public const int RoomCharWidth = 200;
+        public const int RoomCharHeight = 32;
+
         //  Entity settings
         public const int DefaultEntityHealth = 3;
         public const int DefaultEntityDamage = 1;

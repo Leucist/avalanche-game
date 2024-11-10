@@ -33,11 +33,11 @@ namespace Avalanche.Console
         }
 
         public static void DrawCornerMarkers() {
-            int[][] corners = {
+            int[][] corners = [
                 [0, 0], 
                 [ScreenCharWidth, 0], 
                 [0, ScreenCharHeight], 
-                [ScreenCharWidth, ScreenCharHeight]};
+                [ScreenCharWidth, ScreenCharHeight]];
 
             foreach (int[] corner in corners) {
                 System.Console.SetCursorPosition(corner[0], corner[1]);
@@ -46,12 +46,20 @@ namespace Avalanche.Console
         }
 
         public static void DrawWidthArrows() {
-            for (int i = 0; i < ScreenCharHeight; i+=4) {
-                System.Console.Write('<');
-                for (int j = 1; j < ScreenCharWidth-1; j++) {
-                    System.Console.Write('-');
+            for (int y = 0; y < ScreenCharHeight; y++) {
+                if (y % 5 == 0 || y == ScreenCharHeight - 1) {
+                    System.Console.Write('<');
+                    for (int x = 1; x < ScreenCharWidth - 1; x++) {
+                        System.Console.Write('-');
+                    }
+                    System.Console.Write('>');
                 }
-                System.Console.Write(">\n");
+                else {
+                    System.Console.Write('|');
+                    System.Console.SetCursorPosition(ScreenCharWidth, y);
+                    System.Console.Write('|');
+                }
+                System.Console.Write('\n');
             }
         }
 

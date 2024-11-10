@@ -16,10 +16,19 @@ public class GameController {
     public void StartGame() {
         GameState._state = GameStateType.MainMenu;
 
-        _gameView.AddView(_currentSceneController);
-
         _gameView.Initialize();
 
+        Player player = new Player();
+
+        // Initialise Scene Controllers
+        ISceneController mainMenuController = new MainMenuController();
+        ISceneController levelController = new LevelController(player);
+
+        // Initialise Scene Views & Link them to the main View
+        _gameView.AddView(GameStateType.MainMenu, mainMenuController);
+        _gameView.AddView(GameStateType.Game, levelController);
+
+        // Main Game loop
         while (GameState._state != GameStateType.Exit) {
             Update();
         }
@@ -29,6 +38,6 @@ public class GameController {
         _gameView.Render();
         ActionType action = _inputController.GetUserAction();
         _currentSceneController.Handle(action);
-        Thread.Sleep(200);
+        // Thread.Sleep(200);
     }
 }

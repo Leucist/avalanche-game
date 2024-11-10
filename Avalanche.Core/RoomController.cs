@@ -8,5 +8,6 @@ namespace Avalanche.Core
 {
     public class RoomController
     {
+
     }
 }

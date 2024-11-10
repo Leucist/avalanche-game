@@ -19,10 +19,18 @@ namespace Avalanche.Console
             System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.BackgroundColor = ConsoleColor.Black;
 
+
             ConsoleRenderer.ClearScreen();
             ConsoleRenderer.HideCursor();
 
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                System.Console.SetBufferSize(ScreenCharWidth+1, ScreenCharHeight+1);
+            }
+
             CheckWindowSize();
+
+
 
             // ConsoleRenderer.ShowCursor();
         }
@@ -33,11 +41,14 @@ namespace Avalanche.Console
             _views[GameState._state].Render();
         }
         
-        public void AddView(ISceneController controller) {
+        public void AddView(GameStateType gameState, ISceneController controller) {
             IView view;
-            switch (GameState._state) {
+            switch (gameState) {
                 case GameStateType.MainMenu:
                     view = new ConsoleMainMenuView((MainMenuModel)controller.GetModel());
+                    break;
+                case GameStateType.Game:
+                    view = new ConsoleLevelView((LevelModel)controller.GetModel());
                     break;
                 default:
                     view = new ConsoleMainMenuView((MainMenuModel)controller.GetModel());
@@ -60,7 +71,6 @@ namespace Avalanche.Console
                 }
             }
             ConsoleRenderer.ClearScreen();
-            ConsoleRenderer.DrawAlert("DONE! I've always had faith in you 😎");
         }
     }
 }

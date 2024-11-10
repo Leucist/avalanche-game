@@ -9,9 +9,9 @@ namespace Avalanche.Core
 {
     public class Entity : GameObject
     {
-        protected int _health { get; set; }
-        int _damage;
-        int _direction { set; get; }  // direction of moving 1 0 -1
+        public int _health { get; set; }
+        public int _damage;
+        public int _direction { set; get; }  // direction of moving 1 0 -1
         DirectionType _currentDirection { get; set; }
 
 
@@ -20,7 +20,10 @@ namespace Avalanche.Core
             int health = DefaultEntityHealth, int damage = DefaultEntityDamage) 
             : base(x, y)
         {
-            
+            _health = health;
+            _damage = damage;
+            _currentDirection = directionAxis;
+            _direction = 1;
         }
 
         void Move(int speed, DirectionType currentDirection, int direction = 1)
@@ -46,8 +49,5 @@ namespace Avalanche.Core
         {
             _health -= damage;
         }
-
-
-
     }
 }

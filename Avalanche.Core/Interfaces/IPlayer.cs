@@ -11,6 +11,6 @@ namespace Avalanche.Core.Interfaces
         void UpdateHeat(int delta);
         void ConsumeMushroom();
         void ThrowRock();
-        void Pick();
+        void AddConsumable();
     }
 }
