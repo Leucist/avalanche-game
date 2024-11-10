@@ -1,3 +1,6 @@
+![image](https://github.com/user-attachments/assets/9f39a34a-1ef6-44d4-a97d-fcfd7ba50375)
+
+
 # Avalanche
 
 Avalanche is a 2D roguelike game where the player takes on the role of a climber trapped in underground icy caves populated by animated skeletons and mythical creatures. The game includes elements of survival, exploration, and combat.
