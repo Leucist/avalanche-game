@@ -1,4 +1,5 @@
 ﻿using Avalanche.Core;
+using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Console
 {
@@ -11,17 +12,34 @@ namespace Avalanche.Console
 
         public void Render()
         {
-            for (int i = 0; i < _model._options.Count; i++)
+            
+            for(int height = 0; height < ScreenCharHeight / 3; height++)
             {
+                System.Console.WriteLine();
+            }
+
+            for (int i = 0; i < _model.optionsMainMenu.Length; i++)
+            {
+
                 if (i == _model._currentIndex)
                 {
-                    ConsoleRenderer.SetTextColor(ConsoleColor.Green);
-                    System.Console.WriteLine($"> {_model._options[i].Item1} <");
+                    ConsoleRenderer.SetTextColor(ConsoleColor.DarkMagenta);
+                    foreach (string option in _model.optionsMainMenu[i])
+                    {
+                        System.Console.Write(new string(' ', (int)(ScreenCharWidth / 2.35)));
+                        System.Console.WriteLine(option);
+                    }
                     System.Console.ResetColor();
+                    System.Console.WriteLine();
                 }
                 else
                 {
-                    System.Console.WriteLine(_model._options[i].Item1);
+                    foreach (string option in _model.optionsMainMenu[i])
+                    {
+                        System.Console.Write(new string(' ', (int)(ScreenCharWidth / 2.35)));
+                        System.Console.WriteLine(option);
+                    }
+                    System.Console.WriteLine();
                 }
             }
         }

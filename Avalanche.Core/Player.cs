@@ -50,7 +50,7 @@ namespace Avalanche.Core
 
         void ThrowRock()
         {
-            
+
         }
 
         void UpdateHeat(int delta)
@@ -71,8 +71,12 @@ namespace Avalanche.Core
             }
         }
 
-        public void SetName(string name) {
+        public void SetName(string name)
+        {
             _name = name;
+        }
+    }
+}
         }
     }
 }
