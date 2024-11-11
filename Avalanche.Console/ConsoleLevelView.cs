@@ -11,10 +11,9 @@ namespace Avalanche.Console
         }
 
         public void Render() {
-            
             ConsoleRenderer.DrawBox(
                 RoomCharWidth, RoomCharHeight);
-            
+            ConsoleRenderer.DrawPlayer(_model._player.GetX(), _model._player.GetY());
         }
     }
 }

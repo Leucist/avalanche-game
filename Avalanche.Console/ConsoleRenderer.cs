@@ -8,7 +8,7 @@ namespace Avalanche.Console
     {
         public static Dictionary<GameObjectType, char> textures = new() {
             { GameObjectType.Wall, '█' },
-            { GameObjectType.Player, 'P' },
+            { GameObjectType.Player, '웃' },
             { GameObjectType.Enemy, 'E' }
         };
         public static void ClearScreen() {
@@ -100,8 +100,8 @@ namespace Avalanche.Console
 
             if (isCentred)
             {
-                startingLocY = (ScreenCharHeight - RoomCharHeight) / 2;
-                startingLocX = (ScreenCharWidth - RoomCharWidth) / 2; 
+                startingLocY = RoomDefaultX;
+                startingLocX = RoomDefaultY; 
             }
               
 
@@ -126,10 +126,36 @@ namespace Avalanche.Console
             System.Console.ResetColor();
         }
 
+        /*
+        void PlaceSymbol(int x, int y, char symbol)
+        {
+            if (x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1))
+            {
+                grid[x, y] = symbol; // Replace the symbol at given coordinates
+            }
+            else
+            {
+                Console.WriteLine("Coordinates out of bounds.");
+            }
+        }
+        */
+
+
         public static void DrawPlayer(int x, int y)
         {
-            // sets cursor
-            // write(player char)
+            GameObjectType type = GameObjectType.Player;
+
+            int startingLocY = RoomDefaultX+1;  // skips room walls by spawning at +1,+1 coordinates
+            int startingLocX = RoomDefaultY+1;
+
+            x += startingLocX;
+            y += startingLocY;
+
+
+            System.Console.SetCursorPosition(x, y);
+            System.Console.Write(textures[type]);
+
         }
+
     }
 }

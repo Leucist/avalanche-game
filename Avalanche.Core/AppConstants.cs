@@ -2,17 +2,21 @@ namespace Avalanche.Core
 {
     public class AppConstants
     {
+        // App name
         public const string AppName = "Avalanche";
 
-        public const int ScreenWidth = 1920;
-        public const int ScreenHeight = 1080;
-
+        // Console size in symbols
         public const int ScreenCharWidth = 200;
         public const int ScreenCharHeight = 50;
 
-        // Room
+        // Room  values should be greater than ScreenChars
         public const int RoomCharWidth = 180;
         public const int RoomCharHeight = 40;
+
+        // Default room coorditates on x,y grid in the console
+        public const int RoomDefaultX = (ScreenCharHeight - RoomCharHeight) / 2;
+        public const int RoomDefaultY = (ScreenCharHeight - RoomCharHeight) / 2;
+
 
         //  Entity settings
         public const int DefaultEntityHealth = 3;
