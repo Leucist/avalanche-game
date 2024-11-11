@@ -1,16 +1,18 @@
-﻿using Avalanche.Core;
-using Avalanche.Core.Interfaces;
-
+﻿using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Console
 {
-    public class ConsoleCutscene
+    public static class ConsoleCutscene
     {
-        public string localPath = "CutScenes\\";
-        public void Render(string artName)
+        public static void Render(string artName, ConsoleColor color = ConsoleColor.White, 
+            int TimeToSleep = DefaultCutsceneTime)
         {
+            TimeToSleep *= 1000;
+            string localPath = "CutScenes\\";
             string projectPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..");
             string filePath = Path.Combine(projectPath,localPath, artName);
+
+            System.Console.ForegroundColor = color;
 
             try
             {
@@ -20,6 +22,7 @@ namespace Avalanche.Console
                 {
                     System.Console.WriteLine(line);
                 }
+                Thread.Sleep(TimeToSleep);
             }
 
             catch (Exception ex)

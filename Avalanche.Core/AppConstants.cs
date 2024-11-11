@@ -26,5 +26,8 @@ namespace Avalanche.Core
         public const int DefaultMushroomsMinimalHpChange = -2;
         public const int DefaultMushroomsMaximalHpChange = 2;
 
+        // Cunscene settings in seconds
+        public const int DefaultCutsceneTime = 3;
+
     }
 }
