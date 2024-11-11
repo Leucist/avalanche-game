@@ -19,10 +19,10 @@ namespace Avalanche.Core
 
 
         public Player(
-            int x = RoomCharWidth / 2, 
-            int y = RoomCharHeight / 2, 
+            int x = RoomCharWidth / 2,
+            int y = RoomCharHeight / 2,
             DirectionType directionAxis = DirectionType.East,
-            int health=DefaultEntityHealth, 
+            int health = DefaultEntityHealth,
             int damage = DefaultEntityDamage,
             string name = DefaultPlayerName)
             : base(x, y, directionAxis, health, damage)
@@ -50,7 +50,7 @@ namespace Avalanche.Core
 
         void ThrowRock()
         {
-            
+
         }
 
         void UpdateHeat(int delta)
@@ -71,8 +71,10 @@ namespace Avalanche.Core
             }
         }
 
-        public void SetName(string name) {
+        public void SetName(string name)
+        {
             _name = name;
         }
     }
+}
     

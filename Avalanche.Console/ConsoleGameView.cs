@@ -22,7 +22,7 @@ namespace Avalanche.Console
             ConsoleRenderer.ClearScreen();
             ConsoleRenderer.HideCursor();
 
-            // CheckWindowSize();
+            CheckWindowSize();
         }
 
         public void Render() {

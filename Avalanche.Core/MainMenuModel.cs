@@ -2,15 +2,42 @@
 {
     public class MainMenuModel
     {
-        public List<(string, GameStateType)> _options { get; set; }
+        public List<(string[], GameStateType)> _options { get; set; }
         public int _currentIndex { get; set; }
 
+        public string[][] optionsMainMenu = new string[3][]
+{
+    new string[]
+    {
+        "█████ █████ █████ █████ █████",
+        "█       █   █   █ █   █   █",
+        "█████   █   █████ █████   █",
+        "    █   █   █   █ █  █    █",
+        "█████   █   █   █ █  ██   █",
+    },
+    new string[]
+    {
+        "█████ █████ █████ ███ █████ ██  █ █████",
+        "█   █ █   █   █    █  █   █ ██  █ █",
+        "█   █ █████   █    █  █   █ █ █ █ █████",
+        "█   █ ██      █    █  █   █ █  ██     █",
+        "█████ ██      █   ███ █████ █  ██ █████",
+    },
+    new string[]
+    {
+        "█████ █    █ ███ █████",
+        "█      █  █   █    █",
+        "█████   ██    █    █",
+        "█      █  █   █    █",
+        "█████ █    █ ███   █",
+    }
+};
         public MainMenuModel()
         {
-            _options = new List<(string, GameStateType)> { 
-                ("New Game", GameStateType.NameInput), 
-                ("Options", GameStateType.OptionsMenu), 
-                ("Exit", GameStateType.Exit)};
+            _options = new List<(string[], GameStateType)> {
+                (optionsMainMenu[0], GameStateType.NameInput),
+                (optionsMainMenu[1], GameStateType.OptionsMenu),
+                (optionsMainMenu[2], GameStateType.Exit)};
             _currentIndex = 0;
         }
 

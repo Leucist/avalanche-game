@@ -12,16 +12,16 @@ namespace Avalanche.Core
             _consumableType = consumableType;
         }
 
-        public void Update(Player player)
-        {
-            if ( (player._x == _x) && (player._y == _y) )
-            {
-                if (false)  // IF BUTTON PRESSED
-                {
-                    player.UseIteractiveObject(_consumableType);
-                }
+        //public void Update(Player player)
+        //{
+        //    if ( (player._x == _x) && (player._y == _y) )
+        //    {
+        //        if (false)  // IF BUTTON PRESSED
+        //        {
+        //            player.UseIteractiveObject(_consumableType);
+        //        }
                 
-            }
-        }
+        //    }
+        //}
     }
 }
