@@ -16,10 +16,10 @@
         {
             switch (action) {
                 case ActionType.Up:
-                    _model.MovePlayer(DirectionAxisType.Y, 1);
+                    _model.MovePlayer(DirectionAxisType.Y, -1);
                     break;
                 case ActionType.Down:
-                    _model.MovePlayer(DirectionAxisType.Y, -1);
+                    _model.MovePlayer(DirectionAxisType.Y, 1);
                     break;
                 case ActionType.Right:
                     _model.MovePlayer(DirectionAxisType.X, 1);
