@@ -1,11 +1,4 @@
-﻿using Avalanche.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using static Avalanche.Core.AppConstants;
+﻿using static Avalanche.Core.AppConstants;
 
 
 namespace Avalanche.Core
@@ -74,9 +67,6 @@ namespace Avalanche.Core
         public void SetName(string name)
         {
             _name = name;
-        }
-    }
-}
         }
     }
 }

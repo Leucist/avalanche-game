@@ -39,7 +39,6 @@ namespace Avalanche.Console
 
             // Hide cursor and Clear the game screen
             ConsoleRenderer.HideCursor();
-            ConsoleRenderer.ClearScreen();
         }
     }
 }
