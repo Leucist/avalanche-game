@@ -16,6 +16,8 @@ namespace Avalanche.Console
         }
 
         public void Initialize() {
+            System.Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.BackgroundColor = ConsoleColor.Black;
 

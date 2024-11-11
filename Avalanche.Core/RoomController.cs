@@ -8,7 +8,7 @@ namespace Avalanche.Core
 {
     public class RoomController : ISceneController
     {
-        private RoomModel _model;
+        public RoomModel _model;
 
         public RoomController(int id, int enemiesCount) {
             _model = new RoomModel(id, enemiesCount);

@@ -8,6 +8,7 @@
         public LevelController(Player player, int levelNumber)
         {
             _model = new LevelModel(player, levelNumber);
+            _model.Reset();
             // _roomController = new RoomController();
         }
 

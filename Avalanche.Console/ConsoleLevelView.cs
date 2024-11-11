@@ -14,6 +14,13 @@ namespace Avalanche.Console
             ConsoleRenderer.DrawBox(
                 RoomCharWidth, RoomCharHeight);
             ConsoleRenderer.DrawPlayer(_model._player.GetX(), _model._player.GetY());
+
+            foreach (Entity enemy in _model._rooms[_model._currentRoom]._model._enemies)
+            {
+                ConsoleRenderer.DrawEnemy(enemy.GetX(), enemy.GetY());
+
+            }
+
         }
     }
 }

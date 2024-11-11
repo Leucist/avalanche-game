@@ -9,7 +9,7 @@ namespace Avalanche.Console
         public static Dictionary<GameObjectType, char> textures = new() {
             { GameObjectType.Wall, '█' },
             { GameObjectType.Player, '웃' },
-            { GameObjectType.Enemy, 'E' }
+            { GameObjectType.Enemy, '☠' }
         };
         public static void ClearScreen() {
             System.Console.Clear();
@@ -147,6 +147,22 @@ namespace Avalanche.Console
 
             int startingLocY = RoomDefaultX+1;  // skips room walls by spawning at +1,+1 coordinates
             int startingLocX = RoomDefaultY+1;
+
+            x += startingLocX;
+            y += startingLocY;
+
+
+            System.Console.SetCursorPosition(x, y);
+            System.Console.Write(textures[type]);
+
+        }
+
+        public static void DrawEnemy(int x, int y)
+        {
+            GameObjectType type = GameObjectType.Enemy;
+
+            int startingLocY = RoomDefaultX + 1;  // skips room walls by spawning at +1,+1 coordinates
+            int startingLocX = RoomDefaultY + 1;
 
             x += startingLocX;
             y += startingLocY;
