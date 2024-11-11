@@ -1,4 +1,6 @@
-using Avalanche.Core;
+﻿using Avalanche.Core;
+using System.Linq.Expressions;
+using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Console
 {
@@ -18,14 +20,37 @@ namespace Avalanche.Console
             int centerX = System.Console.WindowWidth / 2;
             int centerY = System.Console.WindowHeight / 2;
             // Init labels
-            string label = "Input Name for your hero:";
-            string afterLabel = "Press any key to continue...";
+            //string label = "Input Name for your hero:";
+            string[] label = new string[]
+            {
+                "███ ██  █ █████ █  ██ █████   ██  █ █████ █   █ █████    █████ █████ █████   █   █ █████ █   █  █████   █   █ █████ █████ █████  ",
+                " █  ██  █ █   █ █  ██   █     ██  █ █   █ ██ ██ █        █     █   █ █   █    █ █  █   █ █   █  █   █   █   █ █     █   █ █   █ █",
+                " █  █ █ █ █████ █ ███   █     █ █ █ █████ █ █ █ █████    █████ █   █ █████     █   █   █ █   █  █████   █████ █████ █████ █   █  ",
+                " █  █  ██ ██    █ █ █   █     █  ██ █   █ █   █ █        █     █   █ █  █      █   █   █ █   █  █  █    █   █ █     █  █  █   █ █",
+                "███ █  ██ ██    ██  █   █     █  ██ █   █ █   █ █████    █     █████ █  ██     █   █████ █████  █  ██   █   █ █████ █  ██ █████  "
+            };
+            string afterLabel = "PRESS ANY KEY TO CONTINUE...";
+
 
             // Show questio
             ConsoleRenderer.ClearScreen();
-            System.Console.SetCursorPosition(centerX - label.Length / 2, (int) (centerY * 0.75));
-            System.Console.WriteLine(label);
-            System.Console.SetCursorPosition(centerX - label.Length / 2, centerY);
+            //System.Console.SetCursorPosition(centerX - label.Length / 2, (int) (centerY * 0.75));
+            //System.Console.WriteLine(label);
+
+            for (int height = 0; height < ScreenCharHeight / 3; height++)
+            {
+                System.Console.WriteLine();
+            }
+
+            foreach (string element in label)
+            {
+                System.Console.Write(new string(' ', (int)(ScreenCharWidth / 5.71)));
+                System.Console.WriteLine(element);
+            }
+
+            System.Console.WriteLine(new string(' ', 5));
+            System.Console.Write(new string(' ', (int)(ScreenCharWidth / 5.71)));
+            //System.Console.SetCursorPosition(centerX - label.Length / 2, centerY);
             ConsoleRenderer.ShowCursor();
 
             // User inputs character name
