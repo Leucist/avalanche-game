@@ -1,4 +1,5 @@
 using Avalanche.Core;
+using System.Drawing;
 using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Console
@@ -72,29 +73,63 @@ namespace Avalanche.Console
             }
         }
 
-        private static int GetCenterX() {
+        public static int GetCenterX() {
             return System.Console.WindowWidth / 2;
         }
-        private static int GetCenterY() {
+        public static int GetCenterY() {
             return System.Console.WindowHeight / 2;
         }
 
-        public static void DrawBox(int xStart, int yStart, int width, int height) {
-            System.Console.SetCursorPosition(xStart, yStart);
-            int xEnd = xStart + width;
+        public static void DrawBox(int width, int height, int customX = 0, int customY = 0
+            , ConsoleColor borderColor = ConsoleColor.White, bool isCentred = true)
+        {
+            string topBorder = "╔" + new string('═', width) + "╗";
+            string emptyLine = "║" + new string(' ', width) + "║";
+            string bottomBorder = "╚" + new string('═', width) + "╝";
 
-            for (int y = 0; y < height; y++) {
-                System.Console.Write(textures[GameObjectType.Wall]);
-                for (int x = 1; x < width - 1; x++) {
-                    if (y == yStart || y == yStart + height) {
-                        System.Console.Write(textures[GameObjectType.Wall]);
-                    }
-                    else {
-                        System.Console.Write(' ');
-                    }
-                }
-                System.Console.WriteLine(textures[GameObjectType.Wall]);
+            int startingLocY = 0;
+            int startingLocX = 0;
+
+            System.Console.ForegroundColor = borderColor;
+
+
+            if (ScreenCharHeight < height || ScreenCharWidth < width)  // checking incorrect constants
+            {
+                throw new Exception("Big screen error: The screen dimensions exceed allowable limits.");
             }
+
+            if (isCentred)
+            {
+                startingLocY = (ScreenCharHeight - RoomCharHeight) / 2;
+                startingLocX = (ScreenCharWidth - RoomCharWidth) / 2; 
+            }
+              
+
+
+            // Move the cursor to the starting location
+            System.Console.SetCursorPosition(startingLocX, startingLocY);
+
+            // Draw top border
+            System.Console.WriteLine(topBorder);
+
+            // Draw side walls
+            for (int i = 1; i < height; i++)
+            {
+                System.Console.SetCursorPosition(startingLocX, startingLocY + i);
+                System.Console.WriteLine(emptyLine);
+            }
+
+            // Draw bottom border
+            System.Console.SetCursorPosition(startingLocX, startingLocY + height);
+            System.Console.WriteLine(bottomBorder);
+
+            System.Console.ResetColor();
+        }
+
+        public static void DrawPlayer(int x, int y)
+        {
+            // sets cursor
+            // write(player char)
         }
     }
 }

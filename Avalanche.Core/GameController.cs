@@ -31,7 +31,7 @@ public class GameController {
         _gameView.AddView(GameStateType.Game, controllers[GameStateType.Game]);
 
         // Main Game loop
-        GameState._state = GameStateType.MainMenu;
+        GameState._state = GameStateType.Game;
         while (GameState._state != GameStateType.Exit) {
             _currentSceneController = controllers[GameState._state];
             Update();

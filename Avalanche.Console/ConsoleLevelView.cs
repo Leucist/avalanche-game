@@ -12,11 +12,8 @@ namespace Avalanche.Console
 
         public void Render() {
             
-            int gameScreenStartY = 2; 
             ConsoleRenderer.DrawBox(
-                0, gameScreenStartY, 
                 RoomCharWidth, RoomCharHeight);
-
             
         }
     }
