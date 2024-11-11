@@ -28,8 +28,6 @@ namespace Avalanche.Console
         }
 
         public void Render() {
-            // ConsoleRenderer.ClearScreen();
-
             _views[GameState._state].Render();
         }
         

@@ -52,7 +52,7 @@ namespace Avalanche.Core
             var directory = new DirectoryInfo(startDirectory);
 
             // Go up until we find solution file (.sln)
-            while (directory != null && !File.Exists(Path.Combine(directory.FullName, directory.Name + ".sln")))
+            while (directory != null && !File.Exists(Path.Combine(directory.FullName, "Avalanche.sln")))
             {
                 directory = directory.Parent;
             }
