@@ -8,16 +8,19 @@ namespace Avalanche.Core
 {
     public class RoomModel
     {
-        public int _id { get; set;}
+        public int _id { get; set; }
         public List<Entity> _enemies { get; set; }
         private HashSet<(int, int)> _enemyPositions;
         private int _enemiesCount;
+        // public int _doorsNumber;
+        public List<Door> _doors { get; set; }
 
-        public RoomModel(int id, int enemiesCount) {
+        public RoomModel(int id, int enemiesCount/*, int doorsNumber*/) {
             _id = id;
             _enemies = new List<Entity>(enemiesCount);
             _enemyPositions = new HashSet<(int, int)>();
-        }
+            //_doors = new List<Door>(doorsNumber);       
+    }
 
         public void Init() {
             FillEnemies();
