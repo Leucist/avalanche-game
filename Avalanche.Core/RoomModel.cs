@@ -13,7 +13,7 @@ namespace Avalanche.Core
         private HashSet<(int, int)> _enemyPositions;
         private int _enemiesCount;
         // public int _doorsNumber;
-        public List<Door> _doors { get; set; }
+        // public List<Door> _doors { get; set; }
 
         public RoomModel(int id, int enemiesCount/*, int doorsNumber*/) {
             _id = id;

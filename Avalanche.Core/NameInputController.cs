@@ -9,7 +9,7 @@ namespace Avalanche.Core
         }
 
         public void Handle(ActionType action) {
-            GameState._state = GameStateType.Game;
+            GameState._state = GameStateType.Cutscene;
         }
 
         public object GetModel() {
