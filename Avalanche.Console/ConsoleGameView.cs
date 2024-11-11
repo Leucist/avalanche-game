@@ -17,7 +17,7 @@ namespace Avalanche.Console
 
         public void Initialize() {
             System.Console.OutputEncoding = System.Text.Encoding.UTF8;
-
+            
             System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.BackgroundColor = ConsoleColor.Black;
 
@@ -44,6 +44,9 @@ namespace Avalanche.Console
                     break;
                 case GameStateType.Game:
                     view = new ConsoleLevelView((LevelModel)controller.GetModel());
+                    break;
+                case GameStateType.Cutscene:
+                    view = new ConsoleCutsceneView((CutsceneModel)controller.GetModel());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

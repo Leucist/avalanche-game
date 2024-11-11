@@ -17,7 +17,7 @@
             _currentRoom = 0;
         }
 
-        public void Reset() {
+        public void Reset(int _levelNumber) {
             Random random = new Random();
             // Generate random number of rooms in boundaries
             int roomsCount = random.Next(1, _levelNumber+1) * 2 + 2;
@@ -32,6 +32,8 @@
 
             _currentRoom = 0;
         }
+
+
 
         // public void BuildMap() {
         //     int[][] map = new int[AppConstants.RoomCharHeight][];
