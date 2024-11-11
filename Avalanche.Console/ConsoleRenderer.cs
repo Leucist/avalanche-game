@@ -5,6 +5,11 @@ namespace Avalanche.Console
 {
     public static class ConsoleRenderer
     {
+        public static Dictionary<GameObjectType, char> textures = new() {
+            { GameObjectType.Wall, '█' },
+            { GameObjectType.Player, 'P' },
+            { GameObjectType.Enemy, 'E' }
+        };
         public static void ClearScreen() {
             System.Console.Clear();
         }
@@ -72,6 +77,24 @@ namespace Avalanche.Console
         }
         private static int GetCenterY() {
             return System.Console.WindowHeight / 2;
+        }
+
+        public static void DrawBox(int xStart, int yStart, int width, int height) {
+            System.Console.SetCursorPosition(xStart, yStart);
+            int xEnd = xStart + width;
+
+            for (int y = 0; y < height; y++) {
+                System.Console.Write(textures[GameObjectType.Wall]);
+                for (int x = 1; x < width - 1; x++) {
+                    if (y == yStart || y == yStart + height) {
+                        System.Console.Write(textures[GameObjectType.Wall]);
+                    }
+                    else {
+                        System.Console.Write(' ');
+                    }
+                }
+                System.Console.WriteLine(textures[GameObjectType.Wall]);
+            }
         }
     }
 }

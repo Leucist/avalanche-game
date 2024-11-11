@@ -21,8 +21,8 @@ namespace Avalanche.Core
         public Player(
             int x = RoomCharWidth / 2, 
             int y = RoomCharHeight / 2, 
-            DirectionType directionAxis = DirectionType.East,
-            int health=DefaultEntityHealth, 
+            DirectionAxisType directionAxis = DirectionAxisType.X,
+            int health = DefaultEntityHealth, 
             int damage = DefaultEntityDamage,
             string name = DefaultPlayerName)
             : base(x, y, directionAxis, health, damage)
@@ -42,8 +42,8 @@ namespace Avalanche.Core
 
                 Random random = new Random();
 
-                int HpChange = random.Next(DefaultMushroomsMinimalHpChange, DefaultMushroomsMaximalHpChange);
-                base._health += HpChange;
+                int HPChange = random.Next(DefaultMushroomsMinimalHpChange, DefaultMushroomsMaximalHpChange);
+                base._health += HPChange;
             }
 
         }
@@ -58,14 +58,14 @@ namespace Avalanche.Core
             _heat -= delta;
         }
 
-        void AddConsumable(ConsumableType consumableType)
+        void AddItem(ItemType itemType)
         {
-            switch (consumableType)
+            switch (itemType)
             {
-                case ConsumableType.mushroom:
+                case ItemType.Mushroom:
                     _mushrooms++;
                     break;
-                case ConsumableType.rock:
+                case ItemType.Rock:
                     _rocks++;
                     break;
             }
@@ -75,4 +75,5 @@ namespace Avalanche.Core
             _name = name;
         }
     }
+}
     

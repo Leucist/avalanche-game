@@ -12,37 +12,28 @@ namespace Avalanche.Core
         public int _health { get; set; }
         public int _damage;
         public int _direction { set; get; }  // direction of moving 1 0 -1
-        DirectionType _currentDirection { get; set; }
+        private int _speed;
+        public DirectionAxisType _directionAxis { get; set; }
 
 
 
-        public Entity(int x, int y, DirectionType directionAxis = DirectionType.East, 
-            int health = DefaultEntityHealth, int damage = DefaultEntityDamage) 
+        public Entity(
+            int x, int y,
+            DirectionAxisType directionAxis = DirectionAxisType.X, 
+            int health = DefaultEntityHealth,
+            int damage = DefaultEntityDamage) 
             : base(x, y)
         {
             _health = health;
             _damage = damage;
-            _currentDirection = directionAxis;
+            _directionAxis = directionAxis;
             _direction = 1;
+            _speed = 1;
         }
 
-        void Move(int speed, DirectionType currentDirection, int direction = 1)
+        public void Move()
         {
-            switch (currentDirection)
-            {
-                case DirectionType.North:
-                    _y += (speed * direction);
-                    break;
-                case DirectionType.East:
-                    _x += (speed * direction);
-                    break;
-                case DirectionType.South:
-                    _y += (-speed * direction);
-                    break;
-                case DirectionType.West:
-                    _x += (-speed * direction);
-                    break;
-            }
+            _coords[(int)_directionAxis] += _speed * _direction;
         }
 
         void TakeDamage(int damage)

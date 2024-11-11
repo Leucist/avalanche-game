@@ -23,7 +23,7 @@ public class GameController {
         // Initialise Scene Controllers
         controllers[GameStateType.MainMenu] = new MainMenuController();
         controllers[GameStateType.NameInput] = new NameInputController(player);
-        controllers[GameStateType.Game] = new LevelController(player);
+        controllers[GameStateType.Game] = new LevelController(player, 0);
 
         // Initialise Scene Views & Link them to the main View
         _gameView.AddView(GameStateType.MainMenu, controllers[GameStateType.MainMenu]);

@@ -8,6 +8,6 @@ namespace Avalanche.Core.Interfaces
 {
     public interface IInteractiveObject : IGameObject
     {
-        void Update();
+        // void Update();
     }
 }

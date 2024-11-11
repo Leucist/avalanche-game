@@ -6,8 +6,20 @@ using System.Threading.Tasks;
 
 namespace Avalanche.Core
 {
-    public class RoomController
+    public class RoomController : ISceneController
     {
+        private RoomModel _model;
 
+        public RoomController(int id, int enemiesCount) {
+            _model = new RoomModel(id, enemiesCount);
+        }
+
+        public void Handle(ActionType action) {
+
+        }
+
+        public object GetModel() {
+            return _model;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using Avalanche.Core;
+using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Console
 {
@@ -9,6 +10,14 @@ namespace Avalanche.Console
             _model = model;
         }
 
-        public void Render() {}
+        public void Render() {
+            
+            int gameScreenStartY = 2; 
+            ConsoleRenderer.DrawBox(
+                0, gameScreenStartY, 
+                RoomCharWidth, RoomCharHeight);
+
+            
+        }
     }
 }
