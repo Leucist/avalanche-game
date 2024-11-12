@@ -21,13 +21,14 @@ namespace Avalanche.Core
             int x, int y,
             DirectionAxisType directionAxis = DirectionAxisType.X, 
             int health = DefaultEntityHealth,
-            int damage = DefaultEntityDamage) 
+            int damage = DefaultEntityDamage,
+            int direction = 1) 
             : base(x, y)
         {
             _health = health;
             _damage = damage;
             _directionAxis = directionAxis;
-            _direction = 1;
+            _direction = direction;
             _speed = 1;
         }
 

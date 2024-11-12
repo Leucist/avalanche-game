@@ -26,7 +26,7 @@ namespace Avalanche.Core
             _name = name;
         }
 
-        void ConsumeMushroom()
+        public void ConsumeMushroom()
         {
 
             if (_mushrooms >= 1)
@@ -41,9 +41,13 @@ namespace Avalanche.Core
 
         }
 
-        void ThrowRock()
+        public bool ThrowRock()
         {
-            _rocks--;
+            if (_rocks > 0) {
+                _rocks--;
+                return true;
+            }
+            return false;
         }
 
         void UpdateHeat(int delta)

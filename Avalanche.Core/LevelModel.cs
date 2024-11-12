@@ -82,8 +82,6 @@
             _player._directionAxis = axis;
             _player._direction = direction;
 
-
-
             // Mark dirty pixels and turn on the 'isDirty' indicator
             _currentRoom!._dirtyPixels.Add([_player.GetX(), _player.GetY()]);
             _currentRoom._isDirty = true;
@@ -94,10 +92,13 @@
             // Check door collision
             foreach (var door in _currentRoom._doors) {
                 if (_player.collidesWith(door.Key)) {
+                    // If door is level exit
                     if (door.Value._isLevelExit) {
                         Reset(++_levelNumber);
                         return;
                     }
+
+                    // If door isn't closed
                     if (!door.Value._isClosed) {
                         // Player gets into another room
                         int[] roomCouple = door.Value._betweenRoomsOfID;
@@ -114,6 +115,15 @@
         
         public void Attack() {
             _currentRoom!.Update();
+        }
+
+        public void ConsumeMushroom() {
+            _player.ConsumeMushroom();
+        }
+
+        public void Shoot() {
+            _player.ThrowRock();
+            _currentRoom._entities.Add(new Rock(_player));
         }
 
         public void SetPlayerIdle() {

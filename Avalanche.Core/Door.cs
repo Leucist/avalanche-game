@@ -7,7 +7,7 @@ namespace Avalanche.Core
         public int[] _betweenRoomsOfID;
 
         public Door(int id1, int id2, bool isLevelExit) {
-            _isClosed = true;
+            _isClosed = false;
             _isLevelExit = isLevelExit;
             _betweenRoomsOfID = [id1, id2];
         }

@@ -30,6 +30,12 @@
                 case ActionType.StraightAttack:
                     _model.Attack();
                     break;
+                case ActionType.ConsumeMushroom:
+                    _model.ConsumeMushroom();
+                    break;
+                case ActionType.Shoot:
+                    _model.Shoot();
+                    break;
                 case ActionType.NullAction:
                     _model.SetPlayerIdle();
                     break;
