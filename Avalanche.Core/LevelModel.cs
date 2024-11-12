@@ -91,7 +91,27 @@
 
             // Check door collision
             foreach (var door in _currentRoom._doors) {
-                if (_player.collidesWith(door.Key)) {
+                if (_player.CollidesWith(door.Key)) {
+                    // If door is level exit
+                    if (door.Value._isLevelExit) {
+                        Reset(++_levelNumber);
+                        return;
+                    }
+
+                    // If door isn't closed
+                    if (!door.Value._isClosed) {
+                        // Player gets into another room
+                        int[] roomCouple = door.Value._betweenRoomsOfID;
+                        _currentRoomID = roomCouple[0] == _currentRoomID ? roomCouple[1] : roomCouple[0];
+                        _currentRoom = _rooms[_currentRoomID]._model;
+                        _currentRoom.Init();
+                    }
+                }
+            }
+
+            // Check item collision
+            foreach (var door in _currentRoom._doors) {
+                if (_player.CollidesWith(door.Key)) {
                     // If door is level exit
                     if (door.Value._isLevelExit) {
                         Reset(++_levelNumber);
@@ -113,8 +133,9 @@
             _player.CheckColliders();
         }
         
-        public void Attack() {
-            _currentRoom!.Update();
+        public void PlayerAttack() {
+            int[] attackPoint = _player.GetFocusPoint();
+            _currentRoom!.AttackPoint(attackPoint[0], attackPoint[1], _player._damage);
         }
 
         public void ConsumeMushroom() {
@@ -123,7 +144,7 @@
 
         public void Shoot() {
             _player.ThrowRock();
-            _currentRoom._entities.Add(new Rock(_player));
+            _currentRoom!._otherEntities.Add(new Rock(_player));
         }
 
         public void SetPlayerIdle() {

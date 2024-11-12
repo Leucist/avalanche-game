@@ -185,13 +185,15 @@ namespace Avalanche.Console
                     _model._player.GetY());
 
                 // Render each of the enemies
-                List<Entity> enemies = _model._currentRoom._enemies;
-                foreach (Entity enemy in enemies)
+                List<Enemy> enemies = _model._currentRoom._enemies;
+                foreach (Enemy enemy in enemies)
                 {
                     ConsoleRenderer.DrawEnemy(enemy.GetX(), enemy.GetY());
                 }
                 _model._currentRoom._isDirty = false;
             }
+
+            _model._currentRoom!.Update();
         }
 
         private void RenderDoors()

@@ -34,10 +34,10 @@ namespace Avalanche.Core
             _coords[1] = y;
         }
 
-        public bool collidesWith(GameObject obj) {
+        public bool CollidesWith(GameObject obj) {
             return _coords == obj.GetCoords();
         }
-        public bool collidesWith(int x, int y) {
+        public bool CollidesWith(int x, int y) {
             return _coords[0] == x && _coords[1] == y;
         }
     }

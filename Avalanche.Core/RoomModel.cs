@@ -5,8 +5,11 @@ namespace Avalanche.Core
     public class RoomModel
     {
         public int _id { get; set; }
-        public List<Entity> _enemies { get; set; }
+        public List<GameObject> _items { get; set; }
+        public List<Entity> _otherEntities { get; set; }
+        public List<Enemy> _enemies { get; set; }
         private HashSet<(int, int)> _enemyPositions;
+        private HashSet<(int, int)> _itemPositions;
         private int _enemiesCount;
         public bool _isDirty { get; set; }
         public List<int[]> _dirtyPixels;
@@ -14,8 +17,11 @@ namespace Avalanche.Core
 
         public RoomModel(int id, int enemiesCount, Dictionary<DoorPositioningType, Door> doors) {
             _id = id;
-            _enemies = new List<Entity>(enemiesCount);
+            _otherEntities = new List<Entity>();
+            _enemies = new List<Enemy>(enemiesCount);
+            _items = [];
             _enemyPositions = new HashSet<(int, int)>();
+            _itemPositions = new HashSet<(int, int)>();
             _isDirty = true;
             _dirtyPixels = [];
             _doors = [];
@@ -44,6 +50,8 @@ namespace Avalanche.Core
 
         public void Init() {
             FillEnemies();
+            // FillEntities();
+            FillItems();
         }
 
         private void FillEnemies() {
@@ -60,7 +68,48 @@ namespace Avalanche.Core
             // Creates enemies for the Room
             int i = 0;
             foreach (var coords in _enemyPositions) {
-                _enemies[i++] = new Entity(
+                _enemies[i++] = new Enemy(
+                    coords.Item1,
+                    coords.Item2
+                );
+            }
+        }
+
+        // public void FillEntities() {
+        //     for (int i = 0; i < _otherEntities.Count; i++) {
+
+        //     }
+        // }
+
+        public void FillItems() {
+            Random random = new Random();
+            int mushroomsCount = random.Next(1, 2);
+            int rocksCount = random.Next(1, 2);
+
+            // Fills _itemPositions with random values within room borders
+            while (_itemPositions.Count < mushroomsCount + rocksCount) {
+                int x = random.Next(0, AppConstants.RoomCharWidth);
+                int y = random.Next(0, AppConstants.RoomCharHeight);
+
+                _itemPositions.Add((x, y));
+            }
+
+            // Creates items for the Room
+            int i = 0;
+            foreach (var coords in _itemPositions) {
+                // if (i < mushroomsCount) {
+                //     _items[i++] = new GameObject(
+                //         coords.Item1,
+                //         coords.Item2
+                //     );
+                // }
+                // else {
+                //     _items[i++] = new GameObject(
+                //         coords.Item1,
+                //         coords.Item2
+                //     );
+                // }
+                _items[i++] = new GameObject(
                     coords.Item1,
                     coords.Item2
                 );
@@ -75,6 +124,34 @@ namespace Avalanche.Core
                         continue;
                     }
                     door._isClosed = false;
+                }
+            }
+
+            foreach (var entity in _otherEntities) {
+                entity.Move();
+                if (entity.GetType() == typeof(Rock)) {
+                    foreach (var enemy in _enemies) {
+                        if (entity.CollidesWith(enemy)) {
+                            enemy.TakeDamage(entity._damage);
+                            _otherEntities.Remove(entity);
+                        }
+                    }
+                }
+            }
+
+            foreach (var enemy in _enemies) {
+                enemy.RandomMovement();
+
+                if (enemy.IsDead()) {
+                    _enemies.Remove(enemy);
+                }
+            }
+        }
+
+        public void AttackPoint(int x, int y, int damage) {
+            foreach (var enemy in _enemies) {
+                if (enemy.CollidesWith(x, y)) {
+                    enemy.TakeDamage(damage);
                 }
             }
         }

@@ -46,7 +46,7 @@ namespace Avalanche.Core
         }
         */
 
-        void RandomMovement()
+        public void RandomMovement()
         {
             Random random = new Random();
             int randomIntInRange = random.Next(1, 5);

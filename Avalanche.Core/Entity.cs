@@ -63,9 +63,20 @@ namespace Avalanche.Core
             CheckColliders();
         }
 
-        void TakeDamage(int damage)
+        public void TakeDamage(int damage)
         {
             _health -= damage;
+        }
+
+        public bool IsDead() {
+            return _health <= 0;
+        }
+
+        public int[] GetFocusPoint() {
+            int[] point = [this.GetX(), this.GetY()];
+            point[(int)_directionAxis] += _direction;
+
+            return point;
         }
     }
 }

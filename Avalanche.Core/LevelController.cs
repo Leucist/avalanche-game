@@ -28,7 +28,7 @@
                     _model.MovePlayer(DirectionAxisType.X, -1);
                     break;
                 case ActionType.StraightAttack:
-                    _model.Attack();
+                    _model.PlayerAttack();
                     break;
                 case ActionType.ConsumeMushroom:
                     _model.ConsumeMushroom();
