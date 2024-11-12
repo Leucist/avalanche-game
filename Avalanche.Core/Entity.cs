@@ -50,9 +50,16 @@ namespace Avalanche.Core
                 _coords[1] += 1;
             }
         }
+
         public void Move()
         {
             _coords[(int)_directionAxis] += _speed * _direction;
+            CheckColliders();
+        }
+
+        public void Move(DirectionAxisType directionAxis, int direction)
+        {
+            _coords[(int)directionAxis] += _speed * direction;
             CheckColliders();
         }
 

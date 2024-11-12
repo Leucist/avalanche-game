@@ -23,6 +23,16 @@ namespace Avalanche.Core
             return _coords[1];
         }
 
+        public void SetX(int x)
+        {
+            _coords[0] = x;
+        }
+
+        public void SetY(int y)
+        {
+            _coords[1] = y;
+        }
+
         public bool collidesWith(GameObject obj) {
             return _coords == obj.GetCoords();
         }
