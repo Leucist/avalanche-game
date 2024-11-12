@@ -109,10 +109,10 @@ namespace Avalanche.Core
                 //         coords.Item2
                 //     );
                 // }
-                _items[i++] = new GameObject(
+                _items.Add(new GameObject(
                     coords.Item1,
                     coords.Item2
-                );
+                ));
             }
         }
 
