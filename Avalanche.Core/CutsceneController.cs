@@ -10,9 +10,13 @@ namespace Avalanche.Core
         }
         
         public void Handle(ActionType action) {
+            if (action == ActionType.NullAction) return;
             if (_model._isOver) {
                 _model.NextCutscene();
                 GameState._state = GameStateType.Game;
+            }
+            else {
+                _model.NextFrame();
             }
         }
 

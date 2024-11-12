@@ -29,8 +29,8 @@ namespace Avalanche.Console
             }
             else {
                 // Set console colors
-                System.Console.BackgroundColor = ConsoleColor.White;
-                System.Console.ForegroundColor = ConsoleColor.Black;
+                System.Console.BackgroundColor = ConsoleColor.Black;
+                System.Console.ForegroundColor = ConsoleColor.White;
             }
 
             // Get path to the current frame

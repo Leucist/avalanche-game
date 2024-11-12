@@ -62,18 +62,19 @@ namespace Avalanche.Console
                 _prevIndex = _model._currentIndex;
             }
 
-            // Draws or Erases EnterLabel
-            if (_labelShowCountdown < 0) {
-                RenderEnterLabel(new string(' ', System.Console.WindowWidth));
-                _labelShowCountdown = DefaultFrameTime*2;
-            }
-            else {
-                if (_labelShowCountdown == DefaultFrameTime*2) {
+            // Draws or Erases EnterLabe
+            switch (_labelShowCountdown) {
+                case DefaultFrameTime*3:
                     RenderEnterLabel(_labelPressEnter);
-                }
-                _labelShowCountdown--;
+                    break;
+                case 0:
+                    RenderEnterLabel(new string(' ', System.Console.WindowWidth));
+                    break;
+                case -20:
+                    _labelShowCountdown = DefaultFrameTime*3 + 1;
+                    break;
             }
-            
+            _labelShowCountdown--;
         }
 
         private void RenderEnterLabel(string placeholder) {
