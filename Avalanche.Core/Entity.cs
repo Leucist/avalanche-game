@@ -31,9 +31,29 @@ namespace Avalanche.Core
             _speed = 1;
         }
 
+        void CheckColliders()
+        {
+            if (_coords[0] >= (RoomCharWidth-1))  // Right bound
+            {
+                _coords[0] -= 1;
+            }
+            else if (_coords[0] <= 0)  // Left bound
+            {
+                _coords[0] += 1;
+            }
+            else if(_coords[1] >= (RoomCharHeight-1))  // Lower bound
+            {
+                _coords[1] -= 1;
+            }
+            else if(_coords[1] <= 0-1)  // Upper bound
+            {
+                _coords[1] += 1;
+            }
+        }
         public void Move()
         {
             _coords[(int)_directionAxis] += _speed * _direction;
+            CheckColliders();
         }
 
         void TakeDamage(int damage)
