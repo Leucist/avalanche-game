@@ -19,12 +19,14 @@ namespace Avalanche.Console
                 ConsoleRenderer.ClearScreen();
                 ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight);
                 _wasNeverDrawn = false;
+                RenderDoors();
             }
 
             ConsoleRenderer.ClearDirtyPixels(_model._currentRoom!._dirtyPixels);
             _model._currentRoom!._dirtyPixels.Clear();
 
             if (_model._currentRoom!._isDirty) {
+                RenderDoors();
                 // Render Player
                 ConsoleRenderer.DrawPlayer(
                     _model._player.GetX(),
@@ -37,6 +39,12 @@ namespace Avalanche.Console
                     ConsoleRenderer.DrawEnemy(enemy.GetX(), enemy.GetY());
                 }
                 _model._currentRoom._isDirty = false;
+            }
+        }
+
+        private void RenderDoors() {
+            foreach (var door in _model._currentRoom!._doors) {
+                ConsoleRenderer.DrawDoor(door.Key.GetX(), door.Key.GetY(), door.Value._isLevelExit);
             }
         }
     }

@@ -105,6 +105,13 @@
                     }
                 }
             }
+
+            // Handle walls collision
+            _player.CheckColliders();
+        }
+        
+        public void Attack() {
+            _currentRoom!.Update();
         }
 
         public void SetPlayerIdle() {

@@ -31,7 +31,7 @@ namespace Avalanche.Core
             _speed = 1;
         }
 
-        void CheckColliders()
+        public void CheckColliders()
         {
             if (_coords[0] >= (RoomCharWidth-1))  // Right bound
             {
@@ -54,7 +54,6 @@ namespace Avalanche.Core
         public void Move()
         {
             _coords[(int)_directionAxis] += _speed * _direction;
-            CheckColliders();
         }
 
         public void Move(DirectionAxisType directionAxis, int direction)
