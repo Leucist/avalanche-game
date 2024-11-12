@@ -43,7 +43,7 @@ namespace Avalanche.Core
 
         void ThrowRock()
         {
-
+            _rocks--;
         }
 
         void UpdateHeat(int delta)
