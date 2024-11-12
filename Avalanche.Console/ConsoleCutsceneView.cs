@@ -42,6 +42,8 @@ namespace Avalanche.Console
                 // Get starting point to draw art in the center
                 int startX = System.Console.WindowWidth / 2 - lines[0].Length / 2;
                 int startY = System.Console.WindowHeight / 2 - lines.Length / 2;
+                if (startX < 0 ) startX = 0;
+                if ( startY < 0) startY = 0;
                 
                 // Draw ASCII-Art
                 System.Console.Write(new string('\n', startY));
