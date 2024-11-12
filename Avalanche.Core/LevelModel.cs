@@ -82,8 +82,10 @@
             _player._directionAxis = axis;
             _player._direction = direction;
 
+
+
             // Mark dirty pixels and turn on the 'isDirty' indicator
-            _currentRoom!._dirtyPixels.Add(_player.GetCoords());
+            _currentRoom!._dirtyPixels.Add([_player.GetX(), _player.GetY()]);
             _currentRoom._isDirty = true;
 
             // Change player position
