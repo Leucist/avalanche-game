@@ -23,10 +23,10 @@ namespace Avalanche.Console
         public void Render()
         {
             if (_prevFrameNumber == _model._currentFrameNumber) return;
+            // Clear the screen
+            ConsoleRenderer.ClearScreen();
             _prevFrameNumber = _model._currentFrameNumber;
             if (GameState._state == GameStateType.GameOver) {
-                // Clear the screen
-                ConsoleRenderer.ClearScreen();
                 // Set console colors
                 System.Console.BackgroundColor = ConsoleColor.Red;
                 System.Console.ForegroundColor = ConsoleColor.Black;
