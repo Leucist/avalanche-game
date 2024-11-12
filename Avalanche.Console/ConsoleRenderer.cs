@@ -11,6 +11,8 @@ namespace Avalanche.Console
 
         public static Dictionary<GameObjectType, char> textures = new() {
             { GameObjectType.Wall, '█' },
+            { GameObjectType.DoorClosed, 'Ξ' },
+            { GameObjectType.DoorOpened, '▒' },
             { GameObjectType.Player, '웃' },
             { GameObjectType.Enemy, '☠' }
         };
@@ -150,6 +152,22 @@ namespace Avalanche.Console
         }
         */
 
+        private static void DrawDoorOfType(int x, int y, GameObjectType type) {
+            x += RoomDefaultX;
+            y += RoomDefaultY;
+
+            System.Console.SetCursorPosition(x, y);
+            System.Console.Write(textures[type]);
+        }
+        public static void DrawDoor(int x, int y, bool isClosed) {
+            GameObjectType type;
+            if (isClosed)
+                type = GameObjectType.DoorClosed;
+            else
+                type = GameObjectType.DoorOpened;
+            DrawDoorOfType(x, y, type);
+        }
+
         public static void ClearDirtyPixels(List<int[]> dirtyPixels) {
             int x, y;
             foreach (int[] pixel in dirtyPixels) {
@@ -160,7 +178,7 @@ namespace Avalanche.Console
             }
         }
 
-        public static void DrawEntity(int x, int y, GameObjectType type) {
+        public static void DrawGameObject(int x, int y, GameObjectType type) {
             x += _startingLocX;
             y += _startingLocY;
 
@@ -171,13 +189,13 @@ namespace Avalanche.Console
         public static void DrawPlayer(int x, int y)
         {
             GameObjectType type = GameObjectType.Player;
-            DrawEntity(x, y, type);
+            DrawGameObject(x, y, type);
         }
 
         public static void DrawEnemy(int x, int y)
         {
             GameObjectType type = GameObjectType.Enemy;
-            DrawEntity(x, y, type);
+            DrawGameObject(x, y, type);
         }
 
     }

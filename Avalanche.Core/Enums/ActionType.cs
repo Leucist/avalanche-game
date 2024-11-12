@@ -12,7 +12,8 @@
         ConsumeMushroom,
         Interact,
         Enter,
-        NullAction
+        NullAction,
+        DefaultAction
 
     }
 }

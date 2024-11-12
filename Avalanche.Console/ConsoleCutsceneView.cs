@@ -9,6 +9,7 @@ namespace Avalanche.Console
         private CutsceneModel _model;
         private string _cutscenesFolderPath;
         public int _framesCount { get; set; }
+        private int _prevFrameNumber { get; set; }
 
         public ConsoleCutsceneView(CutsceneModel model) {
             _model = model;
@@ -16,13 +17,16 @@ namespace Avalanche.Console
             string solutionPath = _model.FindSolutionDirectory();
             string consoleFolder = "Avalanche.Console";
             _cutscenesFolderPath = Path.Combine(solutionPath, consoleFolder);
+            int _prevFrameNumber = model._currentFrameNumber - 1;
         }
 
         public void Render()
         {
+            if (_prevFrameNumber == _model._currentFrameNumber) return;
+            // Clear the screen
+            ConsoleRenderer.ClearScreen();
+            _prevFrameNumber = _model._currentFrameNumber;
             if (GameState._state == GameStateType.GameOver) {
-                // Clear the screen
-                ConsoleRenderer.ClearScreen();
                 // Set console colors
                 System.Console.BackgroundColor = ConsoleColor.Red;
                 System.Console.ForegroundColor = ConsoleColor.Black;

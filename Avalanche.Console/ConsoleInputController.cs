@@ -20,7 +20,10 @@ namespace Avalanche.Console
                 { ConsoleKey.X, ActionType.ConsumeMushroom },
                 { ConsoleKey.Enter, ActionType.Enter },
                 { ConsoleKey.UpArrow, ActionType.Up },
-                { ConsoleKey.DownArrow, ActionType.Down }
+                { ConsoleKey.DownArrow, ActionType.Down },
+                { ConsoleKey.LeftArrow, ActionType.Left },
+                { ConsoleKey.RightArrow, ActionType.Right },
+                { ConsoleKey.None, ActionType.NullAction }
             };
         }
         
@@ -63,7 +66,7 @@ namespace Avalanche.Console
             if (_keyValuePairs.ContainsKey(_pressedKey))
                 return _keyValuePairs[_pressedKey];
             else
-                return ActionType.NullAction;
+                return ActionType.DefaultAction;
         }
 
     }

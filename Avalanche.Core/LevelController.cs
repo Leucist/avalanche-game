@@ -27,6 +27,9 @@
                 case ActionType.Left:
                     _model.MovePlayer(DirectionAxisType.X, -1);
                     break;
+                case ActionType.StraightAttack:
+                    _model.Attack();
+                    break;
                 case ActionType.NullAction:
                     _model.SetPlayerIdle();
                     break;
