@@ -1,4 +1,5 @@
-﻿using Avalanche.Core;
+﻿using System.Drawing;
+using Avalanche.Core;
 using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Console
@@ -21,18 +22,17 @@ namespace Avalanche.Console
         {
             // Clear the screen
             ConsoleRenderer.ClearScreen();
+            // Set console font color
+            System.Console.BackgroundColor = ConsoleColor.Red;
+            System.Console.ForegroundColor = ConsoleColor.Black;
 
             // Get path to the current frame
             string relativeFilePath = _model.GetFrameFilePath()  + ".txt";
             
             // Combine with the directory path
             string filePath = Path.Combine(_cutscenesFolderPath, relativeFilePath);
-            
-            // Set console font color
-            ConsoleColor color = ConsoleColor.White;
-            System.Console.ForegroundColor = color;
 
-            int TimeToSleep = DefaultCutsceneTime;
+            // int TimeToSleep = DefaultCutsceneTime;
             // TimeToSleep *= 1000;
             try
             {
@@ -50,9 +50,6 @@ namespace Avalanche.Console
                     System.Console.Write(new string(' ', startX));
                     System.Console.WriteLine(line);
                 }
-
-                // Wait
-                Thread.Sleep(TimeToSleep);
             }
 
             catch (Exception ex)
@@ -60,7 +57,11 @@ namespace Avalanche.Console
                System.Console.WriteLine("Error reading the file: " + ex.Message);  // I'm not chatGPT, trust me, bro
             }
 
-            _model.NextFrame();
+            if (GameState._state == GameStateType.GameOver) {
+                _model.NextFrame();
+                // Wait
+                Thread.Sleep(DefaultFrameTime * 2);
+            }
         }
     }
 }
