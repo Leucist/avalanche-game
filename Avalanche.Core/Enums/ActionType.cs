@@ -9,6 +9,7 @@
         StraightAttack,
         SplashAttack,
         Shoot,
+        ConsumeMushroom,
         Interact,
         Enter,
         NullAction

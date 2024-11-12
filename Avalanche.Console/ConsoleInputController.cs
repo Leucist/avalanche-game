@@ -17,6 +17,7 @@ namespace Avalanche.Console
                 { ConsoleKey.F, ActionType.SplashAttack },
                 { ConsoleKey.R, ActionType.Shoot },
                 { ConsoleKey.E, ActionType.Interact },
+                { ConsoleKey.X, ActionType.ConsumeMushroom },
                 { ConsoleKey.Enter, ActionType.Enter },
                 { ConsoleKey.UpArrow, ActionType.Up },
                 { ConsoleKey.DownArrow, ActionType.Down }

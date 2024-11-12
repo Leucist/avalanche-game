@@ -12,6 +12,10 @@ namespace Avalanche.Core
         public void Handle(ActionType action) {
             if (action == ActionType.NullAction) return;
             if (_model._isOver) {
+                if (_model._cutsceneNumber == 0 && action != ActionType.ConsumeMushroom) {
+                    // if player presses anything except 'X' frame stays
+                    return;
+                }
                 _model.NextCutscene();
                 GameState._state = GameStateType.Game;
             }
