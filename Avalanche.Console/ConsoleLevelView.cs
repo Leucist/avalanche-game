@@ -110,7 +110,7 @@ namespace Avalanche.Console
 
             if (_previousMushrooms == 0)
             {
-                System.Console.Write(_previousMushrooms);
+                System.Console.Write("-");
             }
             
 
@@ -146,7 +146,7 @@ namespace Avalanche.Console
 
             if (_previousRocks == 0)
             {
-                System.Console.Write(_previousRocks);
+                System.Console.Write("-");
             }
 
 
