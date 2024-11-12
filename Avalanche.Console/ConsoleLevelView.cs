@@ -10,6 +10,8 @@ namespace Avalanche.Console
         private bool _wasNeverDrawn;
         private int _previousHealthPointsCount;
         private int _previousHeat;
+        private int _previousMushrooms;
+        private int _previousRocks;
 
         public ConsoleLevelView(LevelModel model)
         {
@@ -17,6 +19,8 @@ namespace Avalanche.Console
             _previousHealthPointsCount = _model._player._health;
             _wasNeverDrawn = true;
             _previousHeat = _model._player._heat;
+            _previousMushrooms = _model._player._mushrooms;
+            _previousRocks = _model._player._rocks;
         }
 
         public void DrawHP()
@@ -89,6 +93,70 @@ namespace Avalanche.Console
 
         }
 
+        public void DrawMushrooms()
+        {
+            if (_model._player._mushrooms != _previousMushrooms)
+            {
+                _previousMushrooms = _model._player._mushrooms;
+            }
+
+            System.Console.SetCursorPosition(6, 51);
+            System.Console.Write("Mushrooms: ");
+            System.Console.ForegroundColor = ConsoleColor.DarkMagenta;
+
+            if (_model._player._mushrooms > 10)
+            {
+                _model._player._mushrooms = 10;
+            }
+
+            for (int i = 0; i < _model._player._mushrooms; i++)
+            {
+                System.Console.Write("🍄 ");
+            }
+
+            if (_previousMushrooms < 10)
+                for (int j = _previousMushrooms; j < 10; j++)
+                {
+                    System.Console.ForegroundColor = ConsoleColor.DarkGray;
+                    System.Console.Write("🍄 ");
+                }
+
+
+            System.Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public void DrawRocks()
+        {
+            if (_model._player._rocks != _previousRocks)
+            {
+                _previousRocks = _model._player._rocks;
+            }
+
+            System.Console.SetCursorPosition(50, 51);
+            System.Console.Write("Rocks: ");
+            System.Console.ForegroundColor = ConsoleColor.DarkMagenta;
+
+            if (_model._player._rocks > 10)
+            {
+                _model._player._rocks = 10;
+            }
+
+            for (int i = 0; i < _model._player._rocks; i++)
+            {
+                System.Console.Write("● ");
+            }
+
+            if (_previousRocks < 10)
+                for (int j = _previousRocks; j < 10; j++)
+                {
+                    System.Console.ForegroundColor = ConsoleColor.DarkGray;
+                    System.Console.Write("● ");
+                }
+
+
+            System.Console.ForegroundColor = ConsoleColor.White;
+        }
+
         public void Render()
         {
             if (_wasNeverDrawn)
@@ -97,6 +165,8 @@ namespace Avalanche.Console
                 ConsoleRenderer.ClearScreen();
                 DrawHP();
                 DrawHeat();
+                DrawMushrooms();
+                DrawRocks();
                 ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight);
                 _wasNeverDrawn = false;
                 RenderDoors();
