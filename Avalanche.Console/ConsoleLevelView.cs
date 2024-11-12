@@ -102,27 +102,31 @@ namespace Avalanche.Console
 
             System.Console.SetCursorPosition(6, 51);
             System.Console.Write("Mushrooms: ");
-            System.Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
             if (_model._player._mushrooms > 10)
             {
                 _model._player._mushrooms = 10;
             }
 
+            if (_previousMushrooms == 0)
+            {
+                System.Console.Write(_previousMushrooms);
+            }
+            
+
             for (int i = 0; i < _model._player._mushrooms; i++)
             {
                 System.Console.Write("🍄 ");
             }
 
-            if (_previousMushrooms < 10)
-                for (int j = _previousMushrooms; j < 10; j++)
-                {
-                    System.Console.ForegroundColor = ConsoleColor.DarkGray;
-                    System.Console.Write("🍄 ");
-                }
+            //else if (_previousMushrooms < 10)
+            //    for (int j = _previousMushrooms; j < 10; j++)
+            //    {
+            //        System.Console.ForegroundColor = ConsoleColor.DarkGray;
+            //        System.Console.Write("🍄 ");
+            //    }
 
 
-            System.Console.ForegroundColor = ConsoleColor.White;
         }
 
         public void DrawRocks()
@@ -134,27 +138,24 @@ namespace Avalanche.Console
 
             System.Console.SetCursorPosition(50, 51);
             System.Console.Write("Rocks: ");
-            System.Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
             if (_model._player._rocks > 10)
             {
                 _model._player._rocks = 10;
             }
 
+            if (_previousRocks == 0)
+            {
+                System.Console.Write(_previousRocks);
+            }
+
+
             for (int i = 0; i < _model._player._rocks; i++)
             {
                 System.Console.Write("● ");
             }
 
-            if (_previousRocks < 10)
-                for (int j = _previousRocks; j < 10; j++)
-                {
-                    System.Console.ForegroundColor = ConsoleColor.DarkGray;
-                    System.Console.Write("● ");
-                }
-
-
-            System.Console.ForegroundColor = ConsoleColor.White;
+            
         }
 
         public void Render()
