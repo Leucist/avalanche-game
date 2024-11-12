@@ -29,8 +29,9 @@ namespace Avalanche.Console
             string filePath = Path.Combine(_cutscenesFolderPath, relativeFilePath);
             
             // Set console font color
-            ConsoleColor color = ConsoleColor.White;
-            System.Console.ForegroundColor = color;
+            //ConsoleColor color = ConsoleColor.White;
+            System.Console.ForegroundColor = ConsoleColor.White;
+            System.Console.BackgroundColor = ConsoleColor.Black;
 
             int TimeToSleep = DefaultCutsceneTime;
             // TimeToSleep *= 1000;
@@ -42,6 +43,11 @@ namespace Avalanche.Console
                 // Get starting point to draw art in the center
                 int startX = System.Console.WindowWidth / 2 - lines[0].Length / 2;
                 int startY = System.Console.WindowHeight / 2 - lines.Length / 2;
+
+                if (startY < 0)
+                {
+                    startY = 0;
+                }
                 
                 // Draw ASCII-Art
                 System.Console.Write(new string('\n', startY));
