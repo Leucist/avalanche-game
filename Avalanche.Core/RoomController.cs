@@ -10,8 +10,8 @@ namespace Avalanche.Core
     {
         public RoomModel _model;
 
-        public RoomController(int id, int enemiesCount) {
-            _model = new RoomModel(id, enemiesCount);
+        public RoomController(int id, int enemiesCount, Dictionary<DoorPositioningType, Door> doors) {
+            _model = new RoomModel(id, enemiesCount, doors);
         }
 
         public void Handle(ActionType action) {

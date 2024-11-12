@@ -6,6 +6,9 @@ namespace Avalanche.Console
 {
     public static class ConsoleRenderer
     {
+        private static int _startingLocY = RoomDefaultX + 1;  // skips room walls by spawning at +1,+1 coordinates
+        private static int _startingLocX = RoomDefaultY + 1;
+
         public static Dictionary<GameObjectType, char> textures = new() {
             { GameObjectType.Wall, '█' },
             { GameObjectType.Player, '웃' },
@@ -147,37 +150,34 @@ namespace Avalanche.Console
         }
         */
 
+        public static void ClearDirtyPixels(List<int[]> dirtyPixels) {
+            int x, y;
+            foreach (int[] pixel in dirtyPixels) {
+                x = pixel[0] + _startingLocX;
+                y = pixel[1] + _startingLocY;
+                System.Console.SetCursorPosition(x, y);
+                System.Console.Write(' ');
+            }
+        }
+
+        public static void DrawEntity(int x, int y, GameObjectType type) {
+            x += _startingLocX;
+            y += _startingLocY;
+
+            System.Console.SetCursorPosition(x, y);
+            System.Console.Write(textures[type]);
+        }
 
         public static void DrawPlayer(int x, int y)
         {
             GameObjectType type = GameObjectType.Player;
-
-            int startingLocY = RoomDefaultX+1;  // skips room walls by spawning at +1,+1 coordinates
-            int startingLocX = RoomDefaultY+1;
-
-            x += startingLocX;
-            y += startingLocY;
-
-
-            System.Console.SetCursorPosition(x, y);
-            System.Console.Write(textures[type]);
-
+            DrawEntity(x, y, type);
         }
 
         public static void DrawEnemy(int x, int y)
         {
             GameObjectType type = GameObjectType.Enemy;
-
-            int startingLocY = RoomDefaultX + 1;  // skips room walls by spawning at +1,+1 coordinates
-            int startingLocX = RoomDefaultY + 1;
-
-            x += startingLocX;
-            y += startingLocY;
-
-
-            System.Console.SetCursorPosition(x, y);
-            System.Console.Write(textures[type]);
-
+            DrawEntity(x, y, type);
         }
 
     }

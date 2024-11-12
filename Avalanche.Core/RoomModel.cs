@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Core
 {
@@ -12,15 +8,41 @@ namespace Avalanche.Core
         public List<Entity> _enemies { get; set; }
         private HashSet<(int, int)> _enemyPositions;
         private int _enemiesCount;
-        // public int _doorsNumber;
-        // public List<Door> _doors { get; set; }
+        public bool _isDirty { get; set; }
+        public List<int[]> _dirtyPixels;
+        public Door _levelExit;
+        public Dictionary<GameObject, Door> _doors { get; set; }
 
-        public RoomModel(int id, int enemiesCount/*, int doorsNumber*/) {
+        public RoomModel(int id, int enemiesCount, Dictionary<DoorPositioningType, Door> doors) {
             _id = id;
             _enemies = new List<Entity>(enemiesCount);
             _enemyPositions = new HashSet<(int, int)>();
-            //_doors = new List<Door>(doorsNumber);       
-    }
+            _isDirty = true;
+            _dirtyPixels = [];
+            _doors = [];
+            _levelExit = doors.Values.First(d => d._isLevelExit == true);
+
+            // Create GameObjects for the doors
+            foreach (var door in doors) {
+                int x = RoomCharWidth / 2;
+                int y = RoomCharHeight / 2;
+                switch (door.Key) {
+                    case DoorPositioningType.North:
+                        y = RoomDefaultY;
+                        break;
+                    case DoorPositioningType.East:
+                        x = RoomDefaultX;
+                        break;
+                    case DoorPositioningType.South:
+                        y = RoomDefaultY + RoomCharHeight;
+                        break;
+                    case DoorPositioningType.West:
+                        x = RoomDefaultX + RoomCharWidth;
+                        break;
+                }
+                _doors[new GameObject(x, y)] = door.Value;
+            }
+        }
 
         public void Init() {
             FillEnemies();
@@ -44,6 +66,18 @@ namespace Avalanche.Core
                     coords.Item1,
                     coords.Item2
                 );
+            }
+        }
+
+        public void Update() {
+            if (_enemiesCount == 0) {
+                foreach (var door in _doors.Values)
+                {
+                    if (door._isLevelExit) {
+                        continue;
+                    }
+                    door._isClosed = false;
+                }
             }
         }
     }

@@ -14,7 +14,7 @@ namespace Avalanche.Core
         public const int RoomCharHeight = 40;
 
         // Default room coorditates on x,y grid in the console
-        public const int RoomDefaultX = (ScreenCharHeight - RoomCharHeight) / 2;
+        public const int RoomDefaultX = (ScreenCharWidth - RoomCharWidth) / 2;
         public const int RoomDefaultY = (ScreenCharHeight - RoomCharHeight) / 2;
 
 
