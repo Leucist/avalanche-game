@@ -10,7 +10,6 @@ namespace Avalanche.Core
         private int _enemiesCount;
         public bool _isDirty { get; set; }
         public List<int[]> _dirtyPixels;
-        public Door _levelExit;
         public Dictionary<GameObject, Door> _doors { get; set; }
 
         public RoomModel(int id, int enemiesCount, Dictionary<DoorPositioningType, Door> doors) {
@@ -20,7 +19,6 @@ namespace Avalanche.Core
             _isDirty = true;
             _dirtyPixels = [];
             _doors = [];
-            _levelExit = doors.Values.First(d => d._isLevelExit == true);
 
             // Create GameObjects for the doors
             foreach (var door in doors) {

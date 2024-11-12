@@ -8,6 +8,7 @@
         public Dictionary<int, RoomController> _rooms;
         public int _currentRoomID;
         public RoomModel? _currentRoom;
+        public Door? _levelExit;
 
         public LevelModel(Player player, int levelNumber)
         {
@@ -39,6 +40,7 @@
             }
             Door levelExit = new Door(roomsCount-1, roomsCount-1, true);
             roomDoors[roomsCount-1][DoorPositioningType.South] = levelExit;
+            _levelExit = levelExit;
 
 
             // Create rooms
