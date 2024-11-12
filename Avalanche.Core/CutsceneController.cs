@@ -12,8 +12,8 @@ namespace Avalanche.Core
         public void Handle(ActionType action) {
             if (_model._isOver) {
                 _model.NextCutscene();
+                GameState._state = GameStateType.Game;
             }
-            GameState._state = GameStateType.Game;
         }
 
         public object GetModel() {

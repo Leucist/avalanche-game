@@ -33,5 +33,7 @@ namespace Avalanche.Core
         // Cunscene settings in seconds
         public const int DefaultCutsceneTime = 3;
 
+        public const int DefaultFrameTime = 10;
+
     }
 }

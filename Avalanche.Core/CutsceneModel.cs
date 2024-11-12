@@ -24,7 +24,7 @@ namespace Avalanche.Core
             // Get amount of files
             string[] files = Directory.GetFiles(Path.Combine(FindSolutionDirectory(), "Avalanche.Console", GetCutsceneFolderPath()));
             int framesInCutscene = files.Length;
-            if (_currentFrameNumber == framesInCutscene) {
+            if (_currentFrameNumber == framesInCutscene - 1) {
                 _isOver = true;
                 // _currentFrameNumber = 0;
                 return;
