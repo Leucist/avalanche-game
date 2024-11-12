@@ -126,6 +126,13 @@ namespace Avalanche.Console
             System.Console.ResetColor();
         }
 
+        // public static void DrawMenuOption(string option) {
+        //     int xOffset = System.Console.WindowWidth / 2 - option.Length / 2;
+        //     if (xOffset < 0) xOffset = 0;
+        //     System.Console.Write(new string(' ', xOffset));
+        //     System.Console.WriteLine(option);
+        // }
+
         /*
         void PlaceSymbol(int x, int y, char symbol)
         {

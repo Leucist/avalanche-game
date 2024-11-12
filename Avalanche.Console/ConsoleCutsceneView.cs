@@ -20,11 +20,18 @@ namespace Avalanche.Console
 
         public void Render()
         {
-            // Clear the screen
-            ConsoleRenderer.ClearScreen();
-            // Set console font color
-            System.Console.BackgroundColor = ConsoleColor.Red;
-            System.Console.ForegroundColor = ConsoleColor.Black;
+            if (GameState._state == GameStateType.GameOver) {
+                // Clear the screen
+                ConsoleRenderer.ClearScreen();
+                // Set console colors
+                System.Console.BackgroundColor = ConsoleColor.Red;
+                System.Console.ForegroundColor = ConsoleColor.Black;
+            }
+            else {
+                // Set console colors
+                System.Console.BackgroundColor = ConsoleColor.White;
+                System.Console.ForegroundColor = ConsoleColor.Black;
+            }
 
             // Get path to the current frame
             string relativeFilePath = _model.GetFrameFilePath()  + ".txt";
