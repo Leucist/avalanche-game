@@ -5,20 +5,33 @@ namespace Avalanche.Core
     public class Fireplace : GameObject
     {
         Player player;
-        bool isUsed;
+        bool isBurning;
+        int timeCounter;
         public Fireplace(int x, int y, Player p) : base(x, y)
         {
             player = p;
-            isUsed = true;
+            isBurning = true;
+            timeCounter = DefaultFireTime;
         }
 
-        public void UseCampfire()
+        public void UpdateCampfireState()
         {
-            if (isUsed)
+            if (isBurning)
             {
-                player._heat = DefaultPlayerHeat;
+                if (Math.Pow((GetX()-player.GetX()), 2) + Math.Pow((GetY()-player.GetY()), 2) 
+                    <= Math.Pow(DefaultCampfireTime, 2))
+                {
+                    player._heat++;
+                }
+                timeCounter--;
+                if (timeCounter < 0)
+                    isBurning = false;
             }
-            isUsed = false;
+            else
+            {
+                isBurning = false;
+            }
+            
         }
     }
 }

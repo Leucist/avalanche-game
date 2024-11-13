@@ -18,13 +18,17 @@ namespace Avalanche.Core
         public const int RoomDefaultY = (ScreenCharHeight - RoomCharHeight) / 2;
 
 
-        //  Entity settings
+        // Entity settings
         public const int DefaultEntityHealth = 3;
         public const int DefaultEntityDamage = 1;
 
-        //  Player setting
+        // Player setting
         public const int DefaultPlayerHeat = 1000;
         public const string DefaultPlayerName = "Jack";
+
+        // Campfire setting
+        public const int DefaultFireTime = 1000;
+        public const int DefaultCampfireTime = 2;
 
         // Mushrooms settings
         public const int DefaultMushroomsMinimalHpChange = -2;
