@@ -10,7 +10,7 @@ namespace Avalanche.Core
 
         // Console size in symbols
         public const int ScreenCharWidth = 200;
-        public const int ScreenCharHeight = 65;
+        public const int ScreenCharHeight = 50;
 
         // Room  values should be greater than ScreenChars
         public const int RoomCharWidth = 180;
