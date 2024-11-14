@@ -63,7 +63,7 @@ namespace Avalanche.Console
                 }
                 System.Console.ForegroundColor = ConsoleColor.White;
 
-                _previousHealthPointsCount = _model._player._health;
+                // _previousHealthPointsCount = _model._player._health;
             }
         }
 
@@ -276,9 +276,15 @@ namespace Avalanche.Console
             {
                 RenderDoors();
                 // Render Player
+                if (_model._player._health != _previousHealthPointsCount) {
+                    System.Console.BackgroundColor = ConsoleColor.Red;
+                    _previousHealthPointsCount = _model._player._health;
+                }
                 ConsoleRenderer.DrawPlayer(
                     _model._player.GetX(),
                     _model._player.GetY());
+                System.Console.ResetColor();
+                System.Console.ForegroundColor = ConsoleColor.White;
 
                 // Render each of the enemies
                 List<Enemy> enemies = _model._currentRoom._enemies;
