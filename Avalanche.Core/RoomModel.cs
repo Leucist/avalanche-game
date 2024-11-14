@@ -8,6 +8,7 @@ namespace Avalanche.Core
         public List<GameObject> _items { get; set; }
         public List<Entity> _otherEntities { get; set; }
         public List<Enemy> _enemies { get; set; }
+        private int _initialEnemiesCount { get; set; }
         private HashSet<(int, int)> _enemyPositions;
         private HashSet<(int, int)> _itemPositions;
         // private int _enemiesCount;
@@ -25,6 +26,7 @@ namespace Avalanche.Core
             _id = id;
             _otherEntities = new List<Entity>();
             _enemies = new List<Enemy>(enemiesCount);
+            _initialEnemiesCount = enemiesCount;
             _items = [];
             _enemyPositions = new HashSet<(int, int)>();
             _itemPositions = new HashSet<(int, int)>();
@@ -65,7 +67,7 @@ namespace Avalanche.Core
             Random random = new Random();
 
             // Fills _enemyPositions with random values within room borders
-            while (_enemyPositions.Count < _enemies.Count) {
+            while (_enemyPositions.Count < _initialEnemiesCount) {
                 int x = random.Next(1, AppConstants.RoomCharWidth - 1);
                 int y = random.Next(1, AppConstants.RoomCharHeight - 1);
 
@@ -75,10 +77,10 @@ namespace Avalanche.Core
             // Creates enemies for the Room
             int i = 0;
             foreach (var coords in _enemyPositions) {
-                _enemies[i++] = new Enemy(
+                _enemies.Add(new Enemy(
                     coords.Item1,
                     coords.Item2
-                );
+                ));
             }
         }
 
