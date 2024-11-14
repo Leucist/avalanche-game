@@ -128,7 +128,7 @@ namespace Avalanche.Console
 
                 // Clear previous data
                 System.Console.SetCursorPosition(uiX + label.Length, uiY);
-                System.Console.Write(" ", totalItemsCount * 2);
+                System.Console.Write(" ", totalItemsCount * 10);
 
                 // Resets the cursor
                 System.Console.SetCursorPosition(uiX, uiY);
@@ -171,7 +171,7 @@ namespace Avalanche.Console
 
                 // Clear previous data
                 System.Console.SetCursorPosition(uiX + label.Length, uiY);
-                System.Console.Write(" ", totalItemsCount * 2);
+                System.Console.Write(" ", totalItemsCount * 10);
 
                 // Resets the cursor
                 System.Console.SetCursorPosition(uiX, uiY);
@@ -258,6 +258,19 @@ namespace Avalanche.Console
                 // Draw room borders (walls)
                 ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight);
                 // ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight, 0, 0, ConsoleColor.White, false);
+
+                foreach (var item in _model._currentRoom!._items) {
+                    GameObjectType gameObjectType = GameObjectType.Rock;
+                    switch (item) {
+                        case LayingRock _:
+                            gameObjectType = GameObjectType.Rock;
+                            break;
+                        case Mushroom _:
+                            gameObjectType = GameObjectType.Mushroom;
+                            break;
+                    }
+                    ConsoleRenderer.DrawGameObject(item.GetX(), item.GetY(), gameObjectType);
+                }
 
                 RenderDoors();
 

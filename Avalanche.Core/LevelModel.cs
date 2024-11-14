@@ -189,6 +189,21 @@ namespace Avalanche.Core
                 }
             }
 
+            for (int i = _currentRoom._items.Count - 1; i >= 0; i--) {
+                var item = _currentRoom._items[i];
+                if (_player.CollidesWith(item)) {
+                    switch (item) {
+                        case LayingRock _:
+                            _player._rocks++;
+                            break;
+                        case Mushroom _:
+                            _player._mushrooms++;
+                            break;
+                    }
+                    _currentRoom._items.Remove(item);
+                }
+            }
+
             CheckCollisions(_player, prevCoords);
 
             // Handle walls collision

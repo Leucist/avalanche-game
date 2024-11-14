@@ -106,22 +106,22 @@ namespace Avalanche.Core
             // Creates items for the Room
             int i = 0;
             foreach (var coords in _itemPositions) {
-                // if (i < mushroomsCount) {
-                //     _items[i++] = new GameObject(
-                //         coords.Item1,
-                //         coords.Item2
-                //     );
-                // }
-                // else {
-                //     _items[i++] = new GameObject(
-                //         coords.Item1,
-                //         coords.Item2
-                //     );
-                // }
-                _items.Add(new GameObject(
-                    coords.Item1,
-                    coords.Item2
-                ));
+                if (i < mushroomsCount) {
+                    _items.Add(new Mushroom(
+                        coords.Item1,
+                        coords.Item2
+                    ));
+                }
+                else {
+                    _items.Add(new LayingRock(
+                        coords.Item1,
+                        coords.Item2
+                    ));
+                }
+                // _items.Add(new GameObject(
+                //     coords.Item1,
+                //     coords.Item2
+                // ));
             }
         }
 
