@@ -58,7 +58,7 @@ namespace Avalanche.Console
             ConsoleRenderer.ShowCursor();
 
             // User inputs character name
-            System.Console.SetCursorPosition(xPosition + label[0].Length / 2, yPosition + 2);
+            System.Console.SetCursorPosition(xPosition + label[0].Length / 2, yPosition - 8);
             string? newName = System.Console.ReadLine();
             if (newName != null) _name = newName;
             _model.Submit(_name); 
