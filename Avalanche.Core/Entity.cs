@@ -17,7 +17,7 @@ namespace Avalanche.Core
         protected bool _isAlerted;
         protected int _attackCooldown;
         protected int _attackCooldownCounter;
-        protected GameObject? _target;
+        protected Entity? _target;
 
 
 
@@ -74,7 +74,6 @@ namespace Avalanche.Core
         public void UpdateCooldown() {
             if (_attackCooldownCounter > 0)
                 _attackCooldownCounter--;
-            _attackCooldownCounter = _attackCooldown;
         }
 
         public void Attack() {
@@ -97,7 +96,7 @@ namespace Avalanche.Core
             return point;
         }
 
-        public void SetFocusOn(GameObject target) {
+        public void SetFocusOn(Entity target) {
             _isAlerted = true;
             _target = target;
         }

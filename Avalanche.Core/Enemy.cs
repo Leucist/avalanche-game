@@ -68,6 +68,10 @@ namespace Avalanche.Core
 
         public void ManageAction() {
             if (_isAlerted) {
+                if (_target != null && CanAttack()) {
+                    Attack();
+                    _target.TakeDamage(_damage);
+                }
                 SetTargetFollowing();
                 Move();
                 return;
@@ -92,8 +96,8 @@ namespace Avalanche.Core
             _direction = Math.Sign(deltaCoords[directionAxis]);
         }
 
-        public bool CanAttack(Entity player) {
-            return Reaches(player.GetX(), player.GetY())
+        private bool CanAttack() {
+            return Reaches(_target!.GetX(), _target!.GetY())
                 && IsReadyToAttack();
         }
     }

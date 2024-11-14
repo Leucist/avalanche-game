@@ -214,18 +214,22 @@
         }
 
         public void Update() {
+            // Update in-room events except direct attacks
             _currentRoom!.Update();
 
-            // Handle Enemy attack
+            // Handle Enemy attacks
             foreach (var enemy in _currentRoom._enemies) {
-                if (enemy.CanAttack(_player)) {
-                    enemy.Attack();
-                    _player.TakeDamage(enemy._damage);
-                }
+                enemy.ManageAction();
                 enemy.UpdateCooldown();
             }
 
+            // Update player's attack cooldown counter
             _player.UpdateCooldown();
+
+            // If the player is dead, game is over.
+            if (_player.IsDead()) {
+                GameState._state = GameStateType.GameOver;
+            }
         }
     }
 }
