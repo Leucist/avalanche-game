@@ -40,5 +40,18 @@ namespace Avalanche.Core
         public bool CollidesWith(int x, int y) {
             return _coords[0] == x && _coords[1] == y;
         }
+        public bool HasInSight(GameObject target, int sightDistance) {
+            // Get target coords
+            int targetX = target.GetX();
+            int targetY = target.GetY();
+
+            // Calculate the square of the distance using the Pythagorean theorem
+            int dx = GetX() - targetX;
+            int dy = GetY() - targetY;
+            int distanceSquared = dx * dx + dy * dy;
+
+            // Check if the squared distance is less than the square of the maximum visibility
+            return distanceSquared <= sightDistance * sightDistance;
+        }
     }
 }

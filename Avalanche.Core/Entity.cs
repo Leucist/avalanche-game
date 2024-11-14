@@ -110,5 +110,7 @@ namespace Avalanche.Core
         protected bool IsReadyToAttack() {
             return _attackCooldownCounter == 0;
         }
+        
+        public bool IsAlerted => _isAlerted;
     }
 }

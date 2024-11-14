@@ -5,6 +5,7 @@
         public Player _player { get; set; }
         int _levelNumber;
         int _enemiesCount;
+        private int _enemySightDistance;
         public Dictionary<int, RoomController> _rooms;
         public int _currentRoomID;
         public RoomModel? _currentRoom;
@@ -134,17 +135,11 @@
         //     }
         // }
 
-
-
-        // public void BuildMap() {
-        //     int[][] map = new int[AppConstants.RoomCharHeight][];
-        // }
-
         public void MovePlayer(DirectionAxisType axis, int direction) {
             _player._directionAxis = axis;
             _player._direction = direction;
 
-            // Mark dirty pixels and turn on the 'isDirty' indicator
+            // - Mark dirty pixels and turn on the 'isDirty' indicator
             _currentRoom!._dirtyPixels.Add([_player.GetX(), _player.GetY()]);
             _currentRoom._isDirty = true;
 
@@ -154,15 +149,15 @@
             // Check door collision
             foreach (var door in _currentRoom._doors) {
                 if (_player.CollidesWith(door.Key)) {
-                    // If door is level exit
+                    // - If door is level exit
                     if (door.Value._isLevelExit) {
                         Reset(++_levelNumber);
                         return;
                     }
 
-                    // If door isn't closed
+                    // - If door isn't closed
                     if (!door.Value._isClosed) {
-                        // Player gets into another room
+                        // - Player gets into another room
                         int[] roomCouple = door.Value._betweenRoomsOfID;
                         _currentRoomID = roomCouple[0] == _currentRoomID ? roomCouple[1] : roomCouple[0];
                         _currentRoom = _rooms[_currentRoomID]._model;
@@ -174,13 +169,13 @@
             // Check item collision
             foreach (var door in _currentRoom._doors) {
                 if (_player.CollidesWith(door.Key)) {
-                    // If door is level exit
+                    // - If door is level exit
                     if (door.Value._isLevelExit) {
                         Reset(++_levelNumber);
                         return;
                     }
 
-                    // If door isn't closed
+                    // - If door isn't closed
                     if (!door.Value._isClosed) {
                         // Player gets into another room
                         int[] roomCouple = door.Value._betweenRoomsOfID;
@@ -217,8 +212,14 @@
             // Update in-room events except direct attacks
             _currentRoom!.Update();
 
-            // Handle Enemy attacks
+            // - Handle Enemy attacks
             foreach (var enemy in _currentRoom._enemies) {
+                if (!enemy.IsAlerted) {
+                    // Set enemy's focus on the player if player can be noticed
+                    if (enemy.HasInSight(_player, _enemySightDistance)) {
+                        enemy.SetFocusOn(_player);
+                    }
+                }
                 enemy.ManageAction();
                 enemy.UpdateCooldown();
             }
