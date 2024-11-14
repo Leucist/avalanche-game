@@ -188,9 +188,10 @@ namespace Avalanche.Core
 
                     // - If door isn't closed
                     if (!door.Value._isClosed) {
-                        // Player gets into another room
+                        // - Player gets into another room
                         int[] roomCouple = door.Value._betweenRoomsOfID;
-                        _currentRoomID = roomCouple[0] == _currentRoomID ? roomCouple[1] : roomCouple[0];
+                        System.Console.WriteLine("roomCouple IDs: " + roomCouple);
+                        _currentRoomID = (roomCouple[0] == _currentRoomID) ? roomCouple[1] : roomCouple[0];
                         _currentRoom = _rooms[_currentRoomID]._model;
                         _currentRoom.Init();
                     }

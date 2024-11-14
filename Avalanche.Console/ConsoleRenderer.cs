@@ -79,8 +79,15 @@ namespace Avalanche.Console
                 "█     █   █ █████ █████ █████ ████"
             };
 
+            int xPosition = (System.Console.WindowWidth - message[0].Length) / 2;
+            if (xPosition < 0) xPosition = 0; 
+
+            int yPosition = (System.Console.WindowHeight - message.Length) / 2;
+            if (yPosition < 0) yPosition = 0; 
+
             foreach (string element in message)
             {
+                System.Console.SetCursorPosition(xPosition, yPosition++);
                 System.Console.WriteLine(element);
             }
 
