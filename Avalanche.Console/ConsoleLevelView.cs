@@ -13,166 +13,221 @@ namespace Avalanche.Console
         private int _previousMushrooms;
         private int _previousRocks;
         private int _previousRoomID;
+        private int _previousLevelNumber;
 
         public ConsoleLevelView(LevelModel model)
         {
             _model = model;
-            _previousHealthPointsCount = _model._player._health;
             _wasNeverDrawn = true;
-            _previousHeat = _model._player._heat;
-            _previousMushrooms = _model._player._mushrooms;
-            _previousRocks = _model._player._rocks;
+
+            _previousHealthPointsCount = _model._player._health - 1;
+            _previousHeat = _model._player._heat - 1;
+            _previousMushrooms = _model._player._mushrooms - 1;
+            _previousRocks = _model._player._rocks - 1;
+
             _previousRoomID = _model._currentRoomID - 1;
+            _previousLevelNumber = _model.LevelNumber - 1;
         }
 
         public void DrawHPUI()
         {
-
-            if (_model._player._health != _previousHealthPointsCount)
+            if (_model._player._health != _previousHealthPointsCount
+                || _wasNeverDrawn)
             {
+                string label = "Health Points: ";
+
+                int uiX = RoomDefaultX + 4;
+                int uiY = RoomDefaultY - 3;
+
+                int totalHeartsCount = 10;
+                int heartsCount = _model._player._health / totalHeartsCount;
+
+                // Clear previous data
+                System.Console.SetCursorPosition(uiX + label.Length, uiY);
+                System.Console.Write(" ", totalHeartsCount * 2);
+
+                // Resets the cursor
+                System.Console.SetCursorPosition(uiX, uiY);
+                // Draw label:
+                System.Console.Write(label);
+                // Draw Hearts
+                for (int i = 0; i < totalHeartsCount; i++)
+                {   
+                    if (heartsCount > i) {
+                        System.Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else {
+                        System.Console.ForegroundColor = ConsoleColor.DarkGray;
+                    }
+                    System.Console.Write("♥ ");
+                }
+                System.Console.ForegroundColor = ConsoleColor.White;
 
                 _previousHealthPointsCount = _model._player._health;
             }
-
-
-            System.Console.SetCursorPosition(RoomDefaultX + 4, RoomDefaultY - 3);
-            System.Console.Write("Health Points: ");
-            
-            //System.Console.WriteLine(new string('♥️', _model._player._health));
-            // if (_model._player._health > 10)
-            // {
-            //     _model._player._health = 10;
-            // }
-
-            // Added so HPs won't be really reduced from the view — (c) leucist
-            int HPMaxShown = 10;
-
-            for (int i = 0; i < HPMaxShown; i++)                // edited — (c) leucist
-            {   
-                if (_model._player._health / HPMaxShown >= i + 1) {
-                    System.Console.ForegroundColor = ConsoleColor.Red;
-                    System.Console.Write("♥ ");
-                }
-                else {
-                    System.Console.ForegroundColor = ConsoleColor.DarkGray;
-                    System.Console.Write("♥ ");
-                }
-            }
-
-            // if (_previousHealthPointsCount < 10)
-            //     for (int j = _previousHealthPointsCount; j < 10; j++)
-            //     {
-            //         System.Console.ForegroundColor = ConsoleColor.DarkGray;
-            //         System.Console.Write("♥ ");
-            //     }
-
-
-            System.Console.ForegroundColor = ConsoleColor.White;
-
         }
 
         public void DrawHeatUI()
         {
-            if(_model._player._heat != _previousHeat)
+            if(_model._player._heat != _previousHeat
+                || _wasNeverDrawn)
             {
+                string label = "Heat: ";
+
+                int uiX = RoomDefaultX + 50;
+                int uiY = RoomDefaultY - 3;
+
+                int totalBarsCount = 10;
+                int playerHeatBars = (int)(_model._player._heat / 100);
+                if( playerHeatBars > 10)
+                {
+                    playerHeatBars = 10;
+                }
+
+                // Clear previous data
+                System.Console.SetCursorPosition(uiX + label.Length, uiY);
+                System.Console.Write(" ", totalBarsCount * 2);
+
+                // Resets the cursor
+                System.Console.SetCursorPosition(uiX, uiY);
+                // Draw label:
+                System.Console.Write(label);
+                // Draw Bars
+                for (int i = 0; i < totalBarsCount; i++)
+                {   
+                    if (playerHeatBars > i) {
+                        System.Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    }
+                    else {
+                        System.Console.ForegroundColor = ConsoleColor.DarkGray;
+                    }
+                    System.Console.Write("█ ");
+                }
+                System.Console.ForegroundColor = ConsoleColor.White;
+
                 _previousHeat = _model._player._heat;
             }
-
-            System.Console.SetCursorPosition(RoomDefaultX + 54, RoomDefaultY - 3);
-            System.Console.Write("Heat: ");
-            System.Console.ForegroundColor = ConsoleColor.DarkYellow;
-
-            int playerHeatView = (int)(_model._player._heat / 100);
-
-            if( playerHeatView > 10)
-            {
-                playerHeatView = 10;
-            }
-
-            for (int i = 0; i < playerHeatView; i++)
-            {
-                System.Console.Write("█ ");
-            }
-
-            if (playerHeatView < 10)
-            for (int j = playerHeatView; j < 10; j++)
-            {
-                System.Console.ForegroundColor = ConsoleColor.DarkGray;
-                System.Console.Write("█ ");
-            }
-
-            System.Console.ForegroundColor = ConsoleColor.White;
-
         }
 
         public void DrawMushroomsUI()
         {
-            if (_model._player._mushrooms != _previousMushrooms)
+            if (_model._player._mushrooms != _previousMushrooms
+                || _wasNeverDrawn)
             {
+                string label = "Mushrooms: ";
+
+                int uiX = RoomDefaultX + 4;
+                int uiY = RoomDefaultY + RoomCharHeight + 1;
+
+                int totalItemsCount = 10;
+                int playerItemsCount = _model._player._mushrooms;
+
+                if( playerItemsCount > 10)
+                {
+                    playerItemsCount = 10;
+                }
+
+                // Clear previous data
+                System.Console.SetCursorPosition(uiX + label.Length, uiY);
+                System.Console.Write(" ", totalItemsCount * 2);
+
+                // Resets the cursor
+                System.Console.SetCursorPosition(uiX, uiY);
+                // Draw label:
+                System.Console.Write(label);
+
+                if (playerItemsCount == 0)
+                {
+                    System.Console.Write("✕");
+                }
+
+                for (int i = 0; i < playerItemsCount; i++)
+                {
+                    System.Console.Write("🍄 ");
+                }
+
+                System.Console.ForegroundColor = ConsoleColor.White;
+
                 _previousMushrooms = _model._player._mushrooms;
             }
-
-            System.Console.SetCursorPosition(RoomDefaultX + 4, RoomDefaultY + 40);
-            System.Console.Write("Mushrooms: ");
-
-            if (_model._player._mushrooms > 10)
-            {
-                _model._player._mushrooms = 10;
-            }
-
-            if (_previousMushrooms == 0)
-            {
-                System.Console.Write("-");
-            }
-            
-
-            for (int i = 0; i < _model._player._mushrooms; i++)
-            {
-                System.Console.Write("🍄 ");
-            }
-
-            //else if (_previousMushrooms < 10)
-            //    for (int j = _previousMushrooms; j < 10; j++)
-            //    {
-            //        System.Console.ForegroundColor = ConsoleColor.DarkGray;
-            //        System.Console.Write("🍄 ");
-            //    }
-
-
         }
 
         public void DrawRocksUI()
         {
-            if (_model._player._rocks != _previousRocks)
+            if (_model._player._rocks != _previousRocks
+                || _wasNeverDrawn)
             {
+                string label = "Rocks: ";
+
+                int uiX = RoomDefaultX + 50;
+                int uiY = RoomDefaultY + RoomCharHeight + 1;
+
+                int totalItemsCount = 10;
+                int playerItemsCount = _model._player._rocks;
+
+                if( playerItemsCount > 10)
+                {
+                    playerItemsCount = 10;
+                }
+
+                // Clear previous data
+                System.Console.SetCursorPosition(uiX + label.Length, uiY);
+                System.Console.Write(" ", totalItemsCount * 2);
+
+                // Resets the cursor
+                System.Console.SetCursorPosition(uiX, uiY);
+                // Draw label:
+                System.Console.Write(label);
+
+                if (playerItemsCount == 0)
+                {
+                    System.Console.Write("✕");
+                }
+
+                for (int i = 0; i < playerItemsCount; i++)
+                {
+                    System.Console.Write("● ");
+                }
+
+                System.Console.ForegroundColor = ConsoleColor.White;
+
                 _previousRocks = _model._player._rocks;
             }
+        }
 
-            System.Console.SetCursorPosition(RoomDefaultX + 54, RoomDefaultY + 40);
-            System.Console.Write("Rocks: ");
-
-            if (_model._player._rocks > 10)
+        public void DrawRoomAndLevelNumberUI()
+        {
+            if (_wasNeverDrawn)
             {
-                _model._player._rocks = 10;
+                string levelLabel = "Level: ";
+                string roomLabel = "Room: ";
+
+                int labelWidth = levelLabel.Length + roomLabel.Length + 6;
+
+                int uiX = RoomDefaultX + RoomCharWidth - labelWidth;
+                int uiY = RoomDefaultY - 3;
+
+                // Clear previous data
+                System.Console.SetCursorPosition(uiX, uiY);
+                System.Console.Write(" ", labelWidth);
+
+                // Resets the cursor
+                System.Console.SetCursorPosition(uiX, uiY);
+                System.Console.ForegroundColor = ConsoleColor.White;
+                // Draw label:
+                System.Console.Write(levelLabel);
+                System.Console.Write(_model.LevelNumber);
+                System.Console.Write(" | ");
+                System.Console.Write(roomLabel);
+                System.Console.Write(_model._currentRoomID);
+
             }
-
-            if (_previousRocks == 0)
-            {
-                System.Console.Write("-");
-            }
-
-
-            for (int i = 0; i < _model._player._rocks; i++)
-            {
-                System.Console.Write("● ");
-            }
-
-            
         }
 
         private void DrawUI() {
             DrawHPUI();
             DrawHeatUI();
+            DrawRoomAndLevelNumberUI();
             DrawMushroomsUI();
             DrawRocksUI();
         }
@@ -189,9 +244,11 @@ namespace Avalanche.Console
             }
 
             // If the current room has changed
-            if (_previousRoomID != _model._currentRoomID) {
+            if (_previousRoomID != _model._currentRoomID ||
+                _model.LevelNumber != _previousLevelNumber) {
                 _wasNeverDrawn = true;
                 _previousRoomID = _model._currentRoomID;
+                _previousLevelNumber = _model.LevelNumber;
             }
 
             if (_wasNeverDrawn)

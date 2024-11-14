@@ -15,6 +15,7 @@ namespace Avalanche.Core
         private bool _isPaused;
 
         public bool IsPaused => _isPaused;
+        public int LevelNumber => _levelNumber;
 
         public LevelModel(Player player, int levelNumber)
         {

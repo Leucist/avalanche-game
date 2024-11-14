@@ -29,6 +29,7 @@ namespace Avalanche.Core
         public const int DefaultEnemySightDistance = 7;
 
         // Player setting
+        public const int MaxPlayerHealth = 100;
         public const int DefaultPlayerHeat = 1000;
         public const string DefaultPlayerName = "Jack";
         public const int DefaultAttackCooldown = 100;
