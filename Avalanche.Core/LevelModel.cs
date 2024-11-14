@@ -153,28 +153,8 @@ namespace Avalanche.Core
             _player.Move();
 
             // Check door collision
-
-            System.Console.WriteLine("\n player: " + _player.GetX() + ", " + _player.GetY());
-
-
             foreach (var door in _currentRoom._doors) {
-
-
-
-                System.Console.WriteLine("door: " + door.Key.GetX() + ", " + door.Key.GetY());
-
-
-
-
                 if (_player.CollidesWith(door.Key)) {
-
-
-
-                    System.Console.WriteLine("\n YOU TOUCHED THE DOOR!");
-
-
-
-
                     // - If door is level exit
                     if (door.Value._isLevelExit) {
                         Reset(++_levelNumber);
