@@ -15,6 +15,9 @@
         void ISceneController.Handle(ActionType action)
         {
             switch (action) {
+                case ActionType.NullAction:
+                    _model.SetPlayerIdle();
+                    break;
                 case ActionType.Up:
                     _model.MovePlayer(DirectionAxisType.Y, -1);
                     break;
@@ -36,10 +39,11 @@
                 case ActionType.Shoot:
                     _model.Shoot();
                     break;
-                case ActionType.NullAction:
-                    _model.SetPlayerIdle();
+                case ActionType.Escape:
+                    _model.SwitchPause();
                     break;
             }
+            _model.Update();
         }
 
         object ISceneController.GetModel()

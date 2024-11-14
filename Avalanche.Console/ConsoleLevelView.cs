@@ -12,6 +12,7 @@ namespace Avalanche.Console
         private int _previousHeat;
         private int _previousMushrooms;
         private int _previousRocks;
+        private int _previousRoomID;
 
         public ConsoleLevelView(LevelModel model)
         {
@@ -21,9 +22,10 @@ namespace Avalanche.Console
             _previousHeat = _model._player._heat;
             _previousMushrooms = _model._player._mushrooms;
             _previousRocks = _model._player._rocks;
+            _previousRoomID = _model._currentRoomID - 1;
         }
 
-        public void DrawHP()
+        public void DrawHPUI()
         {
 
             if (_model._player._health != _previousHealthPointsCount)
@@ -59,7 +61,7 @@ namespace Avalanche.Console
 
         }
 
-        public void DrawHeat()
+        public void DrawHeatUI()
         {
             if(_model._player._heat != _previousHeat)
             {
@@ -93,7 +95,7 @@ namespace Avalanche.Console
 
         }
 
-        public void DrawMushrooms()
+        public void DrawMushroomsUI()
         {
             if (_model._player._mushrooms != _previousMushrooms)
             {
@@ -129,7 +131,7 @@ namespace Avalanche.Console
 
         }
 
-        public void DrawRocks()
+        public void DrawRocksUI()
         {
             if (_model._player._rocks != _previousRocks)
             {
@@ -158,19 +160,45 @@ namespace Avalanche.Console
             
         }
 
+        private void DrawUI() {
+            DrawHPUI();
+            DrawHeatUI();
+            DrawMushroomsUI();
+            DrawRocksUI();
+        }
+
         public void Render()
         {
+            // Render Pause
+            if (_model.IsPaused) {
+                if (!_wasNeverDrawn) {
+                    ConsoleRenderer.DrawPauseAlert();
+                    _wasNeverDrawn = true;
+                }
+                return;
+            }
+
+            // If the current room has changed
+            if (_previousRoomID != _model._currentRoomID) {
+                _wasNeverDrawn = true;
+                _previousRoomID = _model._currentRoomID;
+            }
+
             if (_wasNeverDrawn)
             {
-                // Clear screen and draw room borders
+                // Clear screen
                 ConsoleRenderer.ClearScreen();
-                DrawHP();
-                DrawHeat();
-                DrawMushrooms();
-                DrawRocks();
+                
+                // Draw User Interface
+                DrawUI();
+
+                // Draw room borders (walls)
                 ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight);
-                _wasNeverDrawn = false;
+
                 RenderDoors();
+
+                // Reset indicator
+                _wasNeverDrawn = false;
             }
 
             ConsoleRenderer.ClearDirtyPixels(_model._currentRoom!._dirtyPixels);

@@ -12,6 +12,9 @@ namespace Avalanche.Core
         public int _currentRoomID;
         public RoomModel? _currentRoom;
         public Door? _levelExit;
+        private bool _isPaused;
+
+        public bool IsPaused => _isPaused;
 
         public LevelModel(Player player, int levelNumber)
         {
@@ -20,6 +23,7 @@ namespace Avalanche.Core
             _enemiesCount = 4 * levelNumber + 3;
             _rooms = new Dictionary<int, RoomController>();
             _currentRoomID = 0;
+            _isPaused = false;
             Reset(levelNumber);
         }
 
@@ -216,6 +220,9 @@ namespace Avalanche.Core
         }
 
         public void Update() {
+            // Do nothing if game is paused
+            if (_isPaused) return;
+
             // Update in-room events except direct attacks
             _currentRoom!.Update();
 
@@ -244,6 +251,11 @@ namespace Avalanche.Core
                 GameState._cutscene = CutsceneType.GameOver;
                 GameState._state = GameStateType.Cutscene;
             }
+        }
+
+        public void SwitchPause() {
+            _isPaused = !_isPaused;
+            _currentRoom!._isDirty = true;
         }
     }
 }
