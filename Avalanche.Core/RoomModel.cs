@@ -117,6 +117,7 @@ namespace Avalanche.Core
         }
 
         public void Update() {
+            // - Open all doors (except level exit) in the room if there're no enemies left
             if (_enemies.Count == 0) {
                 foreach (var door in _doors.Values)
                 {
@@ -127,8 +128,11 @@ namespace Avalanche.Core
                 }
             }
 
+            // - Move other entities
             foreach (var entity in _otherEntities) {
                 entity.Move();
+
+                // - Manage thrown Rock
                 if (entity.GetType() == typeof(Rock)) {
                     foreach (var enemy in _enemies) {
                         if (entity.CollidesWith(enemy)) {
@@ -136,14 +140,6 @@ namespace Avalanche.Core
                             _otherEntities.Remove(entity);
                         }
                     }
-                }
-            }
-
-            foreach (var enemy in _enemies) {
-                enemy.RandomMovement();
-
-                if (enemy.IsDead()) {
-                    _enemies.Remove(enemy);
                 }
             }
         }

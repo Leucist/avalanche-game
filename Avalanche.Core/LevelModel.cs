@@ -1,4 +1,6 @@
-﻿namespace Avalanche.Core
+﻿using Avalanche.Core.Enums;
+
+namespace Avalanche.Core
 {
     public class LevelModel
     {
@@ -166,11 +168,16 @@
                 }
             }
 
-            // Check item collision
+            // Check doors-player collisions
             foreach (var door in _currentRoom._doors) {
                 if (_player.CollidesWith(door.Key)) {
                     // - If door is level exit
                     if (door.Value._isLevelExit) {
+                        // If it's the last level
+                        if (_levelNumber == AppConstants.LevelsCount) {
+                            GameState._cutscene = CutsceneType.GameFinish;
+                            GameState._state = GameStateType.Cutscene;
+                        }
                         Reset(++_levelNumber);
                         return;
                     }
@@ -214,12 +221,17 @@
 
             // - Handle Enemy attacks
             foreach (var enemy in _currentRoom._enemies) {
+                // If enemy is dead, it's being erased from the list
+                if (enemy.IsDead()) {
+                    _currentRoom._enemies.Remove(enemy);
+                }
                 if (!enemy.IsAlerted) {
                     // Set enemy's focus on the player if player can be noticed
                     if (enemy.HasInSight(_player, _enemySightDistance)) {
                         enemy.SetFocusOn(_player);
                     }
                 }
+                // Manages enemy logic
                 enemy.ManageAction();
                 enemy.UpdateCooldown();
             }
@@ -229,7 +241,8 @@
 
             // If the player is dead, game is over.
             if (_player.IsDead()) {
-                GameState._state = GameStateType.GameOver;
+                GameState._cutscene = CutsceneType.GameOver;
+                GameState._state = GameStateType.Cutscene;
             }
         }
     }

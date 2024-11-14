@@ -5,6 +5,9 @@ namespace Avalanche.Core
         // App name
         public const string AppName = "Avalanche";
 
+        // Game Parameters
+        public const int LevelsCount = 5;
+
         // Console size in symbols
         public const int ScreenCharWidth = 200;
         public const int ScreenCharHeight = 50;

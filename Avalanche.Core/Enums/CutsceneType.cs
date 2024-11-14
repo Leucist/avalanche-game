@@ -4,6 +4,7 @@ namespace Avalanche.Core.Enums
     {
         GameOver = -1,
         GameStart = 0,
-        GameFinal = 1
+        GameFinish = 1,
+        GameFinal = 2
     }
 }

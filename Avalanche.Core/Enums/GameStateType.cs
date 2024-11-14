@@ -8,7 +8,6 @@ namespace Avalanche.Core
         NameInput,
         OptionsMenu,
         Exit,
-        Cutscene,
-        GameOver
+        Cutscene
     }
 }

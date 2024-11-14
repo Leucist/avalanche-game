@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Avalanche.Core;
+using Avalanche.Core.Enums;
 using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Console
@@ -20,31 +21,41 @@ namespace Avalanche.Console
             _prevFrameNumber = model._currentFrameNumber - 1;
         }
 
+        private void SetColors(CutsceneType cutsceneType) {
+            switch (cutsceneType) {
+                case CutsceneType.GameOver:
+                    // Set red-black colors for skeletons animation
+                    System.Console.BackgroundColor = ConsoleColor.Red;
+                    System.Console.ForegroundColor = ConsoleColor.Black;
+                    break;
+                default:
+                    // Set default cutscene (inverted) colors
+                    System.Console.BackgroundColor = ConsoleColor.Black;
+                    System.Console.ForegroundColor = ConsoleColor.White;
+                    break;
+            }
+        }
+
         public void Render()
         {
+            // Checks if there's nothing to Update
             if (_prevFrameNumber == _model._currentFrameNumber) return;
+
             // Clear the screen
             ConsoleRenderer.ClearScreen();
+
+            // Updates the indicator int
             _prevFrameNumber = _model._currentFrameNumber;
-            if (GameState._state == GameStateType.GameOver) {
-                // Set console colors
-                System.Console.BackgroundColor = ConsoleColor.Red;
-                System.Console.ForegroundColor = ConsoleColor.Black;
-            }
-            else {
-                // Set console colors
-                System.Console.BackgroundColor = ConsoleColor.Black;
-                System.Console.ForegroundColor = ConsoleColor.White;
-            }
+            
+            // Set comsole colors
+            SetColors(GameState._cutscene);
 
             // Get path to the current frame
             string relativeFilePath = _model.GetFrameFilePath()  + ".txt";
-            
             // Combine with the directory path
             string filePath = Path.Combine(_cutscenesFolderPath, relativeFilePath);
 
-            // int TimeToSleep = DefaultCutsceneTime;
-            // TimeToSleep *= 1000;
+            // Actual reading art from the file and drawing
             try
             {
                 // Read ASCII-Art file
@@ -68,12 +79,6 @@ namespace Avalanche.Console
             catch (Exception ex)
             {
                System.Console.WriteLine("Error reading the file: " + ex.Message);  // I'm not chatGPT, trust me, bro
-            }
-
-            if (GameState._state == GameStateType.GameOver) {
-                _model.NextFrame();
-                // Wait
-                Thread.Sleep(DefaultFrameTime * 2);
             }
         }
     }

@@ -1,9 +1,12 @@
+using Avalanche.Core.Enums;
+
 namespace Avalanche.Core
 {
     public static class GameState
     {
         // private static GameState? _instance;
         public static GameStateType _state { get; set; }
+        public static CutsceneType _cutscene { get; set; }
 
         // private GameState() {
         //     _state = GameStateType.MainMenu;
