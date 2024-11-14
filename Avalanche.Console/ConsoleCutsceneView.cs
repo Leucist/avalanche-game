@@ -11,7 +11,6 @@ namespace Avalanche.Console
         private string _cutscenesFolderPath;
         public int _framesCount { get; set; }
         private int _prevFrameNumber { get; set; }
-        private int _prevCutsceneNumber { get; set; }
 
         public ConsoleCutsceneView(CutsceneModel model) {
             _model = model;
@@ -20,7 +19,6 @@ namespace Avalanche.Console
             string consoleFolder = "Avalanche.Console";
             _cutscenesFolderPath = Path.Combine(solutionPath, consoleFolder);
             _prevFrameNumber = _model._currentFrameNumber - 1;
-            _prevCutsceneNumber = _model._cutsceneNumber - 1;
         }
 
         private void SetColors(CutsceneType cutsceneType) {
