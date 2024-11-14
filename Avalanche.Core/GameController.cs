@@ -32,6 +32,9 @@ public class GameController {
         _gameView.AddView(GameStateType.Game, controllers[GameStateType.Game]);
         _gameView.AddView(GameStateType.Cutscene, controllers[GameStateType.Cutscene]);
 
+        // Clear input buffer
+        _inputController.ClearBuffer();
+
         // Main Game loop
         GameState._state = GameStateType.MainMenu;
         while (GameState._state != GameStateType.Exit) {

@@ -12,6 +12,7 @@
         ConsumeMushroom,
         Interact,
         Enter,
+        Escape,
         NullAction,
         DefaultAction
 

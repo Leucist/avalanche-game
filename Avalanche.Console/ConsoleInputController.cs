@@ -9,26 +9,28 @@ namespace Avalanche.Console
 
         public ConsoleInputController() {
             _keyValuePairs = new Dictionary<ConsoleKey, ActionType>() {
+                // - WASD Movements
                 { ConsoleKey.W, ActionType.Up },
                 { ConsoleKey.A, ActionType.Left },
                 { ConsoleKey.S, ActionType.Down },
                 { ConsoleKey.D, ActionType.Right },
+                // - Attacks
                 { ConsoleKey.Spacebar, ActionType.StraightAttack },
                 { ConsoleKey.F, ActionType.SplashAttack },
                 { ConsoleKey.R, ActionType.Shoot },
+                // - Other interactions
                 { ConsoleKey.E, ActionType.Interact },
                 { ConsoleKey.X, ActionType.ConsumeMushroom },
                 { ConsoleKey.Enter, ActionType.Enter },
+                { ConsoleKey.Escape, ActionType.Escape },
+                // - Arrow Movements
                 { ConsoleKey.UpArrow, ActionType.Up },
                 { ConsoleKey.DownArrow, ActionType.Down },
                 { ConsoleKey.LeftArrow, ActionType.Left },
                 { ConsoleKey.RightArrow, ActionType.Right },
+                // - If nothing was pressed
                 { ConsoleKey.None, ActionType.NullAction }
             };
-        }
-        
-        private ConsoleKey GetKeyboardInput() {
-            return System.Console.ReadKey(intercept: true).Key;
         }
 
         private void GetKeyboardInputAsync(CancellationToken cancellationToken) {
@@ -39,6 +41,12 @@ namespace Avalanche.Console
                     _pressedKey = System.Console.ReadKey(intercept: true).Key;
                     break;
                 }
+            }
+        }
+
+        public void ClearBuffer() {
+            while (System.Console.KeyAvailable) {
+                System.Console.ReadKey(intercept: true);
             }
         }
 

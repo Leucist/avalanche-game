@@ -3,5 +3,6 @@
     public interface IInputController{
         // ActionType GetKeyboardInput();
         ActionType GetUserAction();
+        void ClearBuffer();
     }
 }
