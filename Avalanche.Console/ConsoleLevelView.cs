@@ -35,7 +35,7 @@ namespace Avalanche.Console
             }
 
 
-            System.Console.SetCursorPosition(6, 9);
+            System.Console.SetCursorPosition(RoomDefaultX, RoomDefaultY + 4);
             System.Console.Write("Health Points: ");
             
             //System.Console.WriteLine(new string('♥️', _model._player._health));
@@ -78,7 +78,7 @@ namespace Avalanche.Console
                 _previousHeat = _model._player._heat;
             }
 
-            System.Console.SetCursorPosition(50, 9);
+            System.Console.SetCursorPosition(RoomDefaultX + 50, RoomDefaultY + 4);
             System.Console.Write("Heat: ");
             System.Console.ForegroundColor = ConsoleColor.DarkYellow;
 
@@ -112,7 +112,7 @@ namespace Avalanche.Console
                 _previousMushrooms = _model._player._mushrooms;
             }
 
-            System.Console.SetCursorPosition(6, 51);
+            System.Console.SetCursorPosition(RoomDefaultX, RoomDefaultY + 47);
             System.Console.Write("Mushrooms: ");
 
             if (_model._player._mushrooms > 10)
@@ -148,7 +148,7 @@ namespace Avalanche.Console
                 _previousRocks = _model._player._rocks;
             }
 
-            System.Console.SetCursorPosition(50, 51);
+            System.Console.SetCursorPosition(RoomDefaultX + 50, RoomDefaultY + 47);
             System.Console.Write("Rocks: ");
 
             if (_model._player._rocks > 10)
