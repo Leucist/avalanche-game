@@ -91,6 +91,9 @@ namespace Avalanche.Core
                 case CutsceneType.GameFinish:
                     GameState._cutscene = CutsceneType.GameFinal;
                     break;
+                case CutsceneType.GameStart:
+                    GameState._cutscene = CutsceneType.GameIntroduction;
+                    break;
                 case CutsceneType.GameFinal:
                     GameState._state = GameStateType.MainMenu;
                     break;

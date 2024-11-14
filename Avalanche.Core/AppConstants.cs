@@ -34,7 +34,7 @@ namespace Avalanche.Core
         public const string DefaultPlayerName = "Jack";
         public const int DefaultAttackCooldown = 100;
         public const int DefaultActionCooldown = 100;
-        public const int DefaultFreezeDelta = 100;
+        public const int DefaultFreezeDelta = 10;
 
 
         // Campfire setting

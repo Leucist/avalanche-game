@@ -20,10 +20,10 @@ namespace Avalanche.Console
             _model = model;
             _wasNeverDrawn = true;
 
-            _previousHealthPointsCount = _model._player._health - 1;
-            _previousHeat = _model._player._heat - 1;
-            _previousMushrooms = _model._player._mushrooms - 1;
-            _previousRocks = _model._player._rocks - 1;
+            _previousHealthPointsCount = -100;
+            _previousHeat = -1000;
+            _previousMushrooms = -100;
+            _previousRocks = -100;
 
             _previousRoomID = _model._currentRoomID - 1;
             _previousLevelNumber = _model.LevelNumber - 1;
@@ -31,9 +31,8 @@ namespace Avalanche.Console
 
         public void DrawHPUI()
         {
-            if (_model._player._health != _previousHealthPointsCount
-                || _wasNeverDrawn)
-            {
+            // if ((_model._player._health != _previousHealthPointsCount) || _wasNeverDrawn)
+            // {
                 string label = "Health Points: ";
 
                 int uiX = RoomDefaultX + 4;
@@ -64,14 +63,14 @@ namespace Avalanche.Console
                 System.Console.ForegroundColor = ConsoleColor.White;
 
                 // _previousHealthPointsCount = _model._player._health;
-            }
+            // }
         }
 
         public void DrawHeatUI()
         {
-            if(_model._player._heat != _previousHeat
-                || _wasNeverDrawn)
-            {
+            // if(_model._player._heat != _previousHeat
+            //     || _wasNeverDrawn)
+            // {
                 string label = "Heat: ";
 
                 int uiX = RoomDefaultX + 50;
@@ -105,15 +104,15 @@ namespace Avalanche.Console
                 }
                 System.Console.ForegroundColor = ConsoleColor.White;
 
-                _previousHeat = _model._player._heat;
-            }
+            //     _previousHeat = _model._player._heat;
+            // }
         }
 
         public void DrawMushroomsUI()
         {
-            if (_model._player._mushrooms != _previousMushrooms
-                || _wasNeverDrawn)
-            {
+            // if (_model._player._mushrooms != _previousMushrooms
+            //     || _wasNeverDrawn)
+            // {
                 string label = "Mushrooms: ";
 
                 int uiX = RoomDefaultX + 4;
@@ -149,14 +148,14 @@ namespace Avalanche.Console
                 System.Console.ForegroundColor = ConsoleColor.White;
 
                 _previousMushrooms = _model._player._mushrooms;
-            }
+            // }
         }
 
         public void DrawRocksUI()
         {
-            if (_model._player._rocks != _previousRocks
-                || _wasNeverDrawn)
-            {
+            // if (_model._player._rocks != _previousRocks
+            //     || _wasNeverDrawn)
+            // {
                 string label = "Rocks: ";
 
                 int uiX = RoomDefaultX + 50;
@@ -192,36 +191,32 @@ namespace Avalanche.Console
                 System.Console.ForegroundColor = ConsoleColor.White;
 
                 _previousRocks = _model._player._rocks;
-            }
+            // }
         }
 
         public void DrawRoomAndLevelNumberUI()
         {
-            if (_wasNeverDrawn)
-            {
-                string levelLabel = "Level: ";
-                string roomLabel = "Room: ";
+            string levelLabel = "Level: ";
+            string roomLabel = "Room: ";
 
-                int labelWidth = levelLabel.Length + roomLabel.Length + 6;
+            int labelWidth = levelLabel.Length + roomLabel.Length + 6;
 
-                int uiX = RoomDefaultX + RoomCharWidth - labelWidth;
-                int uiY = RoomDefaultY - 3;
+            int uiX = RoomDefaultX + RoomCharWidth - labelWidth;
+            int uiY = RoomDefaultY - 3;
 
-                // Clear previous data
-                System.Console.SetCursorPosition(uiX, uiY);
-                System.Console.Write(" ", labelWidth);
+            // Clear previous data
+            System.Console.SetCursorPosition(uiX, uiY);
+            System.Console.Write(" ", labelWidth);
 
-                // Resets the cursor
-                System.Console.SetCursorPosition(uiX, uiY);
-                System.Console.ForegroundColor = ConsoleColor.White;
-                // Draw label:
-                System.Console.Write(levelLabel);
-                System.Console.Write(_model.LevelNumber);
-                System.Console.Write(" | ");
-                System.Console.Write(roomLabel);
-                System.Console.Write(_model._currentRoomID);
-
-            }
+            // Resets the cursor
+            System.Console.SetCursorPosition(uiX, uiY);
+            System.Console.ForegroundColor = ConsoleColor.White;
+            // Draw label:
+            System.Console.Write(levelLabel);
+            System.Console.Write(_model.LevelNumber);
+            System.Console.Write(" | ");
+            System.Console.Write(roomLabel);
+            System.Console.Write(_model._currentRoomID);
         }
 
         private void DrawUI() {
@@ -243,9 +238,13 @@ namespace Avalanche.Console
                 return;
             }
 
+            // Draw User Interface
+            DrawUI();
+
             // If the current room has changed
             if (_previousRoomID != _model._currentRoomID ||
-                _model.LevelNumber != _previousLevelNumber) {
+                _model.LevelNumber != _previousLevelNumber)
+            {
                 _wasNeverDrawn = true;
                 _previousRoomID = _model._currentRoomID;
                 _previousLevelNumber = _model.LevelNumber;
@@ -255,9 +254,6 @@ namespace Avalanche.Console
             {
                 // Clear screen
                 ConsoleRenderer.ClearScreen();
-                
-                // Draw User Interface
-                DrawUI();
 
                 // Draw room borders (walls)
                 ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight);
@@ -302,6 +298,11 @@ namespace Avalanche.Console
                 }
                 _model._currentRoom._isDirty = false;
             }
+
+            _previousHealthPointsCount = _model._player._health;
+            _previousHeat = _model._player._heat;
+            _previousMushrooms = _model._player._mushrooms;
+            _previousRocks = _model._player._rocks;
         }
 
         private void RenderDoors()

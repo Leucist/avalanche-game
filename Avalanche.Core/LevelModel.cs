@@ -198,8 +198,8 @@ namespace Avalanche.Core
         public void PlayerAttack() {
             // int[] attackPoint = _player.GetFocusPoint();
             List<int[]> attackPoints = new List<int[]>();
-            for (int y = _player.GetY()-1; y < _player.GetY()+1; y++) {
-                for (int x = _player.GetX()-1; x < _player.GetX()+1; x++) {
+            for (int y = _player.GetY()-1; y <= _player.GetY()+1; y++) {
+                for (int x = _player.GetX()-1; x <= _player.GetX()+1; x++) {
                     attackPoints.Add([x, y]);
                 }
             }
@@ -288,6 +288,7 @@ namespace Avalanche.Core
 
             // Player freezes
             _player.UpdateHeat();
+            _player.Regenerate();
         }
 
         public void SwitchPause() {

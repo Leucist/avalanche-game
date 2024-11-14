@@ -54,12 +54,14 @@ namespace Avalanche.Core
 
         public void UpdateHeat()
         {
-            _heat -= DefaultFreezeDelta;
+            if (IsReadyToAct()) {
+                _heat -= DefaultFreezeDelta;
+            }
         }
 
         public void Regenerate() {
             if (_heat < 0) return;
-            if (_health < DefaultEntityHealth) {
+            if (_health < DefaultEntityHealth && IsReadyToAct()) {
                 _health++;
             }
         }
