@@ -15,8 +15,8 @@ namespace Avalanche.Core
             int x = RoomCharWidth / 2, 
             int y = RoomCharHeight / 2, 
             DirectionAxisType directionAxis = DirectionAxisType.X,
-            int health = DefaultEntityHealth, 
-            int damage = DefaultEntityDamage,
+            int health = (int) (DefaultEntityHealth * 1.5), 
+            int damage = (int) (DefaultEntityDamage * 1.5),
             int attackCooldown = DefaultAttackCooldown,
             // int actionCooldown = DefaultActionCooldown,
             string name = DefaultPlayerName)

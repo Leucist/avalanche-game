@@ -21,6 +21,7 @@ namespace Avalanche.Core
             _player = player;
             _levelNumber = levelNumber;
             _enemiesCount = 4 * levelNumber + 3;
+            _enemySightDistance = AppConstants.DefaultEnemySightDistance;
             _rooms = new Dictionary<int, RoomController>();
             _currentRoomID = 0;
             _isPaused = false;
@@ -236,14 +237,14 @@ namespace Avalanche.Core
                 enemy.UpdateCooldown();
             }
 
-            // Update player's attack cooldown counter
-            _player.UpdateCooldown();
-
             // If the player is dead, game is over.
             if (_player.IsDead()) {
                 GameState._cutscene = CutsceneType.GameOver;
                 GameState._state = GameStateType.Cutscene;
             }
+
+            // Update player's attack cooldown counter
+            _player.UpdateCooldown();
 
             // Player freezes
             _player.UpdateHeat();
