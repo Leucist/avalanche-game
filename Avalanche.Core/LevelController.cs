@@ -14,6 +14,7 @@
 
         void ISceneController.Handle(ActionType action)
         {
+            if (_model.IsPaused && action != ActionType.Escape) return; // Quick hack
             switch (action) {
                 case ActionType.NullAction:
                     _model.SetPlayerIdle();
