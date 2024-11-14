@@ -212,8 +212,9 @@ namespace Avalanche.Core
         }
 
         public void Shoot() {
-            _player.ThrowRock();
-            _currentRoom!._otherEntities.Add(new Rock(_player));
+            if (_player.ThrowRock()) {
+                _currentRoom!._otherEntities.Add(new Rock(_player));
+            }
         }
 
         public void SetPlayerIdle() {
