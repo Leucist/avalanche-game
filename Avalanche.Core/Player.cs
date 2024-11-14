@@ -10,6 +10,10 @@ namespace Avalanche.Core
         public int _rocks { get; set; }
         private string _name;
 
+        
+        private int _valueChangeCooldown;
+        private int _valueChangeCooldownCounter;
+
 
         public Player(
             int x = RoomCharWidth / 2, 
@@ -26,6 +30,8 @@ namespace Avalanche.Core
             _rocks = 0;
             _heat = DefaultPlayerHeat;
             _name = name;
+            _valueChangeCooldown = DefaultActionCooldown;
+            _valueChangeCooldownCounter = 0;
         }
 
         public void ConsumeMushroom()
@@ -54,16 +60,32 @@ namespace Avalanche.Core
 
         public void UpdateHeat()
         {
-            if (IsReadyToAct()) {
+            if (IsReadyToAct() && _heat > 0) {
                 _heat -= DefaultFreezeDelta;
+                if (_heat < 0) {_heat = 0;}
             }
         }
 
         public void Regenerate() {
-            if (_heat < 0) return;
-            if (_health < DefaultEntityHealth && IsReadyToAct()) {
-                _health++;
+            if (_health < MaxPlayerHealth && mayBeChanged()) {
+                if (_heat <= 0) {
+                    _health--;
+                }
+                else {
+                    _health++;
+                }
+                _valueChangeCooldownCounter = _valueChangeCooldown;
             }
+            UpdateRegenCooldown();
+        }
+
+        public void UpdateRegenCooldown() {
+            if (_valueChangeCooldownCounter > 0)
+                _valueChangeCooldownCounter--;
+        }
+
+        private bool mayBeChanged() {
+            return _valueChangeCooldownCounter == 0;
         }
 
         void AddItem(ItemType itemType)

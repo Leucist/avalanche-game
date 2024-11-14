@@ -272,7 +272,7 @@ namespace Avalanche.Console
             {
                 RenderDoors();
                 // Render Player
-                if (_model._player._health != _previousHealthPointsCount) {
+                if (_model._player._health < _previousHealthPointsCount) {
                     System.Console.BackgroundColor = ConsoleColor.Red;
                     _previousHealthPointsCount = _model._player._health;
                 }
