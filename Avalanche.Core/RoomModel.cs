@@ -19,8 +19,7 @@ namespace Avalanche.Core
         public RoomModel(
             int id, 
             int enemiesCount, 
-            Dictionary<DoorPositioningType, 
-            Door> doors,
+            Dictionary<DoorPositioningType, Door> doors,
             Campfire? campfire = null
         ) {
             _id = id;
@@ -67,8 +66,8 @@ namespace Avalanche.Core
 
             // Fills _enemyPositions with random values within room borders
             while (_enemyPositions.Count < _enemies.Count) {
-                int x = random.Next(0, AppConstants.RoomCharWidth);
-                int y = random.Next(0, AppConstants.RoomCharHeight);
+                int x = random.Next(1, AppConstants.RoomCharWidth - 1);
+                int y = random.Next(1, AppConstants.RoomCharHeight - 1);
 
                 _enemyPositions.Add((x, y));
             }
@@ -143,6 +142,10 @@ namespace Avalanche.Core
 
             // - Move other entities
             foreach (var entity in _otherEntities) {
+                // - Mark dirty pixels and turn on the 'isDirty' indicator
+                _dirtyPixels.Add([entity.GetX(), entity.GetY()]);
+                _isDirty = true;
+
                 entity.Move();
 
                 // - Manage thrown Rock
@@ -151,6 +154,9 @@ namespace Avalanche.Core
                         if (entity.CollidesWith(enemy)) {
                             enemy.TakeDamage(entity._damage);
                             _otherEntities.Remove(entity);
+
+                            // may be erased in other ways ~
+                            _dirtyPixels.Add([entity.GetX(), entity.GetY()]);
                         }
                     }
                 }

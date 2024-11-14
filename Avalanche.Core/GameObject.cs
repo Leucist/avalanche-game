@@ -34,6 +34,11 @@ namespace Avalanche.Core
             _coords[1] = y;
         }
 
+        public void MoveTo(int x, int y) {
+            _coords[0] = x;
+            _coords[1] = y;
+        }
+
         public bool CollidesWith(GameObject obj) {
             return _coords[0] == obj.GetX() && _coords[1] == obj.GetY();
         }

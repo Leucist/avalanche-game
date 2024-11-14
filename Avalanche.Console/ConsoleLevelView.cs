@@ -200,7 +200,7 @@ namespace Avalanche.Console
                 ConsoleRenderer.ClearScreen();
                 
                 // Draw User Interface
-                // DrawUI();
+                DrawUI();
 
                 // Draw room borders (walls)
                 ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight);
@@ -231,8 +231,6 @@ namespace Avalanche.Console
                 }
                 _model._currentRoom._isDirty = false;
             }
-
-            _model._currentRoom!.Update();
         }
 
         private void RenderDoors()

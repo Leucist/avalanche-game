@@ -37,7 +37,7 @@ namespace Avalanche.Core
             Dictionary<int, Dictionary<DoorPositioningType, Door>> roomDoors = [];
             for (int i = 0; i < roomsCount - 1; i++)
             {
-                Door newDoor = new Door(i, i + 1, false);
+                Door newDoor = new Door(i, i, i + 1, false);
 
                 int chancesOfNextRoom = random.Next(1, 101);
                 if ((i < roomsCount - 1) && chancesOfNextRoom < 50 && !isForkedLastTime)
@@ -99,13 +99,13 @@ namespace Avalanche.Core
 
             if (isForkedLastTime)  // if we had a fork
             {
-                Door levelExit = new Door(roomsCount-2, roomsCount-2, true);  // last room
+                Door levelExit = new Door(roomsCount-2, roomsCount-2, roomsCount-2, true);  // last room
                 roomDoors[roomsCount-2][DoorPositioningType.South] = levelExit;
                 _levelExit = levelExit;
             }
             else // // if we didn't have a fork
             {
-                Door levelExit = new Door(roomsCount - 1, roomsCount - 1, true);  // last room
+                Door levelExit = new Door(roomsCount-1, roomsCount - 1, roomsCount - 1, true);  // last room
                 roomDoors[roomsCount - 1][DoorPositioningType.South] = levelExit;
                 _levelExit = levelExit;
             }
@@ -152,26 +152,6 @@ namespace Avalanche.Core
             // Change player position
             _player.Move();
 
-            // Check door collision
-            foreach (var door in _currentRoom._doors) {
-                if (_player.CollidesWith(door.Key)) {
-                    // - If door is level exit
-                    if (door.Value._isLevelExit) {
-                        Reset(++_levelNumber);
-                        return;
-                    }
-
-                    // - If door isn't closed
-                    if (!door.Value._isClosed) {
-                        // - Player gets into another room
-                        int[] roomCouple = door.Value._betweenRoomsOfID;
-                        _currentRoomID = roomCouple[0] == _currentRoomID ? roomCouple[1] : roomCouple[0];
-                        _currentRoom = _rooms[_currentRoomID]._model;
-                        _currentRoom.Init();
-                    }
-                }
-            }
-
             // Check doors-player collisions
             foreach (var door in _currentRoom._doors) {
                 if (_player.CollidesWith(door.Key)) {
@@ -190,10 +170,16 @@ namespace Avalanche.Core
                     if (!door.Value._isClosed) {
                         // - Player gets into another room
                         int[] roomCouple = door.Value._betweenRoomsOfID;
-                        System.Console.WriteLine("roomCouple IDs: " + roomCouple);
                         _currentRoomID = (roomCouple[0] == _currentRoomID) ? roomCouple[1] : roomCouple[0];
                         _currentRoom = _rooms[_currentRoomID]._model;
                         _currentRoom.Init();
+
+                        // // Reset Player position
+                        // GameObject nextDoor = _currentRoom._doors.First(d => d.Value._ID == door.Value._ID).Key;
+                        // _player.MoveTo(
+                        //     nextDoor.GetX() + 1,
+                        //     nextDoor.GetY() + 1
+                        // );
                     }
                 }
             }
@@ -230,6 +216,10 @@ namespace Avalanche.Core
 
             // - Handle Enemy attacks
             foreach (var enemy in _currentRoom._enemies) {
+                // - Mark dirty pixels and turn on the 'isDirty' indicator
+                _currentRoom!._dirtyPixels.Add([enemy.GetX(), enemy.GetY()]);
+                _currentRoom._isDirty = true;
+                
                 // If enemy is dead, it's being erased from the list
                 if (enemy.IsDead()) {
                     _currentRoom._enemies.Remove(enemy);
