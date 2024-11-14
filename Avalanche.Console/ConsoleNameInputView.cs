@@ -42,19 +42,23 @@ namespace Avalanche.Console
                 System.Console.WriteLine();
             }
 
+            int xPosition = (System.Console.WindowWidth - label[0].Length) / 2;
+            if (xPosition < 0) xPosition = 0;
+
+            int yPosition = (System.Console.WindowHeight - label.Length) / 2;
+            if (yPosition < 0) yPosition = 0;
+
             foreach (string element in label)
             {
-                System.Console.Write(new string(' ', (int)(ScreenCharWidth / 5.71)));
+                System.Console.SetCursorPosition(xPosition, yPosition++);
                 System.Console.WriteLine(element);
             }
 
-            System.Console.WriteLine(new string(' ', 5));
-            System.Console.Write(new string(' ', (int)(ScreenCharWidth / 5.71)));
             //System.Console.SetCursorPosition(centerX - label.Length / 2, centerY);
             ConsoleRenderer.ShowCursor();
 
             // User inputs character name
-            System.Console.SetCursorPosition(centerX - afterLabel.Length / 2, centerY * 1);
+            System.Console.SetCursorPosition(xPosition + label[0].Length / 2, yPosition + 2);
             string? newName = System.Console.ReadLine();
             if (newName != null) _name = newName;
             _model.Submit(_name); 
