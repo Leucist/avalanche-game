@@ -169,6 +169,18 @@ namespace Avalanche.Core
             foreach (var enemy in _enemies) {
                 if (enemy.CollidesWith(x, y)) {
                     enemy.TakeDamage(damage);
+                    enemy._wasHit = true;
+                }
+            }
+        }
+
+        public void AttackPoints(List<int[]> attackPoints, int damage) {
+            foreach (var enemy in _enemies) {
+                foreach (int[] point in attackPoints) {
+                    if (enemy.CollidesWith(point[0], point[1])) {
+                        enemy.TakeDamage(damage);
+                        enemy._wasHit = true;
+                    }
                 }
             }
         }

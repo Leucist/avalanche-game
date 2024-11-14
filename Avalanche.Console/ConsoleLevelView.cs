@@ -290,7 +290,15 @@ namespace Avalanche.Console
                 List<Enemy> enemies = _model._currentRoom._enemies;
                 foreach (Enemy enemy in enemies)
                 {
+                    if (enemy.WasHit) {
+                        System.Console.BackgroundColor = ConsoleColor.Red;
+                    }
                     ConsoleRenderer.DrawEnemy(enemy.GetX(), enemy.GetY());
+                    if (enemy.WasHit) {
+                        System.Console.ResetColor();
+                        System.Console.ForegroundColor = ConsoleColor.White;
+                        enemy._wasHit = false;
+                    }
                 }
                 _model._currentRoom._isDirty = false;
             }

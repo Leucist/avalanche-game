@@ -196,8 +196,15 @@ namespace Avalanche.Core
         }
         
         public void PlayerAttack() {
-            int[] attackPoint = _player.GetFocusPoint();
-            _currentRoom!.AttackPoint(attackPoint[0], attackPoint[1], _player._damage);
+            // int[] attackPoint = _player.GetFocusPoint();
+            List<int[]> attackPoints = new List<int[]>();
+            for (int y = _player.GetY()-1; y < _player.GetY()+1; y++) {
+                for (int x = _player.GetX()-1; x < _player.GetX()+1; x++) {
+                    attackPoints.Add([x, y]);
+                }
+            }
+            
+            _currentRoom!.AttackPoints(attackPoints, _player._damage);
         }
 
         public void ConsumeMushroom() {

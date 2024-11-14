@@ -14,12 +14,16 @@ namespace Avalanche.Core
         public int _direction { set; get; }  // direction of moving 1 0 -1
         private int _speed;
         public DirectionAxisType _directionAxis { get; set; }
+        public bool _wasHit;
         protected bool _isAlerted;
         protected int _attackCooldown;
         protected int _attackCooldownCounter;
         protected int _actionCooldown;
         protected int _actionCooldownCounter;
         protected Entity? _target;
+
+
+        public bool WasHit => _wasHit;
 
 
 
