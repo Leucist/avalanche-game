@@ -35,13 +35,13 @@ namespace Avalanche.Core
                         y = RoomDefaultY;
                         break;
                     case DoorPositioningType.East:
-                        x = RoomDefaultX;
+                        x = RoomDefaultX + RoomCharWidth;
                         break;
                     case DoorPositioningType.South:
                         y = RoomDefaultY + RoomCharHeight;
                         break;
                     case DoorPositioningType.West:
-                        x = RoomDefaultX + RoomCharWidth;
+                        x = RoomDefaultX;
                         break;
                 }
                 _doors[new GameObject(x, y)] = door.Value;
@@ -117,7 +117,7 @@ namespace Avalanche.Core
         }
 
         public void Update() {
-            if (_enemiesCount == 0) {
+            if (_enemies.Count == 0) {
                 foreach (var door in _doors.Values)
                 {
                     if (door._isLevelExit) {

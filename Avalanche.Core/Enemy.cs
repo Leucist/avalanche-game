@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reflection.Emit;
-using System.Threading;
-using static Avalanche.Core.AppConstants;
+﻿using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Core
 {
@@ -14,7 +11,8 @@ namespace Avalanche.Core
             DirectionAxisType directionAxis = DirectionAxisType.X,
             int health = DefaultEntityHealth,
             int damage = DefaultEntityDamage,
-            string name = DefaultPlayerName) : base(x, y, directionAxis, health, damage)
+            int attackCooldown = DefaultAttackCooldown
+            ) : base(x, y, directionAxis, health, damage, attackCooldown)
         {
             
         }
@@ -94,7 +92,7 @@ namespace Avalanche.Core
             _direction = Math.Sign(deltaCoords[directionAxis]);
         }
 
-        public bool IsReadyToAttack(Entity player) {
+        public bool CanAttack(Entity player) {
             return Reaches(player.GetX(), player.GetY())
                 && IsReadyToAttack();
         }

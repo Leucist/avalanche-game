@@ -25,6 +25,8 @@ namespace Avalanche.Core
         // Player setting
         public const int DefaultPlayerHeat = 1000;
         public const string DefaultPlayerName = "Jack";
+        public const int DefaultAttackCooldown = 10;
+
 
         // Campfire setting
         public const int DefaultFireTime = 1000;

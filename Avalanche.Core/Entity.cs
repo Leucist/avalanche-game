@@ -15,6 +15,8 @@ namespace Avalanche.Core
         private int _speed;
         public DirectionAxisType _directionAxis { get; set; }
         protected bool _isAlerted;
+        protected int _attackCooldown;
+        protected int _attackCooldownCounter;
         protected GameObject? _target;
 
 
@@ -24,11 +26,14 @@ namespace Avalanche.Core
             DirectionAxisType directionAxis = DirectionAxisType.X, 
             int health = DefaultEntityHealth,
             int damage = DefaultEntityDamage,
+            int attackCooldown = DefaultAttackCooldown,
             int direction = 1) 
             : base(x, y)
         {
             _health = health;
             _damage = damage;
+            _attackCooldown = attackCooldown;
+            _attackCooldownCounter = 0;
             _directionAxis = directionAxis;
             _direction = direction;
             _speed = 1;
@@ -64,6 +69,16 @@ namespace Avalanche.Core
         {
             _coords[(int)directionAxis] += _speed * direction;
             CheckColliders();
+        }
+
+        public void UpdateCooldown() {
+            if (_attackCooldownCounter > 0)
+                _attackCooldownCounter--;
+            _attackCooldownCounter = _attackCooldown;
+        }
+
+        public void Attack() {
+            _attackCooldownCounter = _attackCooldown;
         }
 
         public void TakeDamage(int damage)

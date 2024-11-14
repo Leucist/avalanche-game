@@ -17,8 +17,9 @@ namespace Avalanche.Core
             DirectionAxisType directionAxis = DirectionAxisType.X,
             int health = DefaultEntityHealth, 
             int damage = DefaultEntityDamage,
+            int attackCooldown = DefaultAttackCooldown,
             string name = DefaultPlayerName)
-            : base(x, y, directionAxis, health, damage)
+            : base(x, y, directionAxis, health, damage, attackCooldown)
         {
             _mushrooms = 0;
             _rocks = 0;
