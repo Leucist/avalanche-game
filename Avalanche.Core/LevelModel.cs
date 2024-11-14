@@ -212,5 +212,20 @@
         public void SetPlayerIdle() {
             _player._direction = 0;
         }
+
+        public void Update() {
+            _currentRoom!.Update();
+
+            // Handle Enemy attack
+            foreach (var enemy in _currentRoom._enemies) {
+                if (enemy.CanAttack(_player)) {
+                    enemy.Attack();
+                    _player.TakeDamage(enemy._damage);
+                }
+                enemy.UpdateCooldown();
+            }
+
+            _player.UpdateCooldown();
+        }
     }
 }

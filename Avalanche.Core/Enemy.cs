@@ -94,6 +94,9 @@ namespace Avalanche.Core
             _direction = Math.Sign(deltaCoords[directionAxis]);
         }
 
-        
+        public bool IsReadyToAttack(Entity player) {
+            return Reaches(player.GetX(), player.GetY())
+                && IsReadyToAttack();
+        }
     }
 }
