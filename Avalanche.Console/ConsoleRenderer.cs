@@ -68,21 +68,36 @@ namespace Avalanche.Console
             }
         }
 
+        public static void DrawPauseAlert()
+        {
+            string[] message =
+            {
+                "█████ █████ █   █ █████ █████ ████",
+                "█   █ █   █ █   █ █     █     █   █",
+                "█████ █████ █   █ █████ █████ █   █",
+                "█     █   █ █   █     █ █     █   █",
+                "█     █   █ █████ █████ █████ ████"
+            };
+
+            foreach (string element in message)
+            {
+                System.Console.WriteLine(element);
+            }
+
+        }
+
 
         public static void DrawCornerMarkers()
         {
-            // Визначаємо координати чотирьох кутів
             int[][] corners = new int[][] {
-                new int[] { 0, 0 }, // Верхній лівий
-                new int[] { System.Console.WindowWidth - 1, 0 }, // Верхній правий
-                new int[] { 0, System.Console.WindowHeight - 1 }, // Нижній лівий
-                new int[] { System.Console.WindowWidth - 1, System.Console.WindowHeight - 1 } // Нижній правий
+                new int[] { 0, 0 },
+                new int[] { System.Console.WindowWidth - 1, 0 },
+                new int[] { 0, System.Console.WindowHeight - 1 }, 
+                new int[] { System.Console.WindowWidth - 1, System.Console.WindowHeight - 1 }
             };
 
-            // Проходимо по всіх координатах і малюємо символ у кожному куті
             foreach (int[] corner in corners)
             {
-                // Перевіряємо, чи координати не виходять за межі екрану
                 if (corner[0] >= 0 && corner[0] < System.Console.WindowWidth &&
                     corner[1] >= 0 && corner[1] < System.Console.WindowHeight)
                 {
