@@ -45,7 +45,7 @@ namespace Avalanche.Console
             int xPosition = (System.Console.WindowWidth - label[0].Length) / 2;
             if (xPosition < 0) xPosition = 0;
 
-            int yPosition = (System.Console.WindowHeight - label.Length - 4) / 2;
+            int yPosition = (System.Console.WindowHeight - label.Length - 10) / 2;
             if (yPosition < 0) yPosition = 0;
 
             foreach (string element in label)
