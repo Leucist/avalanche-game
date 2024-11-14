@@ -17,7 +17,7 @@ namespace Avalanche.Console
             string solutionPath = _model.FindSolutionDirectory();
             string consoleFolder = "Avalanche.Console";
             _cutscenesFolderPath = Path.Combine(solutionPath, consoleFolder);
-            int _prevFrameNumber = model._currentFrameNumber - 1;
+            _prevFrameNumber = model._currentFrameNumber - 1;
         }
 
         public void Render()
