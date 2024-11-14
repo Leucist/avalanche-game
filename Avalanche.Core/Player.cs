@@ -51,9 +51,16 @@ namespace Avalanche.Core
             return false;
         }
 
-        void UpdateHeat(int delta)
+        public void UpdateHeat()
         {
-            _heat -= delta;
+            _heat -= DefaultFreezeDelta;
+        }
+
+        public void Regenerate() {
+            if (_heat < 0) return;
+            if (_health < DefaultEntityHealth) {
+                _health++;
+            }
         }
 
         void AddItem(ItemType itemType)

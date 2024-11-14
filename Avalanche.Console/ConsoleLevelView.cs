@@ -37,24 +37,34 @@ namespace Avalanche.Console
 
             System.Console.SetCursorPosition(6, 9);
             System.Console.Write("Health Points: ");
-            System.Console.ForegroundColor = ConsoleColor.Red;
+            
             //System.Console.WriteLine(new string('♥️', _model._player._health));
-            if (_model._player._health > 10)
-            {
-                _model._player._health = 10;
-            }
+            // if (_model._player._health > 10)
+            // {
+            //     _model._player._health = 10;
+            // }
 
-            for (int i = 0; i < _model._player._health; i++)
-            {
-                System.Console.Write("♥ ");
-            }
+            // Added so HPs won't be really reduced from the view — (c) leucist
+            int HPMaxShown = 10;
 
-            if (_previousHealthPointsCount < 10)
-                for (int j = _previousHealthPointsCount; j < 10; j++)
-                {
+            for (int i = 0; i < HPMaxShown; i++)                // edited — (c) leucist
+            {   
+                if (_model._player._health / HPMaxShown >= i + 1) {
+                    System.Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.Write("♥ ");
+                }
+                else {
                     System.Console.ForegroundColor = ConsoleColor.DarkGray;
                     System.Console.Write("♥ ");
                 }
+            }
+
+            // if (_previousHealthPointsCount < 10)
+            //     for (int j = _previousHealthPointsCount; j < 10; j++)
+            //     {
+            //         System.Console.ForegroundColor = ConsoleColor.DarkGray;
+            //         System.Console.Write("♥ ");
+            //     }
 
 
             System.Console.ForegroundColor = ConsoleColor.White;
@@ -190,10 +200,11 @@ namespace Avalanche.Console
                 ConsoleRenderer.ClearScreen();
                 
                 // Draw User Interface
-                DrawUI();
+                // DrawUI();
 
                 // Draw room borders (walls)
                 ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight);
+                // ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight, 0, 0, ConsoleColor.White, false);
 
                 RenderDoors();
 
@@ -228,7 +239,8 @@ namespace Avalanche.Console
         {
             foreach (var door in _model._currentRoom!._doors)
             {
-                ConsoleRenderer.DrawDoor(door.Key.GetX(), door.Key.GetY(), door.Value._isLevelExit);
+                // ConsoleRenderer.DrawDoor(door.Key.GetX(), door.Key.GetY(), door.Value._isLevelExit);
+                ConsoleRenderer.DrawDoor(door.Key.GetX(), door.Key.GetY(), door.Value._isClosed);
             }
         }
     }

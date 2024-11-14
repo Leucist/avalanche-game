@@ -14,8 +14,15 @@ namespace Avalanche.Core
         public bool _isDirty { get; set; }
         public List<int[]> _dirtyPixels;
         public Dictionary<GameObject, Door> _doors { get; set; }
+        public Campfire? _campfire;
 
-        public RoomModel(int id, int enemiesCount, Dictionary<DoorPositioningType, Door> doors) {
+        public RoomModel(
+            int id, 
+            int enemiesCount, 
+            Dictionary<DoorPositioningType, 
+            Door> doors,
+            Campfire? campfire = null
+        ) {
             _id = id;
             _otherEntities = new List<Entity>();
             _enemies = new List<Enemy>(enemiesCount);
@@ -25,6 +32,7 @@ namespace Avalanche.Core
             _isDirty = true;
             _dirtyPixels = [];
             _doors = [];
+            _campfire = campfire;
 
             // Create GameObjects for the doors
             foreach (var door in doors) {
@@ -32,16 +40,16 @@ namespace Avalanche.Core
                 int y = RoomCharHeight / 2;
                 switch (door.Key) {
                     case DoorPositioningType.North:
-                        y = RoomDefaultY;
+                        y = -1;
                         break;
                     case DoorPositioningType.East:
-                        x = RoomDefaultX + RoomCharWidth;
+                        x = RoomCharWidth;
                         break;
                     case DoorPositioningType.South:
-                        y = RoomDefaultY + RoomCharHeight;
+                        y = RoomCharHeight;
                         break;
                     case DoorPositioningType.West:
-                        x = RoomDefaultX;
+                        x = -1;
                         break;
                 }
                 _doors[new GameObject(x, y)] = door.Value;
@@ -117,6 +125,11 @@ namespace Avalanche.Core
         }
 
         public void Update() {
+            // If campfire is present in the room, then update it
+            if (_campfire != null) {
+                _campfire.UpdateCampfireState();
+            }
+
             // - Open all doors (except level exit) in the room if there're no enemies left
             if (_enemies.Count == 0) {
                 foreach (var door in _doors.Values)

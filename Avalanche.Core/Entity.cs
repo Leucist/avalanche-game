@@ -42,21 +42,21 @@ namespace Avalanche.Core
 
         public void CheckColliders()
         {
-            if (_coords[0] >= (RoomCharWidth-1))  // Right bound
+            if (_coords[0] > RoomCharWidth - 1)  // Right bound
             {
-                _coords[0] -= 1;
+                _coords[0] = RoomCharWidth - 1;
             }
-            else if (_coords[0] <= 0)  // Left bound
+            else if (_coords[0] < 0)  // Left bound
             {
-                _coords[0] += 1;
+                _coords[0] = 0;
             }
-            else if(_coords[1] >= (RoomCharHeight-1))  // Lower bound
+            else if(_coords[1] > RoomCharHeight - 1)  // Lower bound
             {
-                _coords[1] -= 1;
+                _coords[1] = RoomCharHeight - 1;
             }
-            else if(_coords[1] <= 0-1)  // Upper bound
+            else if(_coords[1] < 0)  // Upper bound
             {
-                _coords[1] += 1;
+                _coords[1] = 0;
             }
         }
 

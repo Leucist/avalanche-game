@@ -10,7 +10,7 @@ namespace Avalanche.Core
 
         // Console size in symbols
         public const int ScreenCharWidth = 200;
-        public const int ScreenCharHeight = 50;
+        public const int ScreenCharHeight = 65;
 
         // Room  values should be greater than ScreenChars
         public const int RoomCharWidth = 180;
@@ -22,18 +22,19 @@ namespace Avalanche.Core
 
 
         // Entity settings
-        public const int DefaultEntityHealth = 3;
+        public const int DefaultEntityHealth = 30;
         public const int DefaultEntityDamage = 1;
 
         // Player setting
         public const int DefaultPlayerHeat = 1000;
         public const string DefaultPlayerName = "Jack";
         public const int DefaultAttackCooldown = 10;
+        public const int DefaultFreezeDelta = 100;
 
 
         // Campfire setting
         public const int DefaultFireTime = 1000;
-        public const int DefaultCampfireTime = 2;
+        public const int DefaultCampfireRange = 4;
 
         // Mushrooms settings
         public const int DefaultMushroomsMinimalHpChange = -2;

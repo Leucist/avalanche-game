@@ -176,14 +176,14 @@ namespace Avalanche.Console
             System.Console.WriteLine(topBorder);
 
             // Draw side walls
-            for (int i = 1; i < height; i++)
+            for (int i = 1; i <= height; i++)
             {
                 System.Console.SetCursorPosition(startingLocX, startingLocY + i);
                 System.Console.WriteLine(emptyLine);
             }
 
             // Draw bottom border
-            System.Console.SetCursorPosition(startingLocX, startingLocY + height);
+            System.Console.SetCursorPosition(startingLocX, startingLocY + height + 1);
             System.Console.WriteLine(bottomBorder);
 
             System.Console.ResetColor();
@@ -211,11 +211,13 @@ namespace Avalanche.Console
         */
 
         private static void DrawDoorOfType(int x, int y, GameObjectType type) {
-            x += RoomDefaultX;
-            y += RoomDefaultY;
+            x += RoomDefaultX + 3;
+            y += RoomDefaultY - 1;
 
+            SetTextColor(ConsoleColor.DarkYellow);
             System.Console.SetCursorPosition(x, y);
             System.Console.Write(textures[type]);
+            System.Console.ResetColor();
         }
         public static void DrawDoor(int x, int y, bool isClosed) {
             GameObjectType type;

@@ -35,7 +35,7 @@ namespace Avalanche.Core
         }
 
         public bool CollidesWith(GameObject obj) {
-            return _coords == obj.GetCoords();
+            return _coords[0] == obj.GetX() && _coords[1] == obj.GetY();
         }
         public bool CollidesWith(int x, int y) {
             return _coords[0] == x && _coords[1] == y;
