@@ -10,7 +10,7 @@ namespace Avalanche.Core
         public List<Enemy> _enemies { get; set; }
         private HashSet<(int, int)> _enemyPositions;
         private HashSet<(int, int)> _itemPositions;
-        private int _enemiesCount;
+        // private int _enemiesCount;
         public bool _isDirty { get; set; }
         public List<int[]> _dirtyPixels;
         public Dictionary<GameObject, Door> _doors { get; set; }

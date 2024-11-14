@@ -68,6 +68,32 @@ namespace Avalanche.Core
             }
         }
 
+        public void ManageAction() {
+            if (_isAlerted) {
+                SetTargetFollowing();
+                Move();
+                return;
+            }
+            else {
+                RandomMovement();
+            }
+        }
+
+        public void SetTargetFollowing() {
+            if (_target == null) return;    // just in case*
+            // Get X and Y gap size (may be negative -> raw) between Enemy and the Target
+            int[] deltaCoords = {
+                _target.GetX() - this.GetX(),   // diff on X axis
+                _target.GetY() - this.GetY()    // diff on Y axis
+            };
+            // Sets direction axis inclining on the axis with the farther gap
+            int directionAxis = Math.Abs(deltaCoords[0]) > Math.Abs(deltaCoords[1]) ? 0 : 1;
+            _directionAxis = (DirectionAxisType) directionAxis;
+
+            // Sets direction towards the target
+            _direction = Math.Sign(deltaCoords[directionAxis]);
+        }
+
         
     }
 }

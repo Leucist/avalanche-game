@@ -14,6 +14,8 @@ namespace Avalanche.Core
         public int _direction { set; get; }  // direction of moving 1 0 -1
         private int _speed;
         public DirectionAxisType _directionAxis { get; set; }
+        protected bool _isAlerted;
+        protected GameObject? _target;
 
 
 
@@ -30,6 +32,7 @@ namespace Avalanche.Core
             _directionAxis = directionAxis;
             _direction = direction;
             _speed = 1;
+            _isAlerted = false;
         }
 
         public void CheckColliders()
@@ -77,6 +80,21 @@ namespace Avalanche.Core
             point[(int)_directionAxis] += _direction;
 
             return point;
+        }
+
+        public void SetFocusOn(GameObject target) {
+            _isAlerted = true;
+            _target = target;
+        }
+
+        protected bool Reaches(int x, int y) {
+            int[] focusPoint = GetFocusPoint();
+            return focusPoint[0] == x
+                && focusPoint[1] == y;
+        }
+
+        protected bool IsReadyToAttack() {
+            return _attackCooldownCounter == 0;
         }
     }
 }
