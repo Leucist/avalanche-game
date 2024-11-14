@@ -22,8 +22,11 @@ namespace Avalanche.Core
 
 
         // Entity settings
-        public const int DefaultEntityHealth = 30;
-        public const int DefaultEntityDamage = 1;
+        public const int DefaultEntityHealth = 20;
+        public const int DefaultEntityDamage = 5;
+
+        // Enemy settings
+        public const int DefaultEnemySightDistance = 7;
 
         // Player setting
         public const int DefaultPlayerHeat = 1000;
