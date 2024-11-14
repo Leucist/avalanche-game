@@ -146,8 +146,11 @@ namespace Avalanche.Core
             _player._directionAxis = axis;
             _player._direction = direction;
 
+            // Get player coords before actual movement
+            int[] prevCoords = _player.GetCoords();
+
             // - Mark dirty pixels and turn on the 'isDirty' indicator
-            _currentRoom!._dirtyPixels.Add([_player.GetX(), _player.GetY()]);
+            _currentRoom!._dirtyPixels.Add(prevCoords);
             _currentRoom._isDirty = true;
 
             // Change player position
@@ -185,6 +188,8 @@ namespace Avalanche.Core
                 }
             }
 
+            CheckCollisions(_player, prevCoords);
+
             // Handle walls collision
             _player.CheckColliders();
         }
@@ -206,6 +211,26 @@ namespace Avalanche.Core
 
         public void SetPlayerIdle() {
             _player._direction = 0;
+        }
+
+        private void CheckCollisions(Entity movingEntity, int[] prevCoords) {
+            foreach (var enemy in _currentRoom!._enemies) {
+                // To avoid checking collision with itself
+                if (enemy == movingEntity) continue;
+
+                // If coords are the same (entities collide)
+                if (movingEntity.CollidesWith(enemy)) {
+                    movingEntity.MoveTo(prevCoords[0], prevCoords[1]);
+                }
+            }
+
+            // Check collision with the player
+            if (movingEntity != _player) {
+                // If coords are the same (entities collide)
+                if (movingEntity.CollidesWith(_player)) {
+                    movingEntity.MoveTo(prevCoords[0], prevCoords[1]);
+                }
+            }
         }
 
         public void Update() {
@@ -232,8 +257,15 @@ namespace Avalanche.Core
                         enemy.SetFocusOn(_player);
                     }
                 }
+
+                // Get enemy coords before possible movement
+                int[] prevCoords = enemy.GetCoords();
+
                 // Manages enemy logic
                 enemy.ManageAction();
+
+                CheckCollisions(enemy, prevCoords);
+
                 enemy.UpdateCooldown();
             }
 

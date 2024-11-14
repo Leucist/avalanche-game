@@ -12,8 +12,8 @@ namespace Avalanche.Core
         }
 
         public int[] GetCoords() {
-            return _coords;
-            // return [_coords[0], _coords[1]];
+            // return _coords;
+            return [_coords[0], _coords[1]];
         }
 
         public int GetX() {

@@ -81,6 +81,26 @@ namespace Avalanche.Core
             }
         }
 
+        // public void ManageAction() {
+        //     switch()
+        // }
+
+        // // Preset enemy action
+        // public void ManageFutureAction() {
+        //     if (_isAlerted) {
+        //         if (_target != null && CanAttack()) {
+        //             Attack();
+        //             _target.TakeDamage(_damage);
+        //         }
+        //         SetTargetFollowing();
+        //         Move();
+        //         return;
+        //     }
+        //     else {
+        //         RandomMovement();
+        //     }
+        // }
+
         public void SetTargetFollowing() {
             if (_target == null) return;    // just in case*
             // Get X and Y gap size (may be negative -> raw) between Enemy and the Target
