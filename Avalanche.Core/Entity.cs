@@ -17,6 +17,8 @@ namespace Avalanche.Core
         protected bool _isAlerted;
         protected int _attackCooldown;
         protected int _attackCooldownCounter;
+        protected int _actionCooldown;
+        protected int _actionCooldownCounter;
         protected Entity? _target;
 
 
@@ -27,6 +29,7 @@ namespace Avalanche.Core
             int health = DefaultEntityHealth,
             int damage = DefaultEntityDamage,
             int attackCooldown = DefaultAttackCooldown,
+            int actionCooldown = DefaultActionCooldown,
             int direction = 1) 
             : base(x, y)
         {
@@ -34,6 +37,8 @@ namespace Avalanche.Core
             _damage = damage;
             _attackCooldown = attackCooldown;
             _attackCooldownCounter = 0;
+            _actionCooldown = actionCooldown;
+            _actionCooldownCounter = 0;
             _directionAxis = directionAxis;
             _direction = direction;
             _speed = 1;
@@ -62,18 +67,26 @@ namespace Avalanche.Core
 
         public void Move()
         {
-            _coords[(int)_directionAxis] += _speed * _direction;
+            if (IsReadyToAct()) {
+                _actionCooldownCounter = _actionCooldown;
+                _coords[(int)_directionAxis] += _speed * _direction;
+            }
         }
 
         public void Move(DirectionAxisType directionAxis, int direction)
         {
-            _coords[(int)directionAxis] += _speed * direction;
-            CheckColliders();
+            if (IsReadyToAct()) {
+                _actionCooldownCounter = _actionCooldown;
+                _coords[(int)directionAxis] += _speed * direction;
+                CheckColliders();
+            }
         }
 
         public void UpdateCooldown() {
             if (_attackCooldownCounter > 0)
                 _attackCooldownCounter--;
+            if (_actionCooldownCounter > 0)
+                _actionCooldownCounter--;
         }
 
         public void Attack() {
@@ -109,6 +122,10 @@ namespace Avalanche.Core
 
         protected bool IsReadyToAttack() {
             return _attackCooldownCounter == 0;
+        }
+
+        protected bool IsReadyToAct() {
+            return _actionCooldownCounter == 0;
         }
         
         public bool IsAlerted => _isAlerted;

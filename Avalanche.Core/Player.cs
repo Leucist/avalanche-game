@@ -18,8 +18,9 @@ namespace Avalanche.Core
             int health = DefaultEntityHealth, 
             int damage = DefaultEntityDamage,
             int attackCooldown = DefaultAttackCooldown,
+            // int actionCooldown = DefaultActionCooldown,
             string name = DefaultPlayerName)
-            : base(x, y, directionAxis, health, damage, attackCooldown)
+            : base(x, y, directionAxis, health, damage, attackCooldown, 0)
         {
             _mushrooms = 0;
             _rocks = 0;

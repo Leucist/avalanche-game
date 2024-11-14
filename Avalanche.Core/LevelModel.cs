@@ -215,7 +215,8 @@ namespace Avalanche.Core
             _currentRoom!.Update();
 
             // - Handle Enemy attacks
-            foreach (var enemy in _currentRoom._enemies) {
+            for (int i = _currentRoom._enemies.Count - 1; i >= 0; i--) {
+                var enemy = _currentRoom._enemies[i];
                 // - Mark dirty pixels and turn on the 'isDirty' indicator
                 _currentRoom!._dirtyPixels.Add([enemy.GetX(), enemy.GetY()]);
                 _currentRoom._isDirty = true;
