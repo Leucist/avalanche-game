@@ -15,7 +15,7 @@ namespace Avalanche.Core
             if (action == ActionType.NullAction) {
                 // For frame-by-frame cutscenes to stay "interactive" &
                 // For video-like cutscenes to be played uninterrupted
-                if (GameState._cutscene != CutsceneType.GameOver ||
+                if (GameState._cutscene != CutsceneType.GameOver &&
                     GameState._cutscene != CutsceneType.GameFinish) {
                         return;
                     }

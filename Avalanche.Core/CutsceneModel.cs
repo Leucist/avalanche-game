@@ -21,9 +21,10 @@ namespace Avalanche.Core
 
         private void UpdateToExternal() {
             _cutsceneNumber = (int) GameState._cutscene;
+            ResetCutsceneAttributes();
         }
 
-        private void ResetCutscene() {
+        private void ResetCutsceneAttributes() {
             // - Resets the cutscene attributes
             _currentFrameNumber = 0;
             _isOver = false;
@@ -33,54 +34,42 @@ namespace Avalanche.Core
             _cutsceneNumber++;
         }
 
-        private void NextFrame() {
-            // Increment frame number
-            _currentFrameNumber++;
-
+        private void CheckIfCutsceneEnded() {
             // - Count the number of frames in cutscene (Get amount of files and count) 
             string[] files = Directory.GetFiles(Path.Combine(FindSolutionDirectory(), "Avalanche.Console", GetCutsceneFolderPath()));
             int framesInCutscene = files.Length;
 
             // Check if cutscene has ended
-            if (_currentFrameNumber > framesInCutscene) {
+            if (_currentFrameNumber >= framesInCutscene - 1) {
                 _isOver = true;
             }
+        }
+
+        private void NextFrame() {
+            // Exits if the cutscene is already over
+            if (_isOver) return;
+
+            // Increment frame number
+            _currentFrameNumber++;
         }
 
         public void Update(ActionType action) {
             // Switch int pointer to the next frame
             NextFrame();
+            // Check if cutscene hasn't ended
+            CheckIfCutsceneEnded();
 
-            if (WasSwitched()) {
-                UpdateToExternal();
-            }
-
-            else {
-                if (_isOver) {
-                    // For the "eat mushroom" interactive cutscene
-                    if (_cutsceneNumber == (int) CutsceneType.GameStart
-                        && action != ActionType.ConsumeMushroom) {
-                        // if player presses anything except 'X' frame stays
-                        return;
-                    }
-                    NextCutscene();
-                    
-                    // - Proceed after different types of Cutscenes
-                    switch ((CutsceneType) _cutsceneNumber) {
-                        case CutsceneType.GameFinish:
-                            GameState._cutscene = CutsceneType.GameFinal;
-                            break;
-                        case CutsceneType.GameFinal:
-                            GameState._state = GameStateType.MainMenu;
-                            break;
-                        case CutsceneType.GameOver:
-                            GameState._state = GameStateType.MainMenu;
-                            break;
-                        default:
-                            GameState._state = GameStateType.Game;
-                            break;
-                    }
+            if (_isOver) {
+                // For the "eat mushroom" interactive cutscene
+                if (_cutsceneNumber == (int) CutsceneType.GameStart
+                    && action != ActionType.ConsumeMushroom) {
+                    // if player presses anything except 'X' frame stays
+                    return;
                 }
+
+                ResetCutsceneAttributes();
+                
+                HandleCutsceneOutcome();
             }
 
             // Set delay for the video-like cutscenes
@@ -90,7 +79,29 @@ namespace Avalanche.Core
                 Thread.Sleep(AppConstants.DefaultFrameTime * 2);
             }
 
-            ResetCutscene();
+            // Switch current cutscene if another was set in GameState
+            if (WasSwitched()) {
+                UpdateToExternal();
+            }
+        }
+
+        private void HandleCutsceneOutcome() {
+            // - Proceed after different types of Cutscenes
+            switch ((CutsceneType) _cutsceneNumber) {
+                case CutsceneType.GameFinish:
+                    GameState._cutscene = CutsceneType.GameFinal;
+                    break;
+                case CutsceneType.GameFinal:
+                    GameState._state = GameStateType.MainMenu;
+                    break;
+                case CutsceneType.GameOver:
+                    GameState._state = GameStateType.MainMenu;
+                    break;
+                default:
+                    NextCutscene();
+                    GameState._state = GameStateType.Game;
+                    break;
+            }
         }
 
         private string GetCutsceneFolderPath() {

@@ -11,6 +11,7 @@ namespace Avalanche.Console
         private string _cutscenesFolderPath;
         public int _framesCount { get; set; }
         private int _prevFrameNumber { get; set; }
+        private int _prevCutsceneNumber { get; set; }
 
         public ConsoleCutsceneView(CutsceneModel model) {
             _model = model;
@@ -18,7 +19,8 @@ namespace Avalanche.Console
             string solutionPath = _model.FindSolutionDirectory();
             string consoleFolder = "Avalanche.Console";
             _cutscenesFolderPath = Path.Combine(solutionPath, consoleFolder);
-            _prevFrameNumber = model._currentFrameNumber - 1;
+            _prevFrameNumber = _model._currentFrameNumber - 1;
+            _prevCutsceneNumber = _model._cutsceneNumber - 1;
         }
 
         private void SetColors(CutsceneType cutsceneType) {
@@ -26,6 +28,11 @@ namespace Avalanche.Console
                 case CutsceneType.GameOver:
                     // Set red-black colors for skeletons animation
                     System.Console.BackgroundColor = ConsoleColor.Red;
+                    System.Console.ForegroundColor = ConsoleColor.Black;
+                    break;
+                case CutsceneType.GameFinish:
+                    // Set red-black colors for skeletons animation
+                    System.Console.BackgroundColor = ConsoleColor.White;
                     System.Console.ForegroundColor = ConsoleColor.Black;
                     break;
                 default:
