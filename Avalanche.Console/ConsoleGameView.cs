@@ -60,8 +60,9 @@ namespace Avalanche.Console
                 screenSize = (System.Console.WindowWidth, System.Console.WindowHeight);
                 if (screenSize != prevScreenSize) {
                     ConsoleRenderer.ClearScreen();
-                    ConsoleRenderer.DrawWidthArrows();
-                    ConsoleRenderer.DrawAlert("PLEASE EXPAND THIS WINDOW or change the font size so that you'll see unwrapped one-line arrows");
+                    ConsoleRenderer.DrawExpandAlert();
+                    ConsoleRenderer.DrawCornerMarkers();
+                    //ConsoleRenderer.DrawAlert("PLEASE EXPAND THIS WINDOW or change the font size so that you'll see unwrapped one-line arrows");
                     prevScreenSize = screenSize;
                 }
             }

@@ -44,39 +44,75 @@ namespace Avalanche.Console
             System.Console.WriteLine('|');
         }
 
-        public static void DrawCornerMarkers() {
-            int[][] corners = [
-                [0, 0], 
-                [ScreenCharWidth, 0], 
-                [0, ScreenCharHeight], 
-                [ScreenCharWidth, ScreenCharHeight]];
+        public static void DrawExpandAlert()
+        {
+            string[] message =
+            {
+                "█████ █    █ █████ █████ ██  █ ████      █████ █   █ █████     █  █  █ ███ ██  █ ████  █████ █  █  █",
+                "█      █  █  █   █ █   █ ██  █ █   █       █   █   █ █         █  █  █  █  ██  █ █   █ █   █ █  █  █",
+                "█████   ██   █████ █████ █ █ █ █   █       █   █████ █████     █  █  █  █  █ █ █ █   █ █   █ █  █  █",
+                "█      █  █  █     █   █ █  ██ █   █       █   █   █ █         █  █  █  █  █  ██ █   █ █   █ █  █  █",
+                "█████ █    █ █     █   █ █  ██ ████        █   █   █ █████      █████  ███ █  ██ ████  █████  █████ "
+            };
 
-            foreach (int[] corner in corners) {
-                System.Console.SetCursorPosition(corner[0], corner[1]);
-                System.Console.Write('#');
+            int xPosition = (System.Console.WindowWidth - message[0].Length) / 2;
+            if (xPosition < 0) xPosition = 0; 
+
+            int yPosition = (System.Console.WindowHeight - message.Length) / 2;
+            if (yPosition < 0) yPosition = 0; 
+
+            foreach (string element in message)
+            {
+                System.Console.SetCursorPosition(xPosition, yPosition++);
+                System.Console.WriteLine(element);
             }
         }
 
-        public static void DrawWidthArrows() {
-            for (int y = 0; y < ScreenCharHeight; y++) {
-                if (y % 5 == 0 || y == ScreenCharHeight - 1) {
-                    System.Console.Write('<');
-                    for (int x = 1; x < ScreenCharWidth - 1; x++) {
-                        System.Console.Write('-');
-                    }
-                    System.Console.Write('>');
+
+        public static void DrawCornerMarkers()
+        {
+            // Визначаємо координати чотирьох кутів
+            int[][] corners = new int[][] {
+                new int[] { 0, 0 }, // Верхній лівий
+                new int[] { System.Console.WindowWidth - 1, 0 }, // Верхній правий
+                new int[] { 0, System.Console.WindowHeight - 1 }, // Нижній лівий
+                new int[] { System.Console.WindowWidth - 1, System.Console.WindowHeight - 1 } // Нижній правий
+            };
+
+            // Проходимо по всіх координатах і малюємо символ у кожному куті
+            foreach (int[] corner in corners)
+            {
+                // Перевіряємо, чи координати не виходять за межі екрану
+                if (corner[0] >= 0 && corner[0] < System.Console.WindowWidth &&
+                    corner[1] >= 0 && corner[1] < System.Console.WindowHeight)
+                {
+                    System.Console.SetCursorPosition(corner[0], corner[1]);
+                    System.Console.Write('#');
                 }
-                else {
-                    System.Console.Write('|');
-                    for (int x = 1; x < ScreenCharWidth - 1; x++)
-                    {
-                        System.Console.Write(' ');
-                    }
-                    System.Console.Write('|');
-                }
-                System.Console.Write('\n');
             }
         }
+
+
+        //public static void DrawWidthArrows() {
+        //    for (int y = 0; y < ScreenCharHeight; y++) {
+        //        if (y % 5 == 0 || y == ScreenCharHeight - 1) {
+        //            System.Console.Write('<');
+        //            for (int x = 1; x < ScreenCharWidth - 1; x++) {
+        //                System.Console.Write('-');
+        //            }
+        //            System.Console.Write('>');
+        //        }
+        //        else {
+        //            System.Console.Write('|');
+        //            for (int x = 1; x < ScreenCharWidth - 1; x++)
+        //            {
+        //                System.Console.Write(' ');
+        //            }
+        //            System.Console.Write('|');
+        //        }
+        //        System.Console.Write('\n');
+        //    }
+        //}
 
         public static int GetCenterX() {
             return System.Console.WindowWidth / 2;
