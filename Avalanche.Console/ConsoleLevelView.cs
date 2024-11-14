@@ -77,7 +77,7 @@ namespace Avalanche.Console
                 int uiY = RoomDefaultY - 3;
 
                 int totalBarsCount = 10;
-                int playerHeatBars = (int)(_model._player._heat / 100);
+                int playerHeatBars = (int)(_model._player._heat / 1000);
                 if( playerHeatBars > 10)
                 {
                     playerHeatBars = 10;
