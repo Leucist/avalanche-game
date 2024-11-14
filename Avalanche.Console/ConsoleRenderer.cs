@@ -91,6 +91,13 @@ namespace Avalanche.Console
                 System.Console.WriteLine(element);
             }
 
+            string promptMessage = "Press 'ESC' to continue the game...";
+            int promptXPosition = (System.Console.WindowWidth - promptMessage.Length) / 2;
+            if (promptXPosition < 0) promptXPosition = 0;
+
+            System.Console.SetCursorPosition(promptXPosition, yPosition + 1);
+            System.Console.WriteLine(promptMessage);
+
         }
 
 
