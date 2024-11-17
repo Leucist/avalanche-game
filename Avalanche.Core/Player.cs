@@ -15,6 +15,9 @@ namespace Avalanche.Core
         private int _valueChangeCooldownCounter;
 
 
+        public string Name => _name;
+
+
         public Player(
             int x = RoomCharWidth / 2, 
             int y = RoomCharHeight / 2, 

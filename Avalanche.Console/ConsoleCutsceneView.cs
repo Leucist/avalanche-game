@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using Avalanche.Core;
-using Avalanche.Core.Enums;
 using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Console

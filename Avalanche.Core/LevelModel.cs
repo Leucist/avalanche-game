@@ -1,6 +1,4 @@
-﻿using Avalanche.Core.Enums;
-
-namespace Avalanche.Core
+﻿namespace Avalanche.Core
 {
     public class LevelModel
     {
@@ -162,6 +160,11 @@ namespace Avalanche.Core
                 if (_player.CollidesWith(door.Key)) {
                     // - If door is level exit
                     if (door.Value._isLevelExit) {
+                        if (_player.Name.ToLower() == "engineer") {
+                            GameState._state = GameStateType.Cutscene;
+                            GameState._cutscene = CutsceneType.GameFinish;
+                            return;
+                        }
                         // If it's the last level
                         if (_levelNumber == AppConstants.LevelsCount) {
                             GameState._cutscene = CutsceneType.GameFinish;

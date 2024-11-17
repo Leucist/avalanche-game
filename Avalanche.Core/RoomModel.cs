@@ -96,7 +96,7 @@ namespace Avalanche.Core
             int rocksCount = random.Next(1, 2);
 
             // Fills _itemPositions with random values within room borders
-            while (_itemPositions.Count < mushroomsCount + rocksCount) {
+            while (_itemPositions.Count <= mushroomsCount + rocksCount) {
                 int x = random.Next(0, AppConstants.RoomCharWidth);
                 int y = random.Next(0, AppConstants.RoomCharHeight);
 
@@ -106,7 +106,7 @@ namespace Avalanche.Core
             // Creates items for the Room
             int i = 0;
             foreach (var coords in _itemPositions) {
-                if (i < mushroomsCount) {
+                if (i++ < mushroomsCount) {
                     _items.Add(new Mushroom(
                         coords.Item1,
                         coords.Item2
@@ -143,22 +143,21 @@ namespace Avalanche.Core
             }
 
             // - Move other entities
-            foreach (var entity in _otherEntities) {
+            for (int i = _otherEntities.Count-1; i >= 0; i--) {
                 // - Mark dirty pixels and turn on the 'isDirty' indicator
-                _dirtyPixels.Add([entity.GetX(), entity.GetY()]);
+                _dirtyPixels.Add([_otherEntities[i].GetX(), _otherEntities[i].GetY()]);
                 _isDirty = true;
 
-                entity.Move();
+                _otherEntities[i].Move();
 
                 // - Manage thrown Rock
-                if (entity.GetType() == typeof(Rock)) {
+                if (_otherEntities[i].GetType() == typeof(Rock)) {
                     foreach (var enemy in _enemies) {
-                        if (entity.CollidesWith(enemy)) {
-                            enemy.TakeDamage(entity._damage);
-                            _otherEntities.Remove(entity);
-
+                        if (_otherEntities[i].CollidesWith(enemy)) {
+                            enemy.TakeDamage(_otherEntities[i]._damage);
+                            _dirtyPixels.Add([_otherEntities[i].GetX(), _otherEntities[i].GetY()]);
                             // may be erased in other ways ~
-                            _dirtyPixels.Add([entity.GetX(), entity.GetY()]);
+                            _otherEntities.Remove(_otherEntities[i]);
                         }
                     }
                 }

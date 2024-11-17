@@ -1,4 +1,4 @@
-namespace Avalanche.Core.Enums
+namespace Avalanche.Core
 {
     public enum CutsceneType
     {

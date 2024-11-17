@@ -128,7 +128,7 @@ namespace Avalanche.Console
 
                 // Clear previous data
                 System.Console.SetCursorPosition(uiX + label.Length, uiY);
-                System.Console.Write(" ", totalItemsCount * 10);
+                System.Console.Write(" ", totalItemsCount * 2);
 
                 // Resets the cursor
                 System.Console.SetCursorPosition(uiX, uiY);
@@ -140,7 +140,7 @@ namespace Avalanche.Console
                     System.Console.Write("✕");
                 }
 
-                for (int i = 0; i < playerItemsCount; i++)
+                for (int i = 0; i < playerItemsCount && i < totalItemsCount; i++)
                 {
                     System.Console.Write("🍄 ");
                 }
@@ -171,7 +171,7 @@ namespace Avalanche.Console
 
                 // Clear previous data
                 System.Console.SetCursorPosition(uiX + label.Length, uiY);
-                System.Console.Write(" ", totalItemsCount * 10);
+                System.Console.Write(" ", totalItemsCount * 2);
 
                 // Resets the cursor
                 System.Console.SetCursorPosition(uiX, uiY);
@@ -183,9 +183,9 @@ namespace Avalanche.Console
                     System.Console.Write("✕");
                 }
 
-                for (int i = 0; i < playerItemsCount; i++)
+                for (int i = 0; i < playerItemsCount && i < totalItemsCount; i++)
                 {
-                    System.Console.Write("● ");
+                    System.Console.Write("🪨 ");
                 }
 
                 System.Console.ForegroundColor = ConsoleColor.White;
@@ -309,6 +309,17 @@ namespace Avalanche.Console
                         enemy._wasHit = false;
                     }
                 }
+
+                foreach (Entity entity in _model._currentRoom._otherEntities)
+                {
+                    GameObjectType gType = entity switch
+                    {
+                        // Rock _ =>
+                        _ => GameObjectType.Rock,
+                    };
+                    ConsoleRenderer.DrawGameObject(entity.GetX(), entity.GetY(), gType);
+                }
+
                 _model._currentRoom._isDirty = false;
             }
 
@@ -323,7 +334,7 @@ namespace Avalanche.Console
             foreach (var door in _model._currentRoom!._doors)
             {
                 // ConsoleRenderer.DrawDoor(door.Key.GetX(), door.Key.GetY(), door.Value._isLevelExit);
-                ConsoleRenderer.DrawDoor(door.Key.GetX(), door.Key.GetY(), door.Value._isClosed);
+                ConsoleRenderer.DrawDoor(door.Key.GetX(), door.Key.GetY(), door.Value._isClosed, door.Value._isLevelExit);
             }
         }
     }

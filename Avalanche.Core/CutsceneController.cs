@@ -1,5 +1,3 @@
-using Avalanche.Core.Enums;
-
 namespace Avalanche.Core
 {
     public class CutsceneController : ISceneController

@@ -11,8 +11,9 @@ namespace Avalanche.Console
 
         public static Dictionary<GameObjectType, char> textures = new() {
             { GameObjectType.Wall, '█' },
-            { GameObjectType.DoorClosed, 'Ξ' },
-            { GameObjectType.DoorOpened, '▒' },
+            { GameObjectType.DoorClosed, '▒' },
+            { GameObjectType.DoorOpened, ' ' },
+            { GameObjectType.ExitDoorClosed, 'Ξ' },
             { GameObjectType.Player, '웃' },
             { GameObjectType.Enemy, '☠' },
             { GameObjectType.Mushroom, '☘' },
@@ -228,10 +229,10 @@ namespace Avalanche.Console
             System.Console.Write(textures[type]);
             System.Console.ResetColor();
         }
-        public static void DrawDoor(int x, int y, bool isClosed) {
+        public static void DrawDoor(int x, int y, bool isClosed, bool isLevelExit = false) {
             GameObjectType type;
             if (isClosed)
-                type = GameObjectType.DoorClosed;
+                type = isLevelExit ? GameObjectType.ExitDoorClosed : GameObjectType.DoorClosed;
             else
                 type = GameObjectType.DoorOpened;
             DrawDoorOfType(x, y, type);
