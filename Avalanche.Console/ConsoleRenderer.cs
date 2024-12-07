@@ -69,6 +69,12 @@ namespace Avalanche.Console
                 System.Console.SetCursorPosition(xPosition, yPosition++);
                 System.Console.WriteLine(element);
             }
+
+            string lowerLabel = "OR MAKE THE FONT SMALLER";
+            xPosition = (System.Console.WindowWidth - lowerLabel.Length) / 2;
+            if (xPosition < 0) xPosition = 0;
+            System.Console.SetCursorPosition(xPosition, yPosition+2);
+            System.Console.WriteLine(lowerLabel);
         }
 
         public static void DrawPauseAlert()

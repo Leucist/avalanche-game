@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Avalanche.Core.AppConstants;
+﻿using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Core
 {
@@ -24,7 +19,7 @@ namespace Avalanche.Core
 
 
         public bool WasHit => _wasHit;
-
+        public bool IsAlerted => _isAlerted;
 
 
         public Entity(
@@ -131,7 +126,5 @@ namespace Avalanche.Core
         protected bool IsReadyToAct() {
             return _actionCooldownCounter == 0;
         }
-        
-        public bool IsAlerted => _isAlerted;
     }
 }

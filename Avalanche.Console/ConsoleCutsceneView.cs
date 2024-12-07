@@ -84,6 +84,9 @@ namespace Avalanche.Console
             {
                System.Console.WriteLine("Error reading the file: " + ex.Message);  // I'm not chatGPT, trust me, bro
             }
+
+            // Reset colors
+            SetColors(CutsceneType.GameIntroduction);
         }
     }
 }

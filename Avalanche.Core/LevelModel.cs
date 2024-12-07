@@ -160,11 +160,6 @@
                 if (_player.CollidesWith(door.Key)) {
                     // - If door is level exit
                     if (door.Value._isLevelExit) {
-                        if (_player.Name.ToLower() == "engineer") {
-                            GameState._state = GameStateType.Cutscene;
-                            GameState._cutscene = CutsceneType.GameFinish;
-                            return;
-                        }
                         // If it's the last level
                         if (_levelNumber == AppConstants.LevelsCount) {
                             GameState._cutscene = CutsceneType.GameFinish;
@@ -181,6 +176,12 @@
                         _currentRoomID = (roomCouple[0] == _currentRoomID) ? roomCouple[1] : roomCouple[0];
                         _currentRoom = _rooms[_currentRoomID]._model;
                         _currentRoom.Init();
+
+                        if (_player.Name.ToLower() == "engineer") {
+                            GameState._state = GameStateType.Cutscene;
+                            GameState._cutscene = CutsceneType.GameFinish;
+                            return;
+                        }
 
                         // // Reset Player position
                         // GameObject nextDoor = _currentRoom._doors.First(d => d.Value._ID == door.Value._ID).Key;
