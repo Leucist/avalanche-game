@@ -113,7 +113,7 @@ namespace Avalanche.Console
             // if (_model._player._mushrooms != _previousMushrooms
             //     || _wasNeverDrawn)
             // {
-                string label = "Mushrooms: ";
+                string label = "[X] Mushrooms: ";
 
                 int uiX = RoomDefaultX + 4;
                 int uiY = RoomDefaultY + RoomCharHeight + 1;
@@ -156,7 +156,7 @@ namespace Avalanche.Console
             // if (_model._player._rocks != _previousRocks
             //     || _wasNeverDrawn)
             // {
-                string label = "Rocks: ";
+                string label = "[R] Rocks: ";
 
                 int uiX = RoomDefaultX + 50;
                 int uiY = RoomDefaultY + RoomCharHeight + 1;
