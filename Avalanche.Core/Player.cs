@@ -10,6 +10,10 @@ namespace Avalanche.Core
         public int _rocks { get; set; }
         private string _name;
 
+        private int _baseX, _baseY;
+        private int _baseHealth;
+        private int _baseDamage;
+
         
         private int _valueChangeCooldown;
         private int _valueChangeCooldownCounter;
@@ -33,6 +37,25 @@ namespace Avalanche.Core
             _rocks = 0;
             _heat = DefaultPlayerHeat;
             _name = name;
+            _valueChangeCooldown = DefaultActionCooldown;
+            _valueChangeCooldownCounter = 0;
+
+            // Set base values for the reset
+            _baseX = x;
+            _baseY = y;
+            _baseHealth = health;
+            _baseDamage = damage;
+        }
+
+        public void Reset() {
+            _coords = [_baseX, _baseY];
+            _health = _baseHealth;
+            _damage = _baseDamage;
+            _mushrooms = 0;
+            _rocks = 0;
+            _heat = DefaultPlayerHeat;
+            _attackCooldown = DefaultAttackCooldown;
+            _valueChangeCooldownCounter = 0;
             _valueChangeCooldown = DefaultActionCooldown;
             _valueChangeCooldownCounter = 0;
         }

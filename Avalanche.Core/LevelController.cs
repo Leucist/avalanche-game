@@ -7,6 +7,7 @@
         // RoomController _roomController;
         public LevelController(Player player, int levelNumber)
         {
+            // if (levelNumber == 0) player.Reset();
             _model = new LevelModel(player, levelNumber);
             _model.Reset(0);
             // _roomController = new RoomController();

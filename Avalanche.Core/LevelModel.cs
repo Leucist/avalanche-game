@@ -300,6 +300,9 @@
             if (_player.IsDead()) {
                 GameState._cutscene = CutsceneType.GameOver;
                 GameState._state = GameStateType.Cutscene;
+
+                // Reset player for the future games (one hack covers another, gods...)
+                _player.Reset();
             }
 
             // Update player's attack cooldown counter
