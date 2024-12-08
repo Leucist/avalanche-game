@@ -22,12 +22,22 @@
             _enemiesCount = 4 * levelNumber + 3;
             _enemySightDistance = AppConstants.DefaultEnemySightDistance;
             _rooms = new Dictionary<int, RoomController>();
-            _currentRoomID = 0;
             _isPaused = false;
             Reset(levelNumber);
         }
 
-        public void Reset(int _levelNumber) {
+        public void Reset(int levelNumber) {
+            _levelNumber = levelNumber;
+
+            // - Damn repetative -
+            // TODO Level Controller manages level instances or whatever, but not this monstrousity.
+            _enemiesCount = 4 * levelNumber + 3;
+            _enemySightDistance = AppConstants.DefaultEnemySightDistance;
+            _rooms = new Dictionary<int, RoomController>();
+            _currentRoomID = 0;
+            _isPaused = false;
+            // - - -
+
             Random random = new Random();
             bool isForkedLastTime = false;
             // Generate random number of rooms in boundaries
@@ -302,6 +312,7 @@
                 GameState._state = GameStateType.Cutscene;
 
                 // Reset player for the future games (one hack covers another, gods...)
+                this.Reset(0);
                 _player.Reset();
             }
 
