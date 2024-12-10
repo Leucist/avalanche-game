@@ -14,7 +14,7 @@ namespace Avalanche.Console
         public ConsoleCutsceneView(CutsceneModel model) {
             _model = model;
             // Set Cutscenes folder for the console
-            string solutionPath = _model.FindSolutionDirectory();
+            string solutionPath = CutsceneModel.FindSolutionDirectory();
             string consoleFolder = "Avalanche.Console";
             _cutscenesFolderPath = Path.Combine(solutionPath, consoleFolder);
             _prevFrameNumber = _model._currentFrameNumber - 1;

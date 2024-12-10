@@ -28,7 +28,10 @@ namespace Avalanche.Graphics
         public void Initialize()
         {
             _window.SetFramerateLimit(60);
-            _window.Closed += (sender, args) => _window.Close();
+            _window.Closed += (sender, args) => {
+                GameState._state = GameStateType.Exit;
+                _window.Close();
+            };
         }
 
         public void AddView(GameStateType gameState, ISceneController controller)
@@ -36,9 +39,9 @@ namespace Avalanche.Graphics
             IView view;
             switch (gameState)
             {
-                // case GameStateType.MainMenu:
-                //     view = new GraphicsMainMenuView((MainMenuModel)controller.GetModel(), _window);
-                //     break;
+                case GameStateType.MainMenu:
+                    view = new GraphicsMainMenuView((MainMenuModel)controller.GetModel(), _window);
+                    break;
                 // case GameStateType.Game:
                 //     view = new GraphicsLevelView((LevelModel)controller.GetModel(), _window);
                 //     break;
@@ -51,9 +54,13 @@ namespace Avalanche.Graphics
 
         public void Render()
         {
-            _window.Clear(Color.Black);
-            _views[GameState._state].Render();
-            _window.Display();
+            _window.DispatchEvents();
+
+            if (GameState._state != GameStateType.Exit) {
+                _window.Clear(Color.Black);
+                _views[GameState._state].Render();
+                _window.Display();
+            }
         }
     }
 }

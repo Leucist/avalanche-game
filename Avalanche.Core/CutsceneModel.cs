@@ -120,7 +120,7 @@ namespace Avalanche.Core
             return frameFilePath;
         }
 
-        public string FindSolutionDirectory()
+        public static string FindSolutionDirectory()
         {
             // Current directory of the executing process
             string startDirectory = AppDomain.CurrentDomain.BaseDirectory;
