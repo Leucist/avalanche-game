@@ -55,7 +55,7 @@ namespace Avalanche.Core
             _rocks = 0;
             _heat = DefaultPlayerHeat;
             _attackCooldown = DefaultAttackCooldown;
-            _valueChangeCooldownCounter = 0;
+            _attackCooldownCounter = 0;
             _valueChangeCooldown = DefaultActionCooldown;
             _valueChangeCooldownCounter = 0;
         }
@@ -130,6 +130,7 @@ namespace Avalanche.Core
         public void SetName(string name)
         {
             _name = name;
+            if (_name.Equals("dead", StringComparison.CurrentCultureIgnoreCase)) base._health = 0;
         }
     }
 }

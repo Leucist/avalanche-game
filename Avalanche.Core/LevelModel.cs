@@ -28,6 +28,7 @@
 
         public void Reset(int levelNumber) {
             _levelNumber = levelNumber;
+            _player.Reset();
 
             // - Damn repetative -
             // TODO Level Controller manages level instances or whatever, but not this monstrousity.
@@ -308,20 +309,18 @@
 
             // If the player is dead, game is over.
             if (_player.IsDead()) {
-                GameState._cutscene = CutsceneType.GameOver;
                 GameState._state = GameStateType.Cutscene;
-
-                // Reset player for the future games (one hack covers another, gods...)
-                this.Reset(0);
-                _player.Reset();
+                GameState._cutscene = CutsceneType.GameOver;
             }
 
-            // Update player's attack cooldown counter
-            _player.UpdateCooldown();
+            else {
+                // Update player's attack cooldown counter
+                _player.UpdateCooldown();
 
-            // Player freezes
-            _player.UpdateHeat();
-            _player.Regenerate();
+                // Player freezes
+                _player.UpdateHeat();
+                _player.Regenerate();
+            }
         }
 
         public void SwitchPause() {

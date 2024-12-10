@@ -127,9 +127,7 @@ namespace Avalanche.Core
 
         public void Update() {
             // If campfire is present in the room, then update it
-            if (_campfire != null) {
-                _campfire.UpdateCampfireState();
-            }
+            _campfire?.UpdateCampfireState();
 
             // - Open all doors (except level exit) in the room if there're no enemies left
             if (_enemies.Count == 0) {

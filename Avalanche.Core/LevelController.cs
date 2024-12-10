@@ -17,9 +17,9 @@
         {
             if (_model.IsPaused && action != ActionType.Escape) return; // Quick hack
             switch (action) {
-                // case ActionType.NullAction:
-                //     _model.SetPlayerIdle();
-                //     break;
+                case ActionType.NullAction:
+                    // _model.SetPlayerIdle();
+                    break;
                 case ActionType.Up:
                     _model.MovePlayer(DirectionAxisType.Y, -1);
                     break;
