@@ -4,7 +4,7 @@ namespace Avalanche.Console
 {
     public class ConsoleInputController : IInputController
     {
-        private Dictionary<ConsoleKey, ActionType> _keyValuePairs;
+        private readonly Dictionary<ConsoleKey, ActionType> _keyValuePairs;
         private ConsoleKey _pressedKey;
 
         public ConsoleInputController() {

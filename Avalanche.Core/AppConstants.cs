@@ -8,6 +8,10 @@ namespace Avalanche.Core
         // Game Parameters
         public const int LevelsCount = 5;
 
+        // Texture size
+        public const int PixelWidthMultiplier = 5;
+        public const int PixelHeightMultiplier = 8;
+
         // Console size in symbols
         public const int ScreenCharWidth = 200;
         public const int ScreenCharHeight = 65;
