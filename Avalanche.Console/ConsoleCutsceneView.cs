@@ -14,7 +14,7 @@ namespace Avalanche.Console
         public ConsoleCutsceneView(CutsceneModel model) {
             _model = model;
             // Set Cutscenes folder for the console
-            string solutionPath = CutsceneModel.FindSolutionDirectory();
+            string solutionPath = Pathfinder.FindSolutionDirectory();
             string consoleFolder = "Avalanche.Console";
             _cutscenesFolderPath = Path.Combine(solutionPath, consoleFolder);
             _prevFrameNumber = _model._currentFrameNumber - 1;
@@ -55,7 +55,10 @@ namespace Avalanche.Console
             SetColors(GameState._cutscene);
 
             // Get path to the current frame
-            string relativeFilePath = _model.GetFrameFilePath()  + ".txt";
+            string relativeFilePath = Pathfinder.GetFrameFilePath(
+                _model._currentFrameNumber,
+                (CutsceneType)_model._cutsceneNumber) + ".txt";
+                
             // Combine with the directory path
             string filePath = Path.Combine(_cutscenesFolderPath, relativeFilePath);
 

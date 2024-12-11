@@ -33,8 +33,14 @@ namespace Avalanche.Core
         }
 
         private void CheckIfCutsceneEnded() {
-            // - Count the number of frames in cutscene (Get amount of files and count) 
-            string[] files = Directory.GetFiles(Path.Combine(FindSolutionDirectory(), "Avalanche.Console", GetCutsceneFolderPath()));
+            // - Count the number of frames in cutscene (counts amount of files) 
+            string[] files = Directory.GetFiles(
+                Path.Combine(
+                    Pathfinder.FindSolutionDirectory(),
+                    "Avalanche.Console",
+                    Pathfinder.GetCutsceneFolderPath((CutsceneType)_cutsceneNumber)
+                    )
+                );
             int framesInCutscene = files.Length;
 
             // Check if cutscene has ended
@@ -105,41 +111,6 @@ namespace Avalanche.Core
                     GameState._state = GameStateType.Game;
                     break;
             }
-        }
-
-        private string GetCutsceneFolderPath() {
-            string cutscenesFolder = "Cutscenes";
-            string cutsceneFolderName = "Cutscene_" + ((CutsceneType)_cutsceneNumber).ToString();
-            return Path.Combine(cutscenesFolder, cutsceneFolderName);
-        }
-
-        public string GetFrameFilePath() {
-            string cutsceneFolderPath = GetCutsceneFolderPath();
-            string frameFileName = _currentFrameNumber.ToString();
-            string frameFilePath = Path.Combine(cutsceneFolderPath, frameFileName);
-            return frameFilePath;
-        }
-
-        public static string FindSolutionDirectory()
-        {
-            // Current directory of the executing process
-            string startDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var directory = new DirectoryInfo(startDirectory);
-
-            // Go up until we find solution file (.sln)
-            while (directory != null && !File.Exists(Path.Combine(directory.FullName, "Avalanche.sln")))
-            {
-                directory = directory.Parent;
-            }
-
-            // Return path if it's found
-            if (directory != null)
-            {
-                return directory.FullName;
-            }
-
-            // Otherwise exception is thrown
-            throw new DirectoryNotFoundException("Solution root was not found.");
         }
     }
 }
