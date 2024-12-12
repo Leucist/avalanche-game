@@ -1,6 +1,7 @@
 using SFML.Window;
 using System.Collections.Generic;
 using Avalanche.Core;
+using SFML.Graphics;
 
 namespace Avalanche.Graphics
 {
@@ -8,9 +9,10 @@ namespace Avalanche.Graphics
     {
         private readonly Dictionary<Keyboard.Key, ActionType> _keyValuePairs;
         private ActionType _currentAction;
-        // private Keyboard.Key _pressedKey;
+        // private Stack<Keyboard.Key> _pressedKeys;
+        private Keyboard.Key _pressedKey;
 
-        public GraphicsInputController()
+        public GraphicsInputController(RenderWindow window)
         {
             _keyValuePairs = new Dictionary<Keyboard.Key, ActionType>() {
                 // - WASD Movements
@@ -33,10 +35,15 @@ namespace Avalanche.Graphics
                 { Keyboard.Key.Left, ActionType.Left },
                 { Keyboard.Key.Right, ActionType.Right },
                 // - If nothing was pressed
-                // { Keyboard.Key.None, ActionType.NullAction }
+                { Keyboard.Key.Unknown, ActionType.NullAction }
             };
 
             _currentAction = ActionType.NullAction;
+
+            // _pressedKey = Keyboard.Key.Unknown;
+
+            window.KeyPressed += OnKeyPressed;
+            window.KeyReleased += OnKeyReleased;
         }
 
         // public void AttachToWindow(SFML.Graphics.RenderWindow window)
@@ -48,6 +55,22 @@ namespace Avalanche.Graphics
         //     };
         // }
 
+        private void OnKeyPressed(object? sender, KeyEventArgs args)
+        {
+            if (_keyValuePairs.TryGetValue(args.Code, out var action))
+            {
+                _pressedKey = args.Code;
+                _currentAction = action;
+            }
+        }
+
+        private void OnKeyReleased(object? sender, KeyEventArgs args)
+        {
+            // Reset action when button is released
+            _pressedKey = Keyboard.Key.Unknown;
+            // _currentAction = ActionType.NullAction;
+        }
+
         public void ClearBuffer()
         {
             _currentAction = ActionType.NullAction;
@@ -56,19 +79,22 @@ namespace Avalanche.Graphics
         private void GetKeyboardInputAsync(CancellationToken cancellationToken) {
             while (!cancellationToken.IsCancellationRequested) 
             {
-                foreach (Keyboard.Key key in _keyValuePairs.Keys) {
-                    if (Keyboard.IsKeyPressed(key)) {
-                        _currentAction = _keyValuePairs[key];
-                        break;
-                    }
+                if (!Keyboard.IsKeyPressed(_pressedKey)) {
+                    _currentAction = ActionType.NullAction;
                 }
+                // foreach (Keyboard.Key key in _keyValuePairs.Keys) {
+                //     if (Keyboard.IsKeyPressed(key)) {
+                //         _currentAction = _keyValuePairs[key];
+                //         break;
+                //     }
+                // }
             }
         }
 
         public ActionType GetUserAction()
         {
-            // Set pressedKey to Null
-            _currentAction = ActionType.NullAction;
+            // // Set pressedKey to Null
+            // _currentAction = ActionType.NullAction;
 
             // Init cancelation token
             var cancellationTokenSource = new CancellationTokenSource();

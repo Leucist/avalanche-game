@@ -25,8 +25,9 @@ namespace Avalanche.Launcher
             else
             {
                 // throw new NotImplementedException("The graphical interface has not been implemented yet.");
-                gameView = new GraphicsGameView();
-                inputController = new GraphicsInputController();
+                GraphicsGameView graphicsGameView = new();
+                gameView = graphicsGameView;
+                inputController = new GraphicsInputController(graphicsGameView.GetWindow());
             }
 
             // Creates new game instance

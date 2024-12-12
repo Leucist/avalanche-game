@@ -56,11 +56,16 @@ namespace Avalanche.Graphics
         {
             _window.DispatchEvents();
 
-            if (GameState._state != GameStateType.Exit) {
+            // if (GameState._state != GameStateType.Exit) {
+            if (_window.IsOpen) {
                 _window.Clear(Color.Black);
                 _views[GameState._state].Render();
                 _window.Display();
             }
+        }
+
+        public RenderWindow GetWindow() {
+            return _window;
         }
     }
 }
