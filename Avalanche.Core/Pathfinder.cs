@@ -24,6 +24,13 @@ namespace Avalanche.Core
             throw new DirectoryNotFoundException("Solution root was not found.");
         }
 
+        public static string GetGraphicsTexturesFolder() {
+            return Path.Combine(FindSolutionDirectory(), "Avalanche.Graphics/textures");
+        }
+        public static string GetGraphicsFontsFolder() {
+            return Path.Combine(FindSolutionDirectory(), "Avalanche.Graphics/fonts/Cinzel");
+        }
+
 
         public static string GetCutsceneFolderPath(CutsceneType cutscene) {
             string cutscenesFolder = "Cutscenes";

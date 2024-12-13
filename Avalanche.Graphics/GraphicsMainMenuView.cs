@@ -6,29 +6,24 @@ using SFML.Window;
 namespace Avalanche.Graphics
 {
 
-    public class GraphicsMainMenuView : IView
+    public class GraphicsMainMenuView : GraphicsView
     {
         private MainMenuModel _model;
-        private readonly RenderWindow _window;
         
-        private string _textureFolder;
-        private Dictionary<TextureType, string> _texturePaths;
-        private List<TextureDataObject> _sceneTextures;
-        private Stack<BoundSprite> _spritesToDraw;
+        private readonly string _textureFolder;
+        private readonly Dictionary<TextureType, string> _texturePaths;
+        private readonly List<TextureDataObject> _sceneTextures;
 
         private readonly Font _font;
         
 
-        public GraphicsMainMenuView(MainMenuModel model, RenderWindow window) {
+        public GraphicsMainMenuView(MainMenuModel model, GraphicsRenderer renderer) : base(renderer) {
             _model = model;
-            _window = window;
 
-            _textureFolder = Path.Combine(Pathfinder.FindSolutionDirectory(), "Avalanche.Graphics/textures");
+            _textureFolder = Pathfinder.GetGraphicsTexturesFolder();
             _texturePaths = new() {
-                {TextureType.Background, "MainMenu_background.png"},
-                {TextureType.ButtonNewGame, "button.png"}
+                {TextureType.Background, "MainMenu_background.png"}
             };
-            _spritesToDraw = new Stack<BoundSprite>();
 
             _sceneTextures = [
                 new TextureDataObject(GetTexture(TextureType.Background), new Vector2f(0, 0))
@@ -47,60 +42,33 @@ namespace Avalanche.Graphics
             return new Texture(GetTexturePath(_texturePaths[textureType]));
         }
 
-        // private void GatherSprites() {
-        //     foreach (var textureFileName in _texturePaths.Values) {
-        //         Texture texture = GetTexture(textureFileName);
+        public override void Render() {
+            // foreach (var textureData in _sceneTextures) {
+            //     Renderer.Draw(textureData.Sprite);
+            // }
 
-        //         BoundSprite sprite = new (
-        //             texture,
-        //             () => new Vector2f())
-        //         {
-        //             Position = new Vector2f(0, 0), // position
-        //             // Scale = new Vector2f(0.5f, 0.5f)  // scale
-        //         };
-
-        //         _spritesToDraw.Push(sprite);
-        //     }
-        // }
-
-        // public void DrawSprites() {
-        //     while(_spritesToDraw.Any()) {
-        //         _window.Draw(_spritesToDraw.Pop());
-        //     }
-        // }
-
-        public void Render() {
-            foreach (var textureData in _sceneTextures) {
-                _window.Draw(textureData.Sprite);
-            }
-
-            int i = 0;
+                       
             Color fillColor;
-            foreach (var option in _model._options) {
-                string label = option.Item1;
-                if (i == _model._currentIndex) {
-                    fillColor = new Color(68, 10, 80, 230);
-                }
-                else {
-                    fillColor = new Color(10, 40, 80, 220);
-                }
+            uint fontSize = 32;
+            bool centered = true;
+            bool outline = true;
 
-                Text menuOption = new Text(label, _font) {
-                    CharacterSize = 36,
-                    FillColor = fillColor,
-                    OutlineColor = new Color(30, 50, 70),
-                    OutlineThickness = 1,
-                    Position = new Vector2f(
-                        AppConstants.ScreenCharWidth * AppConstants.PixelWidthMultiplier / 2 - 100,
-                        150 + i * 60)
-                };
+            // float optionsStartX = AppConstants.ScreenCharWidth * AppConstants.PixelWidthMultiplier / 2 - 100;
+            float optionsStartY = 150;
 
-                _window.Draw(menuOption);
-                i++;
+            Renderer.SetCursorAt(0, optionsStartY);
+
+            for (int i = 0; i < _model._options.Count; i++) {
+                string optionText = _model._options[i].Item1;
+
+                // Chose the text line color based on the current option selection
+                fillColor = (i == _model._currentIndex)
+                    ? new Color(68, 10, 80, 230)
+                    : new Color(10, 40, 80, 220);
+
+                Renderer.SetFillColor(fillColor);
+                Renderer.WriteLine(optionText, fontSize, centered, outline);
             }
-            
-            // GatherSprites();
-            // DrawSprites();
         }
     }
 }

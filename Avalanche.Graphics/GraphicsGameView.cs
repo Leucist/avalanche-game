@@ -10,6 +10,7 @@ namespace Avalanche.Graphics
     public class GraphicsGameView : IGameView
     {
         private readonly RenderWindow _window;
+        private readonly GraphicsRenderer _renderer;
         private readonly Dictionary<GameStateType, IView> _views;
 
         public GraphicsGameView()
@@ -21,6 +22,8 @@ namespace Avalanche.Graphics
                     ScreenCharHeight * PixelHeightMultiplier
                 ),
                 AppName);
+            
+            _renderer = new GraphicsRenderer(_window);
 
             _views = new Dictionary<GameStateType, IView>();
         }
@@ -40,12 +43,17 @@ namespace Avalanche.Graphics
             switch (gameState)
             {
                 case GameStateType.MainMenu:
-                    view = new GraphicsMainMenuView((MainMenuModel)controller.GetModel(), _window);
+                    view = new GraphicsMainMenuView((MainMenuModel)controller.GetModel(), _renderer);
                     break;
-                // case GameStateType.Game:
-                //     view = new GraphicsLevelView((LevelModel)controller.GetModel(), _window);
-                //     break;
-                // TODO + Other Views
+                case GameStateType.NameInput:
+                    view = new GraphicsNameInputView((NameInputModel)controller.GetModel(), _renderer);
+                    break;
+                case GameStateType.Game:
+                    view = new GraphicsLevelView((LevelModel)controller.GetModel(), _renderer);
+                    break;
+                case GameStateType.Cutscene:
+                    view = new GraphicsCutsceneView((CutsceneModel)controller.GetModel(), _renderer);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

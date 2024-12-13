@@ -3,7 +3,15 @@ namespace Avalanche.Core
     public enum TextureType
     {
         Background,
-        ButtonNewGame,
-        ButtonExit
+        Player,
+        Skeleton,
+        Wall,
+        DoorClosed,
+        DoorOpen,
+        DoorLevelExit,
+        Rock,
+        Mushroom,
+        Fire,
+        Heart
     }
 }
