@@ -4,6 +4,7 @@ namespace Avalanche.Core
     {
         private readonly Player _player;
 
+
         public NameInputModel(Player player) {
             _player = player;
         }
