@@ -12,6 +12,7 @@ namespace Avalanche.Core
         Rock,
         Mushroom,
         Fire,
-        Heart
+        Heart,
+        WarningSign
     }
 }
