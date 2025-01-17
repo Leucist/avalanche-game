@@ -63,7 +63,7 @@ namespace Avalanche.Graphics
 
                 // Chose the text line color based on the current option selection
                 fillColor = (i == _model._currentIndex)
-                    ? new Color(68, 10, 80, 230)
+                    ? new Color(160, 80, 200, 230)
                     : new Color(10, 40, 80, 220);
 
                 Renderer.SetFillColor(fillColor);
