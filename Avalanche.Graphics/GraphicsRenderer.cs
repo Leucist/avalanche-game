@@ -39,6 +39,7 @@ namespace Avalanche.Graphics
             }
         }
 
+
         // - GraphicsRenderer atributes
         private readonly RenderWindow _window;
         private readonly Dictionary<FontType, string> _fontPaths;
@@ -46,6 +47,14 @@ namespace Avalanche.Graphics
         private Color _fillColor;
 
         private CursorPointer _cursorPointer;
+
+        // A new list of clickable elements, each with defined bounds and an associated action.
+        private List<(FloatRect bounds, Action onClick)> _clickableElements = new();
+
+        /// <summary>
+        /// Event for handling mouse click actions.
+        /// </summary>
+        public event EventHandler<MouseButtonEventArgs> OnMouseClick;
 
         /// <summary>
         /// Renderer constructor
@@ -112,6 +121,41 @@ namespace Avalanche.Graphics
 
         public void Draw(Drawable drawable) {
             _window.Draw(drawable);
+        }
+
+        /// <summary>
+        /// Clears all event handlers to prevent duplication.
+        /// </summary>
+        public void ResetEventHandlers() {
+            OnMouseClick = null;
+            _clickableElements.Clear();
+        }
+
+        /// <summary>
+        /// Adds a clickable element with specified bounds and an associated action to be invoked on click.
+        /// </summary>
+        /// <param name="bounds">The rectangular area that defines the clickable element.</param>
+        /// <param name="onClick">The action to be executed when the element is clicked.</param>
+        public void AddClickableElement(FloatRect bounds, Action onClick) {
+            _clickableElements.Add((bounds, onClick));
+        }
+
+        /// <summary>
+        /// Handles mouse click events and invokes the corresponding action if a clickable element is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The mouse button event arguments containing information about the click.</param>
+        private void HandleMouseClick(object sender, MouseButtonEventArgs e) {
+            if (e.Button == Mouse.Button.Left) {
+                Vector2f mousePos = (Vector2f)Mouse.GetPosition(_window);
+
+                foreach (var (bounds, action) in _clickableElements) {
+                    if (bounds.Contains(mousePos)) {
+                        action?.Invoke();
+                        break;
+                    }
+                }
+            }
         }
     }
 }

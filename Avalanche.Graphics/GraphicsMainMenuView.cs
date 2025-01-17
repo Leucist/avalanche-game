@@ -43,9 +43,9 @@ namespace Avalanche.Graphics
         }
 
         public override void Render() {
-            // foreach (var textureData in _sceneTextures) {
-            //     Renderer.Draw(textureData.Sprite);
-            // }
+            foreach (var textureData in _sceneTextures) {
+                Renderer.Draw(textureData.Sprite);
+            }
 
                        
             Color fillColor;
