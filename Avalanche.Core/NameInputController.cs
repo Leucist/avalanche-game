@@ -10,7 +10,7 @@ namespace Avalanche.Core
 
         public void Handle(ActionType action)
         {
-            if (action == ActionType.Enter)
+            if (GameState._mode == GameModeType.Console || action == ActionType.Enter)
             {
                 GameState._state = GameStateType.Game;
             }

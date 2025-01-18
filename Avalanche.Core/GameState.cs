@@ -36,5 +36,9 @@ namespace Avalanche.Core
         
         public static GameStateType _state { get; set; }
         public static CutsceneType _cutscene { get; set; }
+
+
+        // NOTE: Added for the NameInput proper work in console mode after changing the controller for graphics
+        public static GameModeType _mode { get; set; }
     }
 }

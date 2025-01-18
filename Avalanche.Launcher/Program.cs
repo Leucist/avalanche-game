@@ -18,14 +18,15 @@ namespace Avalanche.Launcher
             if (useConsole)
             {
                 System.Console.WriteLine("Launching console version of the game...");
+                GameState._mode = GameModeType.Console;
                 gameView = new ConsoleGameView();
                 inputController = new ConsoleInputController();
                 
             }
             else
             {
-                // throw new NotImplementedException("The graphical interface has not been implemented yet.");
                 GraphicsGameView graphicsGameView = new();
+                GameState._mode = GameModeType.Graphics;
                 gameView = graphicsGameView;
                 inputController = new GraphicsInputController(graphicsGameView.GetWindow());
             }
