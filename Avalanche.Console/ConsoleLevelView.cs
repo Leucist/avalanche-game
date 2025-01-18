@@ -172,7 +172,7 @@ namespace Avalanche.Console
 
                 // Clear previous data
                 System.Console.SetCursorPosition(uiX + label.Length, uiY);
-                System.Console.Write(" ", totalItemsCount * 2);
+                System.Console.Write(new string(' ', label.Length + totalItemsCount * 2));
 
                 // Resets the cursor
                 System.Console.SetCursorPosition(uiX, uiY);
