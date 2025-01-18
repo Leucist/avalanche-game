@@ -11,9 +11,11 @@ namespace Avalanche.Launcher
             // Check command line arguments
             GameState._mode = args.Length > 0 && args[0].Equals("console", StringComparison.OrdinalIgnoreCase) ? GameModeType.Console : GameModeType.Graphics;
             // bool useGraphics = args.Length > 0 && args[0].Equals("graphics", StringComparison.OrdinalIgnoreCase);
-
+            
             IGameView gameView;
             IInputController inputController;
+
+            // GameState._mode = GameModeType.Console;
 
             if (GameState._mode == GameModeType.Console)
             {
