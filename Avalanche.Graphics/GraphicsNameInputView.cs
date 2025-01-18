@@ -107,7 +107,7 @@ namespace Avalanche.Graphics
             float warningSignY = rectangleY;
 
             _warningSignSprite.Position = new Vector2f(warningSignX, warningSignY - 5);
-            _warningSignSprite.Scale = new Vector2f(0.6f, 0.6f); // Reduce size to 50%
+            _warningSignSprite.Scale = new Vector2f(0.6f, 0.6f); // Reduce size to 60%
 
             // If there's a warning message, draw the warning sign and text with the current alpha
             if (!string.IsNullOrEmpty(_lastWarning))
