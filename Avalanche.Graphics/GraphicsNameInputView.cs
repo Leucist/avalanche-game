@@ -1,4 +1,5 @@
 ﻿using Avalanche.Core;
+using Avalanche.Core.Interfaces;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -189,6 +190,10 @@ namespace Avalanche.Graphics
                             // We reached the limit
                             ShowNewWarning("You have reached the maximum name size.");
                         }
+                    }
+                    else if (key == Keyboard.Key.Enter)
+                    {
+                        _model.Submit(_userInput);
                     }
                     else
                     {

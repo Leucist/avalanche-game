@@ -8,10 +8,13 @@ namespace Avalanche.Core
             _model = new NameInputModel(player);
         }
 
-        public void Handle(ActionType action) {
-            GameState._state = GameStateType.Cutscene;
+        public void Handle(ActionType action)
+        {
+            if (action == ActionType.Enter)
+            {
+                GameState._state = GameStateType.Game;
+            }
         }
-
         public object GetModel() {
             return _model;
         }
