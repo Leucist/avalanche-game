@@ -65,7 +65,7 @@ namespace Avalanche.Graphics
             _window.DispatchEvents();
 
             // if (GameState._state != GameStateType.Exit) {
-            if (_window.IsOpen) {
+            if (GameState._state != GameStateType.Exit && _window.IsOpen) {
                 _window.Clear(Color.Black);
                 _views[GameState._state].Render();
                 _window.Display();

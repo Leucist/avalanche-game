@@ -51,10 +51,10 @@ namespace Avalanche.Graphics
         // A new list of clickable elements, each with defined bounds and an associated action.
         private List<(FloatRect bounds, Action onClick)> _clickableElements = new();
 
-        /// <summary>
-        /// Event for handling mouse click actions.
-        /// </summary>
-        public event EventHandler<MouseButtonEventArgs> OnMouseClick;
+
+        public Vector2f CursorPosition => _cursorPointer.Position;
+
+
 
         /// <summary>
         /// Renderer constructor
@@ -72,10 +72,14 @@ namespace Avalanche.Graphics
                 {FontType.ExtraBold, "static/Cinzel-ExtraBold.ttf"},
                 {FontType.Black, "static/Cinzel-Black.ttf"}
             };
+            // Set Default font params
             _font = SetFont(FontType.Regular);
             _fillColor = Color.Black;
 
             _cursorPointer = new CursorPointer(_window);
+
+            // Set mouse click listener and link with handler
+            _window.MouseButtonPressed += HandleMouseClick;
         }
 
         public Font SetFont(FontType fontType) {
@@ -127,7 +131,6 @@ namespace Avalanche.Graphics
         /// Clears all event handlers to prevent duplication.
         /// </summary>
         public void ResetEventHandlers() {
-            OnMouseClick = null;
             _clickableElements.Clear();
         }
 
@@ -145,7 +148,7 @@ namespace Avalanche.Graphics
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The mouse button event arguments containing information about the click.</param>
-        private void HandleMouseClick(object sender, MouseButtonEventArgs e) {
+        private void HandleMouseClick(object? sender, MouseButtonEventArgs e) {
             if (e.Button == Mouse.Button.Left) {
                 Vector2f mousePos = (Vector2f)Mouse.GetPosition(_window);
 

@@ -1,7 +1,6 @@
 using SFML.Graphics;
 using SFML.System;
 using Avalanche.Core;
-using SFML.Window;
 
 namespace Avalanche.Graphics
 {
@@ -15,6 +14,8 @@ namespace Avalanche.Graphics
         private readonly List<TextureDataObject> _sceneTextures;
 
         private readonly Font _font;
+
+        private readonly List<Button> _menuButtons;
         
 
         public GraphicsMainMenuView(MainMenuModel model, GraphicsRenderer renderer) : base(renderer) {
@@ -32,6 +33,14 @@ namespace Avalanche.Graphics
             _font = new Font(Path.Combine(
                 Pathfinder.FindSolutionDirectory(),
                 "Avalanche.Graphics/fonts/Cinzel/static/Cinzel-Bold.ttf"));
+
+            // - Generate menu buttons Text objects
+            _menuButtons = new();
+            GenerateMenuButtons();
+
+            // - Make buttons clickable
+            Renderer.ResetEventHandlers();
+            SubscribeMenuButtons();
         }
 
         private string GetTexturePath(string textureFileName) {
@@ -42,32 +51,60 @@ namespace Avalanche.Graphics
             return new Texture(GetTexturePath(_texturePaths[textureType]));
         }
 
+        private void GenerateMenuButtons() {
+            // text params
+            uint fontSize = 32;
+            // first button positioning
+            float optionsStartX = AppConstants.ScreenCharWidth * AppConstants.PixelWidthMultiplier / 2 - 50;
+            float optionsStartY = 150;
+
+            // TODO May be centered as it was before, temp removal
+            Renderer.SetCursorAt(optionsStartX, optionsStartY);
+
+            for (int i = 0; i < _model._options.Count; i++) {
+                // Extract the menu option label
+                string buttonLabel = _model._options[i].Item1;
+
+                // - Create the Text and Button objects
+                Text buttonTextObject = new Text(buttonLabel, _font, fontSize);
+                buttonTextObject.Position = new Vector2f(optionsStartX, optionsStartY);
+                GameStateType relatedGS = _model._options[i].Item2;
+                Button menuItem = new(
+                    buttonTextObject,
+                    () => { GameState._state = relatedGS; }
+                );
+                
+                
+                // move imaginary cursor to the next line
+                optionsStartY += fontSize;
+
+                // Add the ready-to-use button to the list
+                _menuButtons.Add(menuItem);
+            }
+        }
+
+        private void SubscribeMenuButtons() {
+            foreach (Button menuButton in _menuButtons) {
+                Renderer.AddClickableElement(menuButton.Bounds, menuButton.Action);
+            }
+        }
+
         public override void Render() {
+            // Background
             foreach (var textureData in _sceneTextures) {
                 Renderer.Draw(textureData.Sprite);
             }
 
-                       
-            Color fillColor;
-            uint fontSize = 32;
-            bool centered = true;
-            bool outline = true;
+            // Buttons
+            for (int i = 0; i < _menuButtons.Count; i++)
+            {
+                var button = _menuButtons[i];
 
-            // float optionsStartX = AppConstants.ScreenCharWidth * AppConstants.PixelWidthMultiplier / 2 - 100;
-            float optionsStartY = 150;
+                button.Text.FillColor = (i == _model._currentIndex)
+                    ? new Color(68, 10, 80, 230)    // Highlight the active button
+                    : new Color(10, 40, 80, 220);   // Defailt colour
 
-            Renderer.SetCursorAt(0, optionsStartY);
-
-            for (int i = 0; i < _model._options.Count; i++) {
-                string optionText = _model._options[i].Item1;
-
-                // Chose the text line color based on the current option selection
-                fillColor = (i == _model._currentIndex)
-                    ? new Color(160, 80, 200, 230)
-                    : new Color(10, 40, 80, 220);
-
-                Renderer.SetFillColor(fillColor);
-                Renderer.WriteLine(optionText, fontSize, centered, outline);
+                Renderer.Draw(button.Text);
             }
         }
     }
