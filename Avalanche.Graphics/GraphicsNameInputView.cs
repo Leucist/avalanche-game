@@ -160,7 +160,7 @@ namespace Avalanche.Graphics
                         _backspaceClock.Restart();
                         _backspaceHeld = true;
                     }
-                    else if (_backspaceHeld && _backspaceClock.ElapsedTime.AsSeconds() >= 0.3f)
+                    else if (_backspaceHeld && _backspaceClock.ElapsedTime.AsSeconds() >= 0.15f)
                     {
                         if (_userInput.Length > 0)
                         {
@@ -193,7 +193,14 @@ namespace Avalanche.Graphics
                     }
                     else if (key == Keyboard.Key.Enter)
                     {
-                        _model.Submit(_userInput);
+                        if (string.IsNullOrEmpty(_userInput))
+                        {
+                            ShowNewWarning("Your name field is empty.");
+                        }
+                        else
+                        {
+                            _model.Submit(_userInput);
+                        }
                     }
                     else
                     {

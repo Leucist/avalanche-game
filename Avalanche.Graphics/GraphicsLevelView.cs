@@ -183,7 +183,6 @@ namespace Avalanche.Graphics
             if (count == 0)
             {
                 var noneText = MakeText("X", 18, new Vector2f(xStart, yStart));
-                noneText.Color = Color.Red;
                 _renderer.Draw(noneText);
             }
             else
