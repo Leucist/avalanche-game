@@ -12,7 +12,7 @@ namespace Avalanche.Core
         {
             if (GameState._mode == GameModeType.Console || action == ActionType.Enter)
             {
-                GameState._state = GameStateType.Game;
+                GameState._state = GameStateType.Cutscene;
             }
         }
         public object GetModel() {
