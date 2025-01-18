@@ -17,7 +17,8 @@ namespace Avalanche.Console
             { GameObjectType.Player, '☻' },
             { GameObjectType.Enemy, '☠' },
             { GameObjectType.Mushroom, '☘' },
-            { GameObjectType.Rock, '●' }
+            { GameObjectType.Rock, '●' },
+            { GameObjectType.Firecamp, 'X' }
         };
         public static void ClearScreen() {
             System.Console.Clear();

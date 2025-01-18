@@ -114,9 +114,10 @@ namespace Avalanche.Core
             Random random = new Random();
             int mushroomsCount = random.Next(1, 2);
             int rocksCount = random.Next(1, 2);
+            int firecampCount = 1;
 
             // Fills _itemPositions with random values within room borders
-            while (_itemPositions.Count <= mushroomsCount + rocksCount) {
+            while (_itemPositions.Count <= mushroomsCount + rocksCount + firecampCount) {
                 int x = random.Next(0, AppConstants.RoomCharWidth);
                 int y = random.Next(0, AppConstants.RoomCharHeight);
 
@@ -125,24 +126,40 @@ namespace Avalanche.Core
 
             // Creates items for the Room
             int i = 0;
-            foreach (var coords in _itemPositions) {
-                if (i++ < mushroomsCount) {
+            bool campfireCreated = false; // Перевірка для створення тільки одного багаття
+
+            foreach (var coords in _itemPositions)
+            {
+                if (i++ < mushroomsCount)
+                {
                     _items.Add(new Mushroom(
                         coords.Item1,
                         coords.Item2
                     ));
                 }
-                else {
+                else
+                {
                     _items.Add(new LayingRock(
                         coords.Item1,
                         coords.Item2
                     ));
+
+                    if (!campfireCreated)
+                    {
+                        _items.Add(new Campfire(
+                            coords.Item1,
+                            coords.Item2,
+                            new Player()
+                        ));
+                        campfireCreated = true; 
+                    }
                 }
                 // _items.Add(new GameObject(
                 //     coords.Item1,
                 //     coords.Item2
                 // ));
             }
+
         }
 
         public void Update() {

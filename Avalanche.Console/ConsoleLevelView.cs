@@ -33,7 +33,8 @@ namespace Avalanche.Console
         {
             // if ((_model._player._health != _previousHealthPointsCount) || _wasNeverDrawn)
             // {
-                //System.Console.WriteLine($"Player's HP: {_model._player._health}");
+            //System.Console.WriteLine($"Player's HP: {_model._player._health}");
+                System.Console.WriteLine($"Player's Heat: {_model._player._heat}");
                 string label = "Health Points: ";
 
                 int uiX = RoomDefaultX + 4;
@@ -268,6 +269,9 @@ namespace Avalanche.Console
                             break;
                         case Mushroom _:
                             gameObjectType = GameObjectType.Mushroom;
+                            break;
+                        case Campfire _:
+                            gameObjectType = GameObjectType.Firecamp;
                             break;
                     }
                     ConsoleRenderer.DrawGameObject(item.GetX(), item.GetY(), gameObjectType);
