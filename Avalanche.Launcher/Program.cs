@@ -9,13 +9,13 @@ namespace Avalanche.Launcher
         static void Main(string[] args)
         {
             // Check command line arguments
-            bool useConsole = args.Length > 0 && args[0].Equals("console", StringComparison.OrdinalIgnoreCase);
+            GameState._mode = args.Length > 0 && args[0].Equals("console", StringComparison.OrdinalIgnoreCase) ? GameModeType.Console : GameModeType.Graphics;
             // bool useGraphics = args.Length > 0 && args[0].Equals("graphics", StringComparison.OrdinalIgnoreCase);
 
             IGameView gameView;
             IInputController inputController;
 
-            if (useConsole)
+            if (GameState._mode == GameModeType.Console)
             {
                 System.Console.WriteLine("Launching console version of the game...");
                 gameView = new ConsoleGameView();
@@ -24,7 +24,7 @@ namespace Avalanche.Launcher
             }
             else
             {
-                // throw new NotImplementedException("The graphical interface has not been implemented yet.");
+                System.Console.WriteLine("Launching graphics version of the game...");
                 GraphicsGameView graphicsGameView = new();
                 gameView = graphicsGameView;
                 inputController = new GraphicsInputController(graphicsGameView.GetWindow());
