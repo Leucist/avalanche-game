@@ -33,6 +33,7 @@ namespace Avalanche.Console
         {
             // if ((_model._player._health != _previousHealthPointsCount) || _wasNeverDrawn)
             // {
+            System.Console.WriteLine($"Player's HP: {_model._player._health}");
                 string label = "Health Points: ";
 
                 int uiX = RoomDefaultX + 4;

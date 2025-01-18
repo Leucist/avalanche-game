@@ -14,7 +14,7 @@ namespace Avalanche.Core
 
         // Console size in symbols
         public const int ScreenCharWidth = 200;
-        public const int ScreenCharHeight = 50;
+        public const int ScreenCharHeight = 65;
 
         // Room  values should be greater than ScreenChars
         public const int RoomCharWidth = 180;
@@ -46,8 +46,8 @@ namespace Avalanche.Core
         public const int DefaultCampfireRange = 4;
 
         // Mushrooms settings
-        public const int DefaultMushroomsMinimalHpChange = -2;
-        public const int DefaultMushroomsMaximalHpChange = 2;
+        public const int DefaultMushroomsMinimalHpChange = -10;
+        public const int DefaultMushroomsMaximalHpChange = 10;
 
         // Cunscene settings in seconds
         public const int DefaultCutsceneTime = 3;

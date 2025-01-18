@@ -69,7 +69,7 @@ namespace Avalanche.Core
 
                 Random random = new Random();
 
-                int HPChange = random.Next(DefaultMushroomsMinimalHpChange, DefaultMushroomsMaximalHpChange);
+                int HPChange = random.Next(0, 2) == 0 ? DefaultMushroomsMinimalHpChange : DefaultMushroomsMaximalHpChange;
                 base._health += HPChange;
             }
 
