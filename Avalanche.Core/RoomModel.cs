@@ -76,11 +76,23 @@ namespace Avalanche.Core
 
             // Creates enemies for the Room
             int i = 0;
-            foreach (var coords in _enemyPositions) {
-                _enemies.Add(new Enemy(
-                    coords.Item1,
-                    coords.Item2
-                ));
+            //foreach (var coords in _enemyPositions)
+            //{
+            //    _enemies.Add(new Enemy(
+            //        coords.Item1,
+            //        coords.Item2
+            //    ));
+            //}
+
+            Enemy enemyPrototype = new Enemy();
+
+            foreach (var coords in _enemyPositions)
+            {
+                Enemy enemy = new Enemy();
+                enemy = enemyPrototype.ShallowCopy();
+                enemy.SetX(coords.Item1); enemy.SetY(coords.Item2);
+                _enemies.Add(enemy);
+
             }
         }
 

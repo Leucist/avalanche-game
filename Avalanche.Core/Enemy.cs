@@ -44,6 +44,11 @@ namespace Avalanche.Core
         }
         */
 
+        public Enemy ShallowCopy()
+        {
+            return (Enemy) this.MemberwiseClone();
+        } 
+
         public void RandomMovement()
         {
             Random random = new Random();

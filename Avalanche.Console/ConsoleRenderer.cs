@@ -14,7 +14,7 @@ namespace Avalanche.Console
             { GameObjectType.DoorClosed, '▒' },
             { GameObjectType.DoorOpened, ' ' },
             { GameObjectType.ExitDoorClosed, 'Ξ' },
-            { GameObjectType.Player, '웃' },
+            { GameObjectType.Player, '☻' },
             { GameObjectType.Enemy, '☠' },
             { GameObjectType.Mushroom, '☘' },
             { GameObjectType.Rock, '●' }

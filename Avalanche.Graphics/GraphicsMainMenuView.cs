@@ -1,7 +1,6 @@
 using SFML.Graphics;
 using SFML.System;
 using Avalanche.Core;
-using SFML.Window;
 
 namespace Avalanche.Graphics
 {
