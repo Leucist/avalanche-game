@@ -24,12 +24,12 @@ namespace Avalanche.Core
 
         public Entity(
             int x, int y,
-            DirectionAxisType directionAxis = DirectionAxisType.X, 
+            DirectionAxisType directionAxis = DirectionAxisType.X,
+            int direction = 1,
             int health = DefaultEntityHealth,
             int damage = DefaultEntityDamage,
             int attackCooldown = DefaultAttackCooldown,
-            int actionCooldown = DefaultActionCooldown,
-            int direction = 1) 
+            int actionCooldown = DefaultActionCooldown) 
             : base(x, y)
         {
             _health = health;
@@ -46,29 +46,53 @@ namespace Avalanche.Core
 
         public void CheckColliders()
         {
-            if (_coords[0] > RoomCharWidth - 1)  // Right bound
-            {
-                _coords[0] = RoomCharWidth - 1;
-            }
-            else if (_coords[0] < 0)  // Left bound
-            {
-                _coords[0] = 0;
-            }
-            else if(_coords[1] > RoomCharHeight - 1)  // Lower bound
-            {
-                _coords[1] = RoomCharHeight - 1;
-            }
-            else if(_coords[1] < 0)  // Upper bound
-            {
-                _coords[1] = 0;
+            CardinalDirectionType? wallSide = CollidesWithWalls();
+
+            switch (wallSide) {
+                case CardinalDirectionType.East:
+                    _coords[0] = RoomCharWidth - 1;
+                    break;
+                case CardinalDirectionType.West:
+                    _coords[0] = 0;
+                    break;
+                case CardinalDirectionType.South:
+                    _coords[1] = RoomCharHeight - 1;
+                    break;
+                case CardinalDirectionType.North:
+                    _coords[1] = 0;
+                    break;
             }
         }
 
-        public void Move()
+        public CardinalDirectionType? CollidesWithWalls() {
+            if (_coords[0] > RoomCharWidth - 1)  // Right bound
+            {
+                return CardinalDirectionType.East;
+            }
+            else if (_coords[0] < 0)  // Left bound
+            {
+                return CardinalDirectionType.West;
+            }
+            else if(_coords[1] > RoomCharHeight - 1)  // Lower bound
+            {
+                return CardinalDirectionType.South;
+            }
+            else if(_coords[1] < 0)  // Upper bound
+            {
+                return CardinalDirectionType.North;
+            }
+            return null;
+        }
+
+        public void MoveInstantly() {
+            _coords[(int)_directionAxis] += _speed * _direction;
+        }
+        
+        public virtual void Move()
         {
             if (IsReadyToAct()) {
                 _actionCooldownCounter = _actionCooldown;
-                _coords[(int)_directionAxis] += _speed * _direction;
+                MoveInstantly();
             }
         }
 

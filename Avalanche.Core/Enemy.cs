@@ -1,4 +1,5 @@
-﻿using static Avalanche.Core.AppConstants;
+﻿using System.Reflection.Metadata.Ecma335;
+using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Core
 {
@@ -12,7 +13,7 @@ namespace Avalanche.Core
             int health = DefaultEntityHealth,
             int damage = DefaultEntityDamage,
             int attackCooldown = DefaultAttackCooldown
-            ) : base(x, y, directionAxis, health, damage, attackCooldown)
+            ) : base(x, y, directionAxis, 1, health, damage, attackCooldown)
         {
             
         }
@@ -44,10 +45,21 @@ namespace Avalanche.Core
         }
         */
 
-        public Enemy ShallowCopy()
+        /*public Enemy ShallowCopy()
         {
             return (Enemy) this.MemberwiseClone();
-        } 
+        } */
+
+        public Enemy Copy()
+        {
+            return new Enemy(
+                this._coords[0],
+                this._coords[1],
+                this._directionAxis,
+                this._health,
+                this._damage,
+                this._attackCooldown);
+        }
 
         public void RandomMovement()
         {

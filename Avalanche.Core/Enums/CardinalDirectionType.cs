@@ -1,6 +1,6 @@
 ﻿namespace Avalanche.Core
 {
-    public enum DoorPositioningType
+    public enum CardinalDirectionType
     {
         North,
         South,

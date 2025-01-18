@@ -45,7 +45,7 @@
             int roomsCount = random.Next(1, _levelNumber+1) * 2 + 2;
 
             // Generate Doors
-            Dictionary<int, Dictionary<DoorPositioningType, Door>> roomDoors = [];
+            Dictionary<int, Dictionary<CardinalDirectionType, Door>> roomDoors = [];
             for (int i = 0; i < roomsCount - 1; i++)
             {
                 Door newDoor = new Door(i, i, i + 1, false);
@@ -57,23 +57,23 @@
                     if (random.Next(1, 3) == 1)  // creates a right fork
                     {
                         if (!roomDoors.ContainsKey(i))
-                            roomDoors[i] = new Dictionary<DoorPositioningType, Door>();
-                        roomDoors[i][DoorPositioningType.East] = newDoor;
+                            roomDoors[i] = new Dictionary<CardinalDirectionType, Door>();
+                        roomDoors[i][CardinalDirectionType.East] = newDoor;
 
                         if (!roomDoors.ContainsKey(i + 1))
-                            roomDoors[i + 1] = new Dictionary<DoorPositioningType, Door>();
-                        roomDoors[i + 1][DoorPositioningType.West] = newDoor;
+                            roomDoors[i + 1] = new Dictionary<CardinalDirectionType, Door>();
+                        roomDoors[i + 1][CardinalDirectionType.West] = newDoor;
                         isForkedLastTime = true;
                     }
                     else  // creates a left fork
                     {
                         if (!roomDoors.ContainsKey(i))
-                            roomDoors[i] = new Dictionary<DoorPositioningType, Door>();
-                        roomDoors[i][DoorPositioningType.West] = newDoor;
+                            roomDoors[i] = new Dictionary<CardinalDirectionType, Door>();
+                        roomDoors[i][CardinalDirectionType.West] = newDoor;
 
                         if (!roomDoors.ContainsKey(i + 1))
-                            roomDoors[i + 1] = new Dictionary<DoorPositioningType, Door>();
-                        roomDoors[i + 1][DoorPositioningType.East] = newDoor;
+                            roomDoors[i + 1] = new Dictionary<CardinalDirectionType, Door>();
+                        roomDoors[i + 1][CardinalDirectionType.East] = newDoor;
                         isForkedLastTime = true;
                     }
 
@@ -83,12 +83,12 @@
                 // penultimate id of door if last was created WITH a fork
                 {
                     if (!roomDoors.ContainsKey(i - 1))
-                        roomDoors[i - 1] = new Dictionary<DoorPositioningType, Door>();
-                    roomDoors[i - 1][DoorPositioningType.South] = newDoor;
+                        roomDoors[i - 1] = new Dictionary<CardinalDirectionType, Door>();
+                    roomDoors[i - 1][CardinalDirectionType.South] = newDoor;
 
                     if (!roomDoors.ContainsKey(i + 1))
-                        roomDoors[i + 1] = new Dictionary<DoorPositioningType, Door>();
-                    roomDoors[i + 1][DoorPositioningType.North] = newDoor;
+                        roomDoors[i + 1] = new Dictionary<CardinalDirectionType, Door>();
+                    roomDoors[i + 1][CardinalDirectionType.North] = newDoor;
                     isForkedLastTime = false;
                 }
                 else
@@ -96,12 +96,12 @@
                     // it means that new room always creates under previous 'main branch' room and takes 
                     // last id of door because last room was created WITHOUT a fork
                     if (!roomDoors.ContainsKey(i))
-                        roomDoors[i] = new Dictionary<DoorPositioningType, Door>();
-                    roomDoors[i][DoorPositioningType.South] = newDoor;
+                        roomDoors[i] = new Dictionary<CardinalDirectionType, Door>();
+                    roomDoors[i][CardinalDirectionType.South] = newDoor;
 
                     if (!roomDoors.ContainsKey(i + 1))
-                        roomDoors[i + 1] = new Dictionary<DoorPositioningType, Door>();
-                    roomDoors[i + 1][DoorPositioningType.North] = newDoor;
+                        roomDoors[i + 1] = new Dictionary<CardinalDirectionType, Door>();
+                    roomDoors[i + 1][CardinalDirectionType.North] = newDoor;
                     isForkedLastTime = false;
 
 
@@ -111,13 +111,13 @@
             if (isForkedLastTime)  // if we had a fork
             {
                 Door levelExit = new Door(roomsCount-2, roomsCount-2, roomsCount-2, true);  // last room
-                roomDoors[roomsCount-2][DoorPositioningType.South] = levelExit;
+                roomDoors[roomsCount-2][CardinalDirectionType.South] = levelExit;
                 _levelExit = levelExit;
             }
             else // // if we didn't have a fork
             {
                 Door levelExit = new Door(roomsCount-1, roomsCount - 1, roomsCount - 1, true);  // last room
-                roomDoors[roomsCount - 1][DoorPositioningType.South] = levelExit;
+                roomDoors[roomsCount - 1][CardinalDirectionType.South] = levelExit;
                 _levelExit = levelExit;
             }
 
