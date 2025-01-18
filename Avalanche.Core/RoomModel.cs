@@ -84,7 +84,7 @@ namespace Avalanche.Core
             //    ));
             //}
 
-            Enemy enemyPrototype = new Enemy();
+            /*Enemy enemyPrototype = new Enemy();
 
             foreach (var coords in _enemyPositions)
             {
@@ -93,6 +93,16 @@ namespace Avalanche.Core
                 enemy.SetX(coords.Item1); enemy.SetY(coords.Item2);
                 _enemies.Add(enemy);
 
+            }*/
+
+            Enemy enemyPrototype = new Enemy();
+
+            foreach (var coords in _enemyPositions)
+            {
+                Enemy enemy = new Enemy();
+                enemy = enemyPrototype.Copy();
+                enemy.SetX(coords.Item1); enemy.SetY(coords.Item2);
+                _enemies.Add(enemy);
             }
         }
 
