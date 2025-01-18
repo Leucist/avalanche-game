@@ -14,12 +14,25 @@
             _currentIndex = 0;
         }
 
+        public DateTime _cursorMovedTime;
+
         public void MoveCursorUp() {
-            _currentIndex = (_currentIndex - 1 + _options.Count) % _options.Count;
+            if ((DateTime.Now - _cursorMovedTime).TotalSeconds >= 0.15)
+            {
+
+                _cursorMovedTime = DateTime.Now;
+                _currentIndex = (_currentIndex - 1 + _options.Count) % _options.Count;
+
+            }
         }
 
         public void MoveCursorDown() {
-            _currentIndex = (_currentIndex + 1) % _options.Count;
+            if ((DateTime.Now - _cursorMovedTime).TotalSeconds >= 0.15)
+            {
+
+                _cursorMovedTime = DateTime.Now;
+                _currentIndex = (_currentIndex + 1) % _options.Count;
+            }
         }
 
         public GameStateType GetCurrentKey() {
