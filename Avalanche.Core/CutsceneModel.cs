@@ -57,9 +57,21 @@ namespace Avalanche.Core
             _currentFrameNumber++;
         }
 
+        DateTime _frameDelay = DateTime.Now;
         public void Update(ActionType action) {
             // Switch int pointer to the next frame
-            NextFrame();
+            if (GameState._mode == GameModeType.Graphics )
+            {
+                if ((DateTime.Now - _frameDelay).TotalSeconds >= 0.15f)
+                {
+                    NextFrame();
+                    _frameDelay = DateTime.Now;
+                }
+            }
+            else  // if console
+            {
+                NextFrame();
+            }
             // Check if cutscene hasn't ended
             CheckIfCutsceneEnded();
 

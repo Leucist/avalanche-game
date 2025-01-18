@@ -34,7 +34,7 @@ namespace Avalanche.Graphics
                 if (File.Exists(filePath))
                 {
                     Texture tex = new Texture(filePath);
-                    // Position at (0,0); we’ll re-center it when drawing
+                    // Position at (0,0); we'll re-center it when drawing
                     var texDataObj = new TextureDataObject(tex, new Vector2f(0, 0));
                     _sceneTextures.Add(texDataObj);
                 }
@@ -46,7 +46,7 @@ namespace Avalanche.Graphics
             // which frame to display:
             int currentFrameIndex = _model._currentFrameNumber;
 
-            // If out of range
+            // If img out of range
             if (currentFrameIndex < 0 || currentFrameIndex >= _sceneTextures.Count)
                 return;
 
