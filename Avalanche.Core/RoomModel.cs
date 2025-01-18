@@ -20,7 +20,7 @@ namespace Avalanche.Core
         public RoomModel(
             int id, 
             int enemiesCount, 
-            Dictionary<DoorPositioningType, Door> doors,
+            Dictionary<CardinalDirectionType, Door> doors,
             Campfire? campfire = null
         ) {
             _id = id;
@@ -40,16 +40,16 @@ namespace Avalanche.Core
                 int x = RoomCharWidth / 2;
                 int y = RoomCharHeight / 2;
                 switch (door.Key) {
-                    case DoorPositioningType.North:
+                    case CardinalDirectionType.North:
                         y = -1;
                         break;
-                    case DoorPositioningType.East:
+                    case CardinalDirectionType.East:
                         x = RoomCharWidth;
                         break;
-                    case DoorPositioningType.South:
+                    case CardinalDirectionType.South:
                         y = RoomCharHeight;
                         break;
-                    case DoorPositioningType.West:
+                    case CardinalDirectionType.West:
                         x = -1;
                         break;
                 }
@@ -170,16 +170,25 @@ namespace Avalanche.Core
 
                 // - Manage thrown Rock
                 if (_otherEntities[i].GetType() == typeof(Rock)) {
-                    foreach (var enemy in _enemies) {
-                        if (_otherEntities[i].CollidesWith(enemy)) {
-                            enemy.TakeDamage(_otherEntities[i]._damage);
-                            _dirtyPixels.Add([_otherEntities[i].GetX(), _otherEntities[i].GetY()]);
-                            // may be erased in other ways ~
-                            _otherEntities.Remove(_otherEntities[i]);
+                    Rock rock = (Rock) _otherEntities[i];
+                    // if rock hits the wall
+                    if (rock.CollidesWithWalls() != null) {
+                        RemoveOtherEntity(rock);
+                    } else {    // if rock hasn't been deleted
+                        foreach (var enemy in _enemies) {
+                            if (rock.CollidesWith(enemy)) {
+                                enemy.TakeDamage(rock._damage);
+                                RemoveOtherEntity(rock);
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private void RemoveOtherEntity(Entity entity) {
+            // _dirtyPixels.Add([entity.GetX(), entity.GetY()]);
+            _otherEntities.Remove(entity);
         }
 
         public void AttackPoint(int x, int y, int damage) {

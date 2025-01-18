@@ -13,7 +13,7 @@ namespace Avalanche.Core
             int health = DefaultEntityHealth,
             int damage = DefaultEntityDamage,
             int attackCooldown = DefaultAttackCooldown
-            ) : base(x, y, directionAxis, health, damage, attackCooldown)
+            ) : base(x, y, directionAxis, 1, health, damage, attackCooldown)
         {
             
         }

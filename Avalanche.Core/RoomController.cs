@@ -4,7 +4,7 @@
     {
         public RoomModel _model;
 
-        public RoomController(int id, int enemiesCount, Dictionary<DoorPositioningType, Door> doors) {
+        public RoomController(int id, int enemiesCount, Dictionary<CardinalDirectionType, Door> doors) {
             _model = new RoomModel(id, enemiesCount, doors);
         }
 

@@ -12,5 +12,9 @@ namespace Avalanche.Core
             ) {
             
         }
+
+        public override void Move() {
+            base.MoveInstantly();
+        }
     }
 }
