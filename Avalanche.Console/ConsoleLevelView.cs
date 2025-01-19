@@ -130,7 +130,7 @@ namespace Avalanche.Console
 
                 // Clear previous data
                 System.Console.SetCursorPosition(uiX + label.Length, uiY);
-                System.Console.Write(" ", totalItemsCount * 2);
+                System.Console.Write(new string(' ', label.Length + totalItemsCount * 2 + 2)); ;
 
                 // Resets the cursor
                 System.Console.SetCursorPosition(uiX, uiY);
@@ -228,11 +228,11 @@ namespace Avalanche.Console
                 Campfire campfire = _model._currentRoom._campfire;
                 if (campfire.IsBurning)
                 { 
-                ConsoleRenderer.DrawFirecampSymbol(campfire.GetX(), campfire.GetY(), 'X');
+                ConsoleRenderer.DrawFirecampSymbol(campfire.GetX(), campfire.GetY(), "🔥");
                 }
                 else
                 {
-                    ConsoleRenderer.DrawFirecampSymbol(campfire.GetX(), campfire.GetY(), 'O');
+                    ConsoleRenderer.DrawFirecampSymbol(campfire.GetX(), campfire.GetY(), "⚫ ");
                 }
             }
         }

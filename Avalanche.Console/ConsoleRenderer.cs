@@ -263,7 +263,7 @@ namespace Avalanche.Console
             System.Console.Write(textures[type]);
         }
 
-        public static void DrawFirecampSymbol(int x, int y, char symbolFirecamp)
+        public static void DrawFirecampSymbol(int x, int y, string symbolFirecamp)
         {
             x += _startingLocX;
             y += _startingLocY;
