@@ -13,5 +13,6 @@ namespace Avalanche.Graphics
         }
 
         public abstract void Render();
+        public abstract void Reset();
     }
 }

@@ -57,6 +57,11 @@ namespace Avalanche.Console
             ];
         }
 
+        public void Reset() {
+            _prevIndex = -1;
+            _labelShowCountdown = DefaultFrameTime*2;
+        }
+
         public void Render()
         {
             // Redraws menu if changes were commited

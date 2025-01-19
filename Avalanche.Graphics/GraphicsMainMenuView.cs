@@ -38,6 +38,10 @@ namespace Avalanche.Graphics
             _menuButtons = new();
             GenerateMenuButtons();
 
+            Reset();
+        }
+
+        public override void Reset() {
             // - Make buttons clickable
             Renderer.ResetEventHandlers();
             SubscribeMenuButtons();

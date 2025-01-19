@@ -20,6 +20,10 @@ namespace Avalanche.Console
             _prevFrameNumber = _model._currentFrameNumber - 1;
         }
 
+        public void Reset() {
+            _prevFrameNumber = _model._currentFrameNumber - 1;
+        }
+
         private void SetColors(CutsceneType cutsceneType) {
             switch (cutsceneType) {
                 case CutsceneType.GameOver:

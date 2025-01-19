@@ -11,7 +11,11 @@ namespace Avalanche.Console
 
         public ConsoleNameInputView(NameInputModel model) {
             _model = model;
-            _name = AppConstants.DefaultPlayerName;
+            _name = DefaultPlayerName;
+        }
+
+        public void Reset() {
+            _name = DefaultPlayerName;
         }
 
         public void Render()

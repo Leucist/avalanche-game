@@ -6,6 +6,8 @@
 
         private readonly int _amountOfDifficultyLevels = Enum.GetValues(typeof(DifficultyLevelType)).Length;
         private int _difficulty = 0;
+        
+        public int Difficulty => _difficulty;
 
         private void SwitchDifficulty(int direction) {
             // Rise or Lower the Difficulty and ensure it stays within bounds

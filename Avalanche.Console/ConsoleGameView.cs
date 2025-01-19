@@ -9,10 +9,10 @@ namespace Avalanche.Console
     {
         // private IGameSceneModel _gameSceneModel;
         private Dictionary<GameStateType, IView> _views;
+        private IView? _currentView;
 
         public ConsoleGameView() {
             _views = new Dictionary<GameStateType, IView>();
-            // _views[GameStateType.MainMenu] = new ConsoleMainMenuView();
         }
 
         public void Initialize() {
@@ -28,7 +28,11 @@ namespace Avalanche.Console
         }
 
         public void Render() {
-            _views[GameState._state].Render();
+            if (_currentView != _views[GameState._state]) {
+                _currentView = _views[GameState._state];
+                _currentView.Reset();
+            }
+            _currentView.Render();
         }
         
         public void AddView(GameStateType gameState, ISceneController controller) {
@@ -36,6 +40,9 @@ namespace Avalanche.Console
             switch (gameState) {
                 case GameStateType.MainMenu:
                     view = new ConsoleMainMenuView((MainMenuModel)controller.GetModel());
+                    break;
+                case GameStateType.OptionsMenu:
+                    view = new ConsoleOptionsView((OptionsModel)controller.GetModel());
                     break;
                 case GameStateType.NameInput:
                     view = new ConsoleNameInputView((NameInputModel)controller.GetModel());

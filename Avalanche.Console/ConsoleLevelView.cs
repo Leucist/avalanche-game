@@ -18,6 +18,10 @@ namespace Avalanche.Console
         public ConsoleLevelView(LevelModel model)
         {
             _model = model;
+            ResetInnerParams();
+        }
+
+        private void ResetInnerParams() {
             _wasNeverDrawn = true;
 
             _previousHealthPointsCount = -100;
@@ -27,6 +31,10 @@ namespace Avalanche.Console
 
             _previousRoomID = _model._currentRoomID - 1;
             _previousLevelNumber = _model.LevelNumber - 1;
+        }
+
+        public void Reset() {
+            ResetInnerParams();
         }
 
         public void DrawHPUI()

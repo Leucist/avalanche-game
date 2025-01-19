@@ -12,6 +12,7 @@ namespace Avalanche.Graphics
         private readonly RenderWindow _window;
         private readonly GraphicsRenderer _renderer;
         private readonly Dictionary<GameStateType, IView> _views;
+        private IView? _currentView;
 
         public GraphicsGameView()
         {
@@ -45,6 +46,9 @@ namespace Avalanche.Graphics
                 case GameStateType.MainMenu:
                     view = new GraphicsMainMenuView((MainMenuModel)controller.GetModel(), _renderer);
                     break;
+                case GameStateType.OptionsMenu:
+                    view = new GraphicsOptionsView((OptionsModel)controller.GetModel(), _renderer);
+                    break;
                 case GameStateType.NameInput:
                     view = new GraphicsNameInputView((NameInputModel)controller.GetModel(), _renderer);
                     break;
@@ -67,7 +71,13 @@ namespace Avalanche.Graphics
             // if (GameState._state != GameStateType.Exit) {
             if (GameState._state != GameStateType.Exit && _window.IsOpen) {
                 _window.Clear(Color.Black);
-                _views[GameState._state].Render();
+                
+                if (_currentView != _views[GameState._state]) {
+                    _currentView = _views[GameState._state];
+                    _currentView.Reset();
+                }
+                _currentView.Render();
+
                 _window.Display();
             }
         }
