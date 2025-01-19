@@ -74,16 +74,8 @@ namespace Avalanche.Core
                 _enemyPositions.Add((x, y));
             }
 
-            // Creates enemies for the Room
-            int i = 0;
-            //foreach (var coords in _enemyPositions)
-            //{
-            //    _enemies.Add(new Enemy(
-            //        coords.Item1,
-            //        coords.Item2
-            //    ));
-            //}
-
+            // - Creates enemies for the Room
+            
             //Enemy enemyPrototype = new Enemy();
 
             //foreach (var coords in _enemyPositions)
@@ -138,10 +130,6 @@ namespace Avalanche.Core
                         coords.Item2
                     ));
                 }
-                // _items.Add(new GameObject(
-                //     coords.Item1,
-                //     coords.Item2
-                // ));
             }
         }
 
@@ -187,7 +175,6 @@ namespace Avalanche.Core
         }
 
         private void RemoveOtherEntity(Entity entity) {
-            // _dirtyPixels.Add([entity.GetX(), entity.GetY()]);
             _otherEntities.Remove(entity);
         }
 
