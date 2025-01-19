@@ -40,7 +40,7 @@ namespace Avalanche.Graphics
                 }
             }
 
-            Renderer.ResetEventHandlers();
+            // Renderer.ResetEventHandlers();
         }
 
         public override void Render()

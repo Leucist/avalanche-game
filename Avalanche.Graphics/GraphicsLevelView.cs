@@ -68,7 +68,7 @@ namespace Avalanche.Graphics
             int totalWindowWidth = ScreenCharWidth * PixelWidthMultiplier;
             int totalWindowHeight = ScreenCharHeight * PixelHeightMultiplier;
 
-            Renderer.ResetEventHandlers();
+            // Renderer.ResetEventHandlers();
         }
 
         public override void Render()
