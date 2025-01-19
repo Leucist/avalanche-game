@@ -56,7 +56,9 @@ namespace Avalanche.Graphics
                 {TextureType.Mushroom,       "Mushroom.png"},
                 {TextureType.Fire,           "Fire.png"},
                 {TextureType.DistinguishedFire, "DistinguishedFire.png" },
+                {TextureType.BackgroundWall, "BackgroundWall.png" },
                 {TextureType.Heart,          "Heart.png"},
+
             };
 
             _textures = new Dictionary<TextureType, Texture>();
@@ -87,7 +89,7 @@ namespace Avalanche.Graphics
 
         private void DrawRoomBackground()
         {
-            Texture backgroundTex = _textures[TextureType.DistinguishedFire];
+            Texture backgroundTex = _textures[TextureType.BackgroundWall];
 
             
             float startX = RoomDefaultX * PixelWidthMultiplier;
