@@ -231,21 +231,19 @@ namespace Avalanche.Console
 
         public void Render()
         {
-            // Render Pause
-            if (_model.IsPaused) {
-                if (!_wasNeverDrawn) {
+            if (_model.IsPaused)
+            {
+                if (!_wasNeverDrawn)
+                {
                     ConsoleRenderer.DrawPauseAlert();
                     _wasNeverDrawn = true;
                 }
                 return;
             }
 
-            // Draw User Interface
             DrawUI();
 
-            // If the current room has changed
-            if (_previousRoomID != _model._currentRoomID ||
-                _model.LevelNumber != _previousLevelNumber)
+            if (_previousRoomID != _model._currentRoomID || _model.LevelNumber != _previousLevelNumber)
             {
                 _wasNeverDrawn = true;
                 _previousRoomID = _model._currentRoomID;
@@ -254,85 +252,47 @@ namespace Avalanche.Console
 
             if (_wasNeverDrawn)
             {
-                // Clear screen
                 ConsoleRenderer.ClearScreen();
-
-                // Draw room borders (walls)
                 ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight);
-                // ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight, 0, 0, ConsoleColor.White, false);
 
-                foreach (var item in _model._currentRoom!._items) {
-                    GameObjectType gameObjectType = GameObjectType.Rock;
-                    switch (item) {
-                        case LayingRock _:
-                            gameObjectType = GameObjectType.Rock;
-                            break;
-                        case Mushroom _:
-                            gameObjectType = GameObjectType.Mushroom;
-                            break;
-                        case Campfire _:
-                            gameObjectType = GameObjectType.Firecamp;
-                            break;
-                    }
-                    ConsoleRenderer.DrawGameObject(item.GetX(), item.GetY(), gameObjectType);
-                }
-
+                // Рендеримо двері
                 RenderDoors();
 
-                // Reset indicator
+                // Рендеримо багаття
+                if (_model._currentRoom!._campfire != null)
+                {
+                    Campfire campfire = _model._currentRoom._campfire;
+                    ConsoleRenderer.DrawGameObject(campfire.GetX(), campfire.GetY(), GameObjectType.Firecamp);
+                }
+
                 _wasNeverDrawn = false;
             }
 
             ConsoleRenderer.ClearDirtyPixels(_model._currentRoom!._dirtyPixels);
-            _model._currentRoom!._dirtyPixels.Clear();
+            _model._currentRoom._dirtyPixels.Clear();
 
-            if (_model._currentRoom!._isDirty)
+            if (_model._currentRoom._isDirty)
             {
                 RenderDoors();
-                // Render Player
-                if (_model._player._health < _previousHealthPointsCount) {
-                    System.Console.BackgroundColor = ConsoleColor.Red;
-                    _previousHealthPointsCount = _model._player._health;
-                }
+
                 ConsoleRenderer.DrawPlayer(
                     _model._player.GetX(),
                     _model._player.GetY());
-                System.Console.ResetColor();
-                System.Console.ForegroundColor = ConsoleColor.White;
 
-                // Render each of the enemies
-                List<Enemy> enemies = _model._currentRoom._enemies;
-                foreach (Enemy enemy in enemies)
+                foreach (var enemy in _model._currentRoom._enemies)
                 {
-                    if (enemy.WasHit) {
-                        System.Console.BackgroundColor = ConsoleColor.Red;
-                    }
                     ConsoleRenderer.DrawEnemy(enemy.GetX(), enemy.GetY());
-                    if (enemy.WasHit) {
-                        System.Console.ResetColor();
-                        System.Console.ForegroundColor = ConsoleColor.White;
-                        enemy._wasHit = false;
-                    }
                 }
 
-                foreach (Entity entity in _model._currentRoom._otherEntities)
+                foreach (var entity in _model._currentRoom._otherEntities)
                 {
-                    GameObjectType gType = entity switch
-                    {
-                        // Rock _ =>
-                        _ => GameObjectType.Rock,
-                    };
-                    ConsoleRenderer.DrawGameObject(entity.GetX(), entity.GetY(), gType);
+                    ConsoleRenderer.DrawGameObject(entity.GetX(), entity.GetY(), GameObjectType.Rock);
                 }
 
                 _model._currentRoom._isDirty = false;
             }
-
-            _previousHealthPointsCount = _model._player._health;
-            _previousHeat = _model._player._heat;
-            _previousMushrooms = _model._player._mushrooms;
-            _previousRocks = _model._player._rocks;
         }
+
 
         private void RenderDoors()
         {

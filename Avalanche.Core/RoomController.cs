@@ -4,8 +4,9 @@
     {
         public RoomModel _model;
 
-        public RoomController(int id, int enemiesCount, Dictionary<CardinalDirectionType, Door> doors) {
-            _model = new RoomModel(id, enemiesCount, doors);
+        public RoomController(int id, int enemiesCount, Dictionary<CardinalDirectionType, Door> doors, Player player)
+        {
+            _model = new RoomModel(id, enemiesCount, doors, player);
         }
 
         public void Handle(ActionType action) {

@@ -1,9 +1,12 @@
-﻿using static Avalanche.Core.AppConstants;
+﻿using Avalanche.Core.Interfaces;
+using System.Numerics;
+using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Core
 {
     public class RoomModel
     {
+        public Player _player;
         public int _id { get; set; }
         public List<GameObject> _items { get; set; }
         public List<Entity> _otherEntities { get; set; }
@@ -21,6 +24,7 @@ namespace Avalanche.Core
             int id, 
             int enemiesCount, 
             Dictionary<CardinalDirectionType, Door> doors,
+            Player player,
             Campfire? campfire = null
         ) {
             _id = id;
@@ -34,6 +38,7 @@ namespace Avalanche.Core
             _dirtyPixels = [];
             _doors = [];
             _campfire = campfire;
+            _player = player;
 
             // Create GameObjects for the doors
             foreach (var door in doors) {
@@ -114,10 +119,9 @@ namespace Avalanche.Core
             Random random = new Random();
             int mushroomsCount = random.Next(1, 2);
             int rocksCount = random.Next(1, 2);
-            int firecampCount = 1;
 
             // Fills _itemPositions with random values within room borders
-            while (_itemPositions.Count <= mushroomsCount + rocksCount + firecampCount) {
+            while (_itemPositions.Count <= mushroomsCount + rocksCount) {
                 int x = random.Next(0, AppConstants.RoomCharWidth);
                 int y = random.Next(0, AppConstants.RoomCharHeight);
 
@@ -126,45 +130,44 @@ namespace Avalanche.Core
 
             // Creates items for the Room
             int i = 0;
-            bool campfireCreated = false; // Перевірка для створення тільки одного багаття
-
-            foreach (var coords in _itemPositions)
-            {
-                if (i++ < mushroomsCount)
-                {
+            foreach (var coords in _itemPositions) {
+                if (i++ < mushroomsCount) {
                     _items.Add(new Mushroom(
                         coords.Item1,
                         coords.Item2
                     ));
                 }
-                else
-                {
+                else {
                     _items.Add(new LayingRock(
                         coords.Item1,
                         coords.Item2
                     ));
+                }
 
-                    if (!campfireCreated)
-                    {
-                        _items.Add(new Campfire(
-                            coords.Item1,
-                            coords.Item2,
-                            new Player()
-                        ));
-                        campfireCreated = true; 
-                    }
+                if (_campfire == null)
+                {
+                    int x = random.Next(1, RoomCharWidth - 1);
+                    int y = random.Next(1, RoomCharHeight - 1);
+                    _campfire = new Campfire(x, y, _player);
                 }
                 // _items.Add(new GameObject(
                 //     coords.Item1,
                 //     coords.Item2
                 // ));
             }
-
         }
 
         public void Update() {
             // If campfire is present in the room, then update it
-            _campfire?.UpdateCampfireState();
+            if (_campfire != null)
+            {
+                Console.WriteLine("Оновлюється багаття...");
+                _campfire.UpdateCampfireState();
+            }
+            else
+            {
+                Console.WriteLine("Багаття не знайдено.");
+            }
 
             // - Open all doors (except level exit) in the room if there're no enemies left
             if (_enemies.Count == 0) {
@@ -176,6 +179,8 @@ namespace Avalanche.Core
                     door._isClosed = false;
                 }
             }
+
+
 
             // - Move other entities
             for (int i = _otherEntities.Count-1; i >= 0; i--) {

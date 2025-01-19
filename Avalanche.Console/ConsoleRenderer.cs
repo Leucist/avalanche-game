@@ -275,5 +275,7 @@ namespace Avalanche.Console
             DrawGameObject(x, y, type);
         }
 
+
+
     }
 }
