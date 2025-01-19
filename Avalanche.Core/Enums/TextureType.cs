@@ -13,6 +13,7 @@ namespace Avalanche.Core
         Mushroom,
         Fire,
         Heart,
-        WarningSign
+        WarningSign,
+        DistinguishedFire
     }
 }

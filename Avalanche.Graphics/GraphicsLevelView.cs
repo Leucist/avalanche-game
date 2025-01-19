@@ -53,6 +53,7 @@ namespace Avalanche.Graphics
                 {TextureType.Rock,           "Rock.png"},
                 {TextureType.Mushroom,       "Mushroom.png"},
                 {TextureType.Fire,           "Fire.png"},
+                {TextureType.DistinguishedFire, "DistinguishedFire.png" },
                 {TextureType.Heart,          "Heart.png"},
             };
 
@@ -444,6 +445,7 @@ namespace Avalanche.Graphics
         private void RenderCampfires()
         {
             Campfire campfire = _model._currentRoom._campfire;
+            if (campfire.IsBurning) { 
             Texture skeletonTex = _textures[TextureType.Fire];
 
                 Sprite s = new Sprite(skeletonTex)
@@ -453,6 +455,20 @@ namespace Avalanche.Graphics
                 };
                 s.Scale = new Vector2f(2f, 2f);
                 _renderer.Draw(s);
+            }
+            else
+            {
+                Texture skeletonTex = _textures[TextureType.DistinguishedFire];
+
+                Sprite s = new Sprite(skeletonTex)
+                {
+                    Position = new Vector2f((campfire.GetX() + RoomDefaultX) * PixelWidthMultiplier,
+                    (campfire.GetY() + RoomDefaultY) * PixelHeightMultiplier)
+                };
+                s.Scale = new Vector2f(2f, 2f);
+                _renderer.Draw(s);
+            }
         }
+        
     }
 }
