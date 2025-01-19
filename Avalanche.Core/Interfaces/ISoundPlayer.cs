@@ -2,7 +2,9 @@ namespace Avalanche.Core
 {
     public interface ISoundPlayer
     {
-        void Play(string filename, bool loop = false);
-        void Stop();
+        void PlayOnRepeat(string filename);
+        void PlaySingleSound(string filename);
+        void StopAll();
+        void StopOnRepeat();
     }
 }

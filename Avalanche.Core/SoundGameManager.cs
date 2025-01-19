@@ -11,12 +11,31 @@
 
         public static void Play(string filename, bool loop = false)
         {
-            _soundPlayer?.Play(filename, loop);
+            if (loop)
+                PlayOnRepeat(filename);
+            else
+                PlaySingleSound(filename);
         }
 
-        public static void Stop()
+        public static void PlayOnRepeat(string filename)
         {
-            _soundPlayer?.Stop();
+            // StopAll();
+            _soundPlayer?.PlayOnRepeat(filename);
+        }
+
+        public static void PlaySingleSound(string filename)
+        {
+            _soundPlayer?.PlaySingleSound(filename);
+        }
+
+        public static void StopAll()
+        {
+            _soundPlayer?.StopAll();
+        }
+
+        public static void StopOnRepeat()
+        {
+            _soundPlayer?.StopOnRepeat();
         }
     }
 }
