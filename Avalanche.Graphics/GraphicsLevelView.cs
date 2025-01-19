@@ -6,6 +6,8 @@ using System.IO;
 
 using Avalanche.Core;
 using static Avalanche.Core.AppConstants;
+using System;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Avalanche.Graphics
 {
@@ -71,6 +73,7 @@ namespace Avalanche.Graphics
             DrawUI();
             DrawPlayer();
             DrawEnemy();
+            DrawItems();
         }
 
         private void DrawUI()
@@ -131,7 +134,6 @@ namespace Avalanche.Graphics
         {
             int totalHeartsCount = 10;
             int heartsCount = _model._player._health / totalHeartsCount;
-            heartsCount = 10;
 
             // Draw hearts
             Texture heartTex = _textures[TextureType.Heart];
@@ -181,7 +183,7 @@ namespace Avalanche.Graphics
         private void DrawMushroomsUI(float xStart, float yStart)
         {
             int totalItemsCount = 10;
-            int count = 10;
+            int count = _model._player._mushrooms;
             if (count > totalItemsCount)
                 count = totalItemsCount;
 
@@ -210,7 +212,7 @@ namespace Avalanche.Graphics
         private void DrawRocksUI(float xStart, float yStart)
         {
             int totalItemsCount = 10;
-            int count = 10;
+            int count = _model._player._rocks;
             if (count > totalItemsCount)
                 count = totalItemsCount;
 
@@ -246,7 +248,6 @@ namespace Avalanche.Graphics
 
         private void DrawPlayer()
         {
-            // Draw hearts
             Texture heartTex = _textures[TextureType.Player];
 
             Sprite s = new Sprite(heartTex)
@@ -273,6 +274,44 @@ namespace Avalanche.Graphics
                 };
                 s.Scale = new Vector2f(2f, 2f);
                 _renderer.Draw(s);
+            }
+
+        }
+
+        private void DrawItems()
+        {
+
+            Texture itemTex;
+
+            foreach (var item in _model._currentRoom!._items)
+            {
+                switch (item)
+                {
+                    case LayingRock:
+                        itemTex = _textures[TextureType.Rock];
+
+                        Sprite r = new Sprite(itemTex)
+                        {
+                            Position = new Vector2f((item.GetX() + RoomDefaultX) * PixelWidthMultiplier,
+                            (item.GetY() + RoomDefaultY) * PixelHeightMultiplier)
+                        };
+
+                        r.Scale = new Vector2f(2f, 2f);
+                        _renderer.Draw(r);
+                        break;
+                    case Mushroom:
+                        itemTex = _textures[TextureType.Mushroom];
+
+                        Sprite m = new Sprite(itemTex)
+                        {
+                            Position = new Vector2f((item.GetX() + RoomDefaultX) * PixelWidthMultiplier,
+                            (item.GetY() + RoomDefaultY) * PixelHeightMultiplier)
+                        };
+
+                        m.Scale = new Vector2f(2f, 2f);
+                        _renderer.Draw(m);
+                        break;
+                }
             }
 
         }
