@@ -29,5 +29,6 @@ namespace Avalanche.Core
             }
             
         }
+        public bool IsBurning => isBurning;
     }
 }

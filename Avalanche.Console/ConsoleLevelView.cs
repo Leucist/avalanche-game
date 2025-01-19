@@ -221,12 +221,29 @@ namespace Avalanche.Console
             System.Console.Write(_model._currentRoomID);
         }
 
+        public void DrawFirecamp()
+        {
+            if (_model._currentRoom!._campfire != null)
+            {
+                Campfire campfire = _model._currentRoom._campfire;
+                if (campfire.IsBurning)
+                { 
+                ConsoleRenderer.DrawFirecampSymbol(campfire.GetX(), campfire.GetY(), 'X');
+                }
+                else
+                {
+                    ConsoleRenderer.DrawFirecampSymbol(campfire.GetX(), campfire.GetY(), 'O');
+                }
+            }
+        }
+
         private void DrawUI() {
             DrawHPUI();
             DrawHeatUI();
             DrawRoomAndLevelNumberUI();
             DrawMushroomsUI();
             DrawRocksUI();
+            DrawFirecamp();
         }
 
         public void Render()
@@ -262,12 +279,6 @@ namespace Avalanche.Console
                     // System.Console.WriteLine($"Rendering item at ({item.GetX()}, {item.GetY()}) of type {item.GetType().Name}");
                     GameObjectType gameObjectType = item is LayingRock ? GameObjectType.Rock : GameObjectType.Mushroom;
                     ConsoleRenderer.DrawGameObject(item.GetX(), item.GetY(), gameObjectType);
-                }
-
-                if (_model._currentRoom!._campfire != null)
-                {
-                    Campfire campfire = _model._currentRoom._campfire;
-                    ConsoleRenderer.DrawGameObject(campfire.GetX(), campfire.GetY(), GameObjectType.Firecamp);
                 }
 
                 _wasNeverDrawn = false;

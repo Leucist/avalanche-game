@@ -263,6 +263,15 @@ namespace Avalanche.Console
             System.Console.Write(textures[type]);
         }
 
+        public static void DrawFirecampSymbol(int x, int y, char symbolFirecamp)
+        {
+            x += _startingLocX;
+            y += _startingLocY;
+
+            System.Console.SetCursorPosition(x, y);
+            System.Console.Write(symbolFirecamp);
+        }
+
         public static void DrawPlayer(int x, int y)
         {
             GameObjectType type = GameObjectType.Player;
