@@ -80,58 +80,94 @@ namespace Avalanche.Graphics
             RenderCampfires();
         }
 
-        private void DrawUI()
+        public void DrawUI()
         {
-            float topRowY = 20f;    // vertical offset from top
-            float startX = 10f;     // left margin
-            float labelGap = 150f;  // space between label and icons
-            float itemGap = 12f;    // space between icons (hearts/fires)
-            int yCorLowText = 10;
+            float FirstRow = 70f;  // X
+            float SecondRow = 420f;
+            float ThirdRow = 770f;
 
-            var hpLabel = MakeText("Health Points:", 18,
-                                   new Vector2f(startX, topRowY));
+            float FirstLine = 65f;  // Y
+            float SecondLine = 450f; 
+
+            Vector2f heartsGroupPos = new Vector2f((FirstRow+ SecondRow)/2, SecondLine);
+            Vector2f heatGroupPos = new Vector2f((SecondRow+ThirdRow)/2, SecondLine);
+
+            Vector2f mushroomGroupPos = new Vector2f(FirstRow, FirstLine);
+            Vector2f rocksGroupPos = new Vector2f(SecondRow, FirstLine);
+            Vector2f levelGroupPos = new Vector2f(ThirdRow, FirstLine);
+
+
+            DrawHeartsGroup(heartsGroupPos);
+            DrawHeatGroup(heatGroupPos);
+            DrawLevelAndRoomUI(levelGroupPos);
+            DrawMushroomsGroup(mushroomGroupPos);
+            DrawRocksGroup(rocksGroupPos);
+        }
+
+
+        private void DrawHeartsGroup(Vector2f basePos)
+        {
+            // Draw the label
+            Text hpLabel = MakeText("Health Points:", 18, basePos);
             _renderer.Draw(hpLabel);
 
-            float heartsX = startX + 150f;
-            DrawHeartsUI(heartsX, topRowY+ yCorLowText, itemGap);
+            // Let's offset hearts from the label, e.g. 150px to the right.
+            float heartsOffsetX = 150f;
+            float heartsOffsetY = 10f; // slight downward offset so they align nicely
+            float gapBetweenHearts = 12f;
 
-            int _heatImageOffsetFromLabel = 200;
-            float heatLabelX = heartsX + _heatImageOffsetFromLabel;
-            var heatLabel = MakeText("Heat:", 18,
-                                     new Vector2f(heatLabelX, topRowY));
+            // Now draw the hearts themselves
+            DrawHeartsUI(basePos.X + heartsOffsetX,
+                         basePos.Y + heartsOffsetY,
+                         gapBetweenHearts);
+        }
+
+
+        private void DrawHeatGroup(Vector2f basePos)
+        {
+            // Draw the label
+            Text heatLabel = MakeText("Heat:", 18, basePos);
             _renderer.Draw(heatLabel);
 
-            int _heatIconsImageOffsetFromLabel = 65;
-            float fireX = heatLabelX + _heatIconsImageOffsetFromLabel;
-            DrawHeatUI(fireX, topRowY+yCorLowText, itemGap);
+            // Offset for the fire icons
+            float fireOffsetX = 65f;
+            float fireOffsetY = 10f;
+            float gapBetweenFires = 12f;
 
-            float levelLabelX = fireX + (10 * itemGap);
-            DrawLevelAndRoomUI(levelLabelX, topRowY);
+            DrawHeatUI(basePos.X + fireOffsetX,
+                       basePos.Y + fireOffsetY,
+                       gapBetweenFires);
+        }
 
-            float secondRowY = 70f;
-            float secondRowX = startX;
 
-            // Mushrooms label
-            var mushLabel = MakeText("[X] Mushrooms:", 18,
-                                     new Vector2f(secondRowX, secondRowY));
+        private void DrawMushroomsGroup(Vector2f basePos)
+        {
+            Text mushLabel = MakeText("[X] Mushrooms:", 18, basePos);
             _renderer.Draw(mushLabel);
 
-            // Mushrooms icons / “X”
-            int _mushroomImageOffsetFromLabel = 160;
-            float mushIconsX = secondRowX + _mushroomImageOffsetFromLabel;
-            DrawMushroomsUI(mushIconsX, secondRowY+ yCorLowText);
+            float iconOffsetX = 160f;
+            float iconOffsetY = 10f;
 
-            // Rocks label
-            int _rockImageOffset = 400;
-            float rocksLabelX = mushIconsX + _rockImageOffset;
-            var rocksLabel = MakeText("[R] Rocks:", 18,
-                                      new Vector2f(rocksLabelX, secondRowY));
+            DrawMushroomsUI(basePos.X + iconOffsetX, basePos.Y + iconOffsetY);
+        }
+
+
+        private void DrawRocksGroup(Vector2f basePos)
+        {
+            Text rocksLabel = MakeText("[R] Rocks:", 18, basePos);
             _renderer.Draw(rocksLabel);
 
-            // Rocks icons / “X”
-            int _rockOffsetFromLabel = 105;
-            float rocksIconsX = rocksLabelX + _rockOffsetFromLabel;
-            DrawRocksUI(rocksIconsX, secondRowY + yCorLowText);
+            float iconOffsetX = 105f;
+            float iconOffsetY = 10f;
+
+            DrawRocksUI(basePos.X + iconOffsetX, basePos.Y + iconOffsetY);
+        }
+
+        private void DrawLevelAndRoomUI(Vector2f basePos)
+        {
+            string labelStr = $"Level: {_model.LevelNumber} | Room: {_model._currentRoomID}";
+            var text = MakeText(labelStr, 18, basePos);
+            _renderer.Draw(text);
         }
 
         private void DrawHeartsUI(float xStart, float yStart, float gap)
@@ -139,21 +175,17 @@ namespace Avalanche.Graphics
             int totalHeartsCount = 10;
             int heartsCount = _model._player._health / totalHeartsCount;
 
-            // Draw hearts
             Texture heartTex = _textures[TextureType.Heart];
 
             for (int i = 0; i < heartsCount; i++)
             {
                 Sprite s = new Sprite(heartTex)
                 {
-                    Position = new Vector2f(xStart + i * gap, yStart - 4f)
+                    Position = new Vector2f(xStart + i * gap, yStart),
+                    Scale = new Vector2f(2f, 2f)
                 };
-
-                s.Scale = new Vector2f(2f, 2f);
-
                 _renderer.Draw(s);
             }
-
         }
 
 
@@ -169,20 +201,13 @@ namespace Avalanche.Graphics
             {
                 Sprite s = new Sprite(fireTex)
                 {
-                    Position = new Vector2f(xStart + i * gap, yStart - 4f)                };
-
-                s.Scale = new Vector2f(2f, 2f);
-
+                    Position = new Vector2f(xStart + i * gap, yStart - 4f),
+                    Scale = new Vector2f(2f, 2f)
+                };
                 _renderer.Draw(s);
             }
         }
 
-        private void DrawLevelAndRoomUI(float xStart, float yStart)
-        {
-            string labelStr = $"Level: {_model.LevelNumber} | Room: {_model._currentRoomID}";
-            var text = MakeText(labelStr, 18, new Vector2f(xStart, yStart));
-            _renderer.Draw(text);
-        }
 
         private void DrawMushroomsUI(float xStart, float yStart)
         {
@@ -203,11 +228,9 @@ namespace Avalanche.Graphics
                 {
                     Sprite s = new Sprite(mushTex)
                     {
-                        Position = new Vector2f(xStart + i * 32f, yStart - 4f)
+                        Position = new Vector2f(xStart + i * 32f, yStart - 4f),
+                        Scale = new Vector2f(2f, 2f)
                     };
-
-                    s.Scale = new Vector2f(2f, 2f);
-
                     _renderer.Draw(s);
                 }
             }
@@ -222,9 +245,9 @@ namespace Avalanche.Graphics
 
             if (count == 0)
             {
-                var NoneText = MakeText("X", 18, new Vector2f(xStart, yStart));
-                NoneText.Color = Color.Red;
-                _renderer.Draw(NoneText);
+                var noneText = MakeText("X", 18, new Vector2f(xStart, yStart));
+                noneText.FillColor = Color.Red;
+                _renderer.Draw(noneText);
             }
             else
             {
@@ -233,9 +256,9 @@ namespace Avalanche.Graphics
                 {
                     Sprite s = new Sprite(rockTex)
                     {
-                        Position = new Vector2f(xStart + i * 32f, yStart - 4f)
+                        Position = new Vector2f(xStart + i * 32f, yStart - 4f),
+                        Scale = new Vector2f(3f, 3f)
                     };
-                    s.Scale = new Vector2f(3f, 3f);
                     _renderer.Draw(s);
                 }
             }
