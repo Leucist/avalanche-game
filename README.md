@@ -70,6 +70,16 @@ To contribute to the project:
 - [ ] Relevant documentation updated
 
 
+## Credits
+
+### Music
+The game features music licensed under **CC BY 4.0**. Special thanks to:
+
+- **[Song Title]** by **[Artist Name]** – [Free Music Archive](https://freemusicarchive.org/) ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))
+
+The music has been used with proper attribution according to the license terms.
+
+
 ## License
 
 This project is licensed under the MIT License.
