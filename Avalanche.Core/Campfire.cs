@@ -21,7 +21,7 @@ namespace Avalanche.Core
                 if (Math.Pow((GetX()-player.GetX()), 2) + Math.Pow((GetY()-player.GetY()), 2) 
                     <= Math.Pow(DefaultCampfireRange, 2))
                 {
-                    player._heat++;
+                    player._heat+=10;
                 }
                 timeCounter--;
                 if (timeCounter < 0)
