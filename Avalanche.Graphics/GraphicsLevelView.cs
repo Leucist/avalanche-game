@@ -1,13 +1,8 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
-using System.Collections.Generic;
-using System.IO;
 
 using Avalanche.Core;
 using static Avalanche.Core.AppConstants;
-using System;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Avalanche.Graphics
 {
@@ -29,6 +24,10 @@ namespace Avalanche.Graphics
 
         float GraphicsShiftX = RoomDefaultX;
         float GraphicsShiftY = RoomDefaultX;
+
+        float _uiTextShift = -8f;
+        float _uiElementsShift = -6f;
+
 
         public GraphicsLevelView(LevelModel model, GraphicsRenderer renderer) : base(renderer)
         {
@@ -87,7 +86,7 @@ namespace Avalanche.Graphics
             float ThirdRow = 770f;
 
             float FirstLine = 65f;  // Y
-            float SecondLine = 450f; 
+            float SecondLine = 430f; 
 
             Vector2f heartsGroupPos = new Vector2f((FirstRow+ SecondRow)/2, SecondLine);
             Vector2f heatGroupPos = new Vector2f((SecondRow+ThirdRow)/2, SecondLine);
@@ -181,7 +180,7 @@ namespace Avalanche.Graphics
             {
                 Sprite s = new Sprite(heartTex)
                 {
-                    Position = new Vector2f(xStart + i * gap, yStart),
+                    Position = new Vector2f(xStart + i * gap, yStart+ _uiElementsShift),
                     Scale = new Vector2f(2f, 2f)
                 };
                 _renderer.Draw(s);
@@ -201,7 +200,7 @@ namespace Avalanche.Graphics
             {
                 Sprite s = new Sprite(fireTex)
                 {
-                    Position = new Vector2f(xStart + i * gap, yStart - 4f),
+                    Position = new Vector2f(xStart + i * gap, yStart + _uiElementsShift),
                     Scale = new Vector2f(2f, 2f)
                 };
                 _renderer.Draw(s);
@@ -218,7 +217,8 @@ namespace Avalanche.Graphics
 
             if (count == 0)
             {
-                var noneText = MakeText("X", 18, new Vector2f(xStart, yStart));
+                var noneText = MakeText("X", 18, new Vector2f(xStart, yStart+ _uiTextShift));
+                noneText.FillColor = Color.Red;
                 _renderer.Draw(noneText);
             }
             else
@@ -245,7 +245,7 @@ namespace Avalanche.Graphics
 
             if (count == 0)
             {
-                var noneText = MakeText("X", 18, new Vector2f(xStart, yStart));
+                var noneText = MakeText("X", 18, new Vector2f(xStart, yStart + _uiTextShift));
                 noneText.FillColor = Color.Red;
                 _renderer.Draw(noneText);
             }
@@ -256,7 +256,7 @@ namespace Avalanche.Graphics
                 {
                     Sprite s = new Sprite(rockTex)
                     {
-                        Position = new Vector2f(xStart + i * 32f, yStart - 4f),
+                        Position = new Vector2f(xStart + i * 32f, yStart - 6f),
                         Scale = new Vector2f(3f, 3f)
                     };
                     _renderer.Draw(s);
