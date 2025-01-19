@@ -33,7 +33,8 @@ namespace Avalanche.Console
         {
             // if ((_model._player._health != _previousHealthPointsCount) || _wasNeverDrawn)
             // {
-                //System.Console.WriteLine($"Player's HP: {_model._player._health}");
+            //System.Console.WriteLine($"Player's HP: {_model._player._health}");
+                //System.Console.WriteLine($"Player's Heat: {_model._player._heat}");
                 string label = "Health Points: ";
 
                 int uiX = RoomDefaultX + 4;
@@ -220,31 +221,46 @@ namespace Avalanche.Console
             System.Console.Write(_model._currentRoomID);
         }
 
+        public void DrawFirecamp()
+        {
+            if (_model._currentRoom!._campfire != null)
+            {
+                Campfire campfire = _model._currentRoom._campfire;
+                if (campfire.IsBurning)
+                { 
+                ConsoleRenderer.DrawFirecampSymbol(campfire.GetX(), campfire.GetY(), 'X');
+                }
+                else
+                {
+                    ConsoleRenderer.DrawFirecampSymbol(campfire.GetX(), campfire.GetY(), 'O');
+                }
+            }
+        }
+
         private void DrawUI() {
             DrawHPUI();
             DrawHeatUI();
             DrawRoomAndLevelNumberUI();
             DrawMushroomsUI();
             DrawRocksUI();
+            DrawFirecamp();
         }
 
         public void Render()
         {
-            // Render Pause
-            if (_model.IsPaused) {
-                if (!_wasNeverDrawn) {
+            if (_model.IsPaused)
+            {
+                if (!_wasNeverDrawn)
+                {
                     ConsoleRenderer.DrawPauseAlert();
                     _wasNeverDrawn = true;
                 }
                 return;
             }
 
-            // Draw User Interface
             DrawUI();
 
-            // If the current room has changed
-            if (_previousRoomID != _model._currentRoomID ||
-                _model.LevelNumber != _previousLevelNumber)
+            if (_previousRoomID != _model._currentRoomID || _model.LevelNumber != _previousLevelNumber)
             {
                 _wasNeverDrawn = true;
                 _previousRoomID = _model._currentRoomID;
@@ -253,72 +269,40 @@ namespace Avalanche.Console
 
             if (_wasNeverDrawn)
             {
-                // Clear screen
                 ConsoleRenderer.ClearScreen();
-
-                // Draw room borders (walls)
                 ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight);
-                // ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight, 0, 0, ConsoleColor.White, false);
-
-                foreach (var item in _model._currentRoom!._items) {
-                    GameObjectType gameObjectType = GameObjectType.Rock;
-                    switch (item) {
-                        case LayingRock _:
-                            gameObjectType = GameObjectType.Rock;
-                            break;
-                        case Mushroom _:
-                            gameObjectType = GameObjectType.Mushroom;
-                            break;
-                    }
-                    ConsoleRenderer.DrawGameObject(item.GetX(), item.GetY(), gameObjectType);
-                }
 
                 RenderDoors();
 
-                // Reset indicator
+                foreach (var item in _model._currentRoom!._items)
+                {
+                    // System.Console.WriteLine($"Rendering item at ({item.GetX()}, {item.GetY()}) of type {item.GetType().Name}");
+                    GameObjectType gameObjectType = item is LayingRock ? GameObjectType.Rock : GameObjectType.Mushroom;
+                    ConsoleRenderer.DrawGameObject(item.GetX(), item.GetY(), gameObjectType);
+                }
+
                 _wasNeverDrawn = false;
             }
 
             ConsoleRenderer.ClearDirtyPixels(_model._currentRoom!._dirtyPixels);
-            _model._currentRoom!._dirtyPixels.Clear();
+            _model._currentRoom._dirtyPixels.Clear();
 
-            if (_model._currentRoom!._isDirty)
+            if (_model._currentRoom._isDirty)
             {
                 RenderDoors();
-                // Render Player
-                if (_model._player._health < _previousHealthPointsCount) {
-                    System.Console.BackgroundColor = ConsoleColor.Red;
-                    _previousHealthPointsCount = _model._player._health;
-                }
+
                 ConsoleRenderer.DrawPlayer(
                     _model._player.GetX(),
                     _model._player.GetY());
-                System.Console.ResetColor();
-                System.Console.ForegroundColor = ConsoleColor.White;
 
-                // Render each of the enemies
-                List<Enemy> enemies = _model._currentRoom._enemies;
-                foreach (Enemy enemy in enemies)
+                foreach (var enemy in _model._currentRoom._enemies)
                 {
-                    if (enemy.WasHit) {
-                        System.Console.BackgroundColor = ConsoleColor.Red;
-                    }
                     ConsoleRenderer.DrawEnemy(enemy.GetX(), enemy.GetY());
-                    if (enemy.WasHit) {
-                        System.Console.ResetColor();
-                        System.Console.ForegroundColor = ConsoleColor.White;
-                        enemy._wasHit = false;
-                    }
                 }
 
-                foreach (Entity entity in _model._currentRoom._otherEntities)
+                foreach (var entity in _model._currentRoom._otherEntities)
                 {
-                    GameObjectType gType = entity switch
-                    {
-                        // Rock _ =>
-                        _ => GameObjectType.Rock,
-                    };
-                    ConsoleRenderer.DrawGameObject(entity.GetX(), entity.GetY(), gType);
+                    ConsoleRenderer.DrawGameObject(entity.GetX(), entity.GetY(), GameObjectType.Rock);
                 }
 
                 _model._currentRoom._isDirty = false;
@@ -329,6 +313,8 @@ namespace Avalanche.Console
             _previousMushrooms = _model._player._mushrooms;
             _previousRocks = _model._player._rocks;
         }
+
+
 
         private void RenderDoors()
         {

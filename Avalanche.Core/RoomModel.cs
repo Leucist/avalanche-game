@@ -1,9 +1,12 @@
-﻿using static Avalanche.Core.AppConstants;
+﻿using Avalanche.Core.Interfaces;
+using System.Numerics;
+using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Core
 {
     public class RoomModel
     {
+        public Player _player;
         public int _id { get; set; }
         public List<GameObject> _items { get; set; }
         public List<Entity> _otherEntities { get; set; }
@@ -21,6 +24,7 @@ namespace Avalanche.Core
             int id, 
             int enemiesCount, 
             Dictionary<CardinalDirectionType, Door> doors,
+            Player player,
             Campfire? campfire = null
         ) {
             _id = id;
@@ -34,6 +38,7 @@ namespace Avalanche.Core
             _dirtyPixels = [];
             _doors = [];
             _campfire = campfire;
+            _player = player;
 
             // Create GameObjects for the doors
             foreach (var door in doors) {
@@ -102,40 +107,50 @@ namespace Avalanche.Core
         //     }
         // }
 
-        public void FillItems() {
+        public void FillItems()
+        {
             Random random = new Random();
-            int mushroomsCount = random.Next(1, 2);
-            int rocksCount = random.Next(1, 2);
+            int mushroomsCount = random.Next(1, 3);
+            int rocksCount = random.Next(1, 3);
 
-            // Fills _itemPositions with random values within room borders
-            while (_itemPositions.Count <= mushroomsCount + rocksCount) {
-                int x = random.Next(0, AppConstants.RoomCharWidth);
-                int y = random.Next(0, AppConstants.RoomCharHeight);
-
+            while (_itemPositions.Count < mushroomsCount + rocksCount)
+            {
+                int x = random.Next(1, RoomCharWidth - 1);
+                int y = random.Next(1, RoomCharHeight - 1);
                 _itemPositions.Add((x, y));
             }
 
-            // Creates items for the Room
             int i = 0;
-            foreach (var coords in _itemPositions) {
-                if (i++ < mushroomsCount) {
-                    _items.Add(new Mushroom(
-                        coords.Item1,
-                        coords.Item2
-                    ));
+            foreach (var coords in _itemPositions)
+            {
+                if (i < mushroomsCount)
+                {
+                    _items.Add(new Mushroom(coords.Item1, coords.Item2));
                 }
-                else {
-                    _items.Add(new LayingRock(
-                        coords.Item1,
-                        coords.Item2
-                    ));
+                else if (i < mushroomsCount + rocksCount)
+                {
+                    _items.Add(new LayingRock(coords.Item1, coords.Item2));
                 }
+                i++;
+            }
+
+            if (_campfire == null)
+            {
+                int x = random.Next(1, RoomCharWidth - 1);
+                int y = random.Next(1, RoomCharHeight - 1);
+                _campfire = new Campfire(x, y, _player);
+                //     coords.Item2
+                // ));
             }
         }
 
+
         public void Update() {
             // If campfire is present in the room, then update it
-            _campfire?.UpdateCampfireState();
+            if (_campfire != null)
+            {
+                _campfire.UpdateCampfireState();
+            }
 
             // - Open all doors (except level exit) in the room if there're no enemies left
             if (_enemies.Count == 0) {
@@ -147,6 +162,8 @@ namespace Avalanche.Core
                     door._isClosed = false;
                 }
             }
+
+
 
             // - Move other entities
             for (int i = _otherEntities.Count-1; i >= 0; i--) {

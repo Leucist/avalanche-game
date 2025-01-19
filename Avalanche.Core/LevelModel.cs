@@ -127,7 +127,8 @@
             int enemiesToAdd, enemiesAdded = 0;
             for (int i = roomsCount - 1; i >= 0; i--) {
                 enemiesToAdd = _enemiesCount - enemiesAdded > 0 ? _enemiesCount / (roomsCount - 1) : 0;
-                _rooms[i] = new RoomController(i, enemiesToAdd, roomDoors[i]);
+                _rooms[i] = new RoomController(i, enemiesToAdd, roomDoors[i], _player);
+
                 enemiesAdded -= enemiesToAdd;
             }
 
