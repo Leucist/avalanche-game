@@ -36,7 +36,8 @@ public class GameController {
         _inputController.ClearBuffer();
 
         // Main Game loop
-        GameState._state = GameStateType.MainMenu;
+        GameState._state = GameStateType.MainMenu;      // sets MainMenu as start controller
+        SoundGameManager.Play("TestAudio.wav", true);   // starts playing the first song on the loop
         while (GameState._state != GameStateType.Exit) {
             _currentSceneController = controllers[GameState._state];
             Update();

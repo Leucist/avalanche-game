@@ -15,7 +15,7 @@ namespace Avalanche.Launcher
             IGameView gameView;
             IInputController inputController;
 
-            // GameState._mode = GameModeType.Console;
+            GameState._mode = GameModeType.Console;
 
             if (GameState._mode == GameModeType.Console)
             {
@@ -34,6 +34,9 @@ namespace Avalanche.Launcher
 
             // Creates new game instance
             GameController gameController = new GameController(gameView, inputController);
+
+            // Initialise the Sound Manager
+            SoundGameManager.SetSoundPlayer(SoundPlayer.Instance);
 
             gameController.StartGame();
         }
