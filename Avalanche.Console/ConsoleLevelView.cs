@@ -50,6 +50,7 @@ namespace Avalanche.Console
                 // Resets the cursor
                 System.Console.SetCursorPosition(uiX, uiY);
                 // Draw label:
+                System.Console.ForegroundColor = ConsoleColor.White;
                 System.Console.Write(label);
                 // Draw Hearts
                 for (int i = 0; i < totalHeartsCount; i++)
@@ -92,6 +93,7 @@ namespace Avalanche.Console
                 // Resets the cursor
                 System.Console.SetCursorPosition(uiX, uiY);
                 // Draw label:
+                System.Console.ForegroundColor = ConsoleColor.White;
                 System.Console.Write(label);
                 // Draw Bars
                 for (int i = 0; i < totalBarsCount; i++)
@@ -135,6 +137,7 @@ namespace Avalanche.Console
                 // Resets the cursor
                 System.Console.SetCursorPosition(uiX, uiY);
                 // Draw label:
+                System.Console.ForegroundColor = ConsoleColor.White;
                 System.Console.Write(label);
 
                 if (playerItemsCount == 0)
@@ -178,6 +181,7 @@ namespace Avalanche.Console
                 // Resets the cursor
                 System.Console.SetCursorPosition(uiX, uiY);
                 // Draw label:
+                System.Console.ForegroundColor = ConsoleColor.White;
                 System.Console.Write(label);
 
                 if (playerItemsCount == 0)
