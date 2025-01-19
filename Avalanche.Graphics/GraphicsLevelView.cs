@@ -76,6 +76,7 @@ namespace Avalanche.Graphics
             DrawItems();
             DrawBox();
             DrawThrowingRocks();
+            RenderDoors();
         }
 
         private void DrawUI()
@@ -340,6 +341,9 @@ namespace Avalanche.Graphics
         public void DrawBox(int width = RoomCharWidth, int height = RoomCharHeight, int customX = 0, int customY = 0, bool isCentred = true)
         {
             Texture wallTex = _textures[TextureType.Wall];
+            Texture doorOpenTex = _textures[TextureType.DoorOpen];
+            Texture doorClosedTex = _textures[TextureType.DoorClosed];
+            Texture doorLevelExitTex = _textures[TextureType.DoorLevelExit];
             Sprite wallSprite = new Sprite(wallTex);
 
             float startingLocX = (customX + RoomDefaultX) * PixelWidthMultiplier;
@@ -402,5 +406,35 @@ namespace Avalanche.Graphics
 
             }
         }
+
+        private void RenderDoors()
+        {
+            Texture doorTex;
+            foreach (var door in _model._currentRoom!._doors)
+            {
+                if (!door.Value._isClosed && !door.Value._isLevelExit)
+                {
+                    doorTex = _textures[TextureType.DoorOpen];
+                }
+                else if (door.Value._isClosed)
+                {
+                    doorTex = _textures[TextureType.DoorClosed];
+                }
+                else
+                {
+                    doorTex = _textures[TextureType.DoorLevelExit];
+                }
+
+                Sprite s = new Sprite(doorTex)
+                {
+                    Position = new Vector2f((door.Key.GetX() + RoomDefaultX) * PixelWidthMultiplier,
+                    (door.Key.GetY() + RoomDefaultY) * PixelHeightMultiplier)
+                };
+
+                s.Scale = new Vector2f(2f, 2f);
+                _renderer.Draw(s);
+
+            }
+        }       
     }
 }
