@@ -28,6 +28,8 @@ namespace Avalanche.Graphics
         float _uiTextShift = -8f;
         float _uiElementsShift = -6f;
 
+        float StandartScale = 1f;
+
 
         public GraphicsLevelView(LevelModel model, GraphicsRenderer renderer) : base(renderer)
         {
@@ -87,10 +89,10 @@ namespace Avalanche.Graphics
             float ThirdRow = 770f;
 
             float FirstLine = 65f;  // Y
-            float SecondLine = 430f; 
+            float SecondLine = 430f;
 
-            Vector2f heartsGroupPos = new Vector2f((FirstRow+ SecondRow)/2, SecondLine);
-            Vector2f heatGroupPos = new Vector2f((SecondRow+ThirdRow)/2, SecondLine);
+            Vector2f heartsGroupPos = new Vector2f((FirstRow + SecondRow) / 2, SecondLine);
+            Vector2f heatGroupPos = new Vector2f((SecondRow + ThirdRow) / 2, SecondLine);
 
             Vector2f mushroomGroupPos = new Vector2f(FirstRow, FirstLine);
             Vector2f rocksGroupPos = new Vector2f(SecondRow, FirstLine);
@@ -181,7 +183,7 @@ namespace Avalanche.Graphics
             {
                 Sprite s = new Sprite(heartTex)
                 {
-                    Position = new Vector2f(xStart + i * gap, yStart+ _uiElementsShift),
+                    Position = new Vector2f(xStart + i * gap, yStart + _uiElementsShift),
                     Scale = new Vector2f(2f, 2f)
                 };
                 _renderer.Draw(s);
@@ -218,7 +220,7 @@ namespace Avalanche.Graphics
 
             if (count == 0)
             {
-                var noneText = MakeText("X", 18, new Vector2f(xStart, yStart+ _uiTextShift));
+                var noneText = MakeText("X", 18, new Vector2f(xStart, yStart + _uiTextShift));
                 noneText.FillColor = Color.Red;
                 _renderer.Draw(noneText);
             }
@@ -280,10 +282,10 @@ namespace Avalanche.Graphics
 
             Sprite s = new Sprite(heartTex)
             {
-                Position = new Vector2f((_model._player.GetX()+ RoomDefaultX) * PixelWidthMultiplier, 
-                (_model._player.GetY()+ RoomDefaultY) * PixelHeightMultiplier)
+                Position = new Vector2f((_model._player.GetX() + RoomDefaultX) * PixelWidthMultiplier,
+                (_model._player.GetY() + RoomDefaultY) * PixelHeightMultiplier)
             };
-            s.Scale = new Vector2f(2f, 2f);
+            s.Scale = new Vector2f(StandartScale, StandartScale);
             _renderer.Draw(s);
 
         }
@@ -297,10 +299,10 @@ namespace Avalanche.Graphics
             {
                 Sprite s = new Sprite(skeletonTex)
                 {
-                    Position = new Vector2f((enemy.GetX()+ RoomDefaultX)* PixelWidthMultiplier ,
-                    (enemy.GetY() + RoomDefaultY )* PixelHeightMultiplier)
+                    Position = new Vector2f((enemy.GetX() + RoomDefaultX) * PixelWidthMultiplier,
+                    (enemy.GetY() + RoomDefaultY) * PixelHeightMultiplier)
                 };
-                s.Scale = new Vector2f(2f, 2f);
+                s.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(s);
             }
 
@@ -324,7 +326,7 @@ namespace Avalanche.Graphics
                             (item.GetY() + RoomDefaultY) * PixelHeightMultiplier)
                         };
 
-                        r.Scale = new Vector2f(2f, 2f);
+                        r.Scale = new Vector2f(StandartScale, StandartScale);
                         _renderer.Draw(r);
                         break;
                     case Mushroom:
@@ -336,7 +338,7 @@ namespace Avalanche.Graphics
                             (item.GetY() + RoomDefaultY) * PixelHeightMultiplier)
                         };
 
-                        m.Scale = new Vector2f(2f, 2f);
+                        m.Scale = new Vector2f(StandartScale, StandartScale);
                         _renderer.Draw(m);
                         break;
                 }
@@ -364,6 +366,7 @@ namespace Avalanche.Graphics
             for (int i = 0; i <= width; i++)
             {
                 wallSprite.Position = new Vector2f(startingLocX + i * wallTex.Size.X, startingLocY);
+                wallSprite.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(wallSprite);
             }
 
@@ -372,10 +375,12 @@ namespace Avalanche.Graphics
             {
                 // Left wall
                 wallSprite.Position = new Vector2f(startingLocX, startingLocY + i * wallTex.Size.Y);
+                wallSprite.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(wallSprite);
 
                 // Right wall
                 wallSprite.Position = new Vector2f(startingLocX + (width * wallTex.Size.X), startingLocY + i * wallTex.Size.Y);
+                wallSprite.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(wallSprite);
             }
 
@@ -383,6 +388,7 @@ namespace Avalanche.Graphics
             for (int i = 0; i <= width; i++)
             {
                 wallSprite.Position = new Vector2f(startingLocX + i * wallTex.Size.X, startingLocY + (height * wallTex.Size.Y));
+                wallSprite.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(wallSprite);
             }
         }
@@ -404,7 +410,7 @@ namespace Avalanche.Graphics
                         (entity.GetY() + RoomDefaultY) * PixelHeightMultiplier)
                     };
 
-                    s.Scale = new Vector2f(2f, 2f);
+                    s.Scale = new Vector2f(StandartScale, StandartScale);
                     _renderer.Draw(s);
 
                 }
@@ -436,7 +442,7 @@ namespace Avalanche.Graphics
                     (door.Key.GetY() + RoomDefaultY) * PixelHeightMultiplier)
                 };
 
-                s.Scale = new Vector2f(2f, 2f);
+                s.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(s);
 
             }
@@ -445,15 +451,16 @@ namespace Avalanche.Graphics
         private void RenderCampfires()
         {
             Campfire campfire = _model._currentRoom._campfire;
-            if (campfire.IsBurning) { 
-            Texture skeletonTex = _textures[TextureType.Fire];
+            if (campfire.IsBurning)
+            {
+                Texture skeletonTex = _textures[TextureType.Fire];
 
                 Sprite s = new Sprite(skeletonTex)
                 {
                     Position = new Vector2f((campfire.GetX() + RoomDefaultX) * PixelWidthMultiplier,
                     (campfire.GetY() + RoomDefaultY) * PixelHeightMultiplier)
                 };
-                s.Scale = new Vector2f(2f, 2f);
+                s.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(s);
             }
             else
@@ -465,10 +472,10 @@ namespace Avalanche.Graphics
                     Position = new Vector2f((campfire.GetX() + RoomDefaultX) * PixelWidthMultiplier,
                     (campfire.GetY() + RoomDefaultY) * PixelHeightMultiplier)
                 };
-                s.Scale = new Vector2f(2f, 2f);
+                s.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(s);
             }
         }
-        
+
     }
 }
