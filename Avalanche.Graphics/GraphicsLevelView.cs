@@ -56,7 +56,9 @@ namespace Avalanche.Graphics
                 {TextureType.Mushroom,       "Mushroom.png"},
                 {TextureType.Fire,           "Fire.png"},
                 {TextureType.DistinguishedFire, "DistinguishedFire.png" },
+                {TextureType.BackgroundWall, "BackgroundWall.png" },
                 {TextureType.Heart,          "Heart.png"},
+
             };
 
             _textures = new Dictionary<TextureType, Texture>();
@@ -73,6 +75,7 @@ namespace Avalanche.Graphics
 
         public override void Render()
         {
+            DrawRoomBackground();
             // Always draw everything, no change tracking
             DrawUI();
             DrawPlayer();
@@ -83,6 +86,36 @@ namespace Avalanche.Graphics
             RenderDoors();  // must stay after DrawBox
             RenderCampfires();
         }
+
+        private void DrawRoomBackground()
+        {
+            Texture backgroundTex = _textures[TextureType.BackgroundWall];
+
+            
+            float startX = RoomDefaultX * PixelWidthMultiplier;
+            float startY = RoomDefaultY * PixelHeightMultiplier;
+
+            
+            Sprite backgroundSprite = new Sprite(backgroundTex)
+            {
+                Scale = new Vector2f(StandartScale, StandartScale)
+            };
+
+          
+            float tileWidth = backgroundTex.Size.X * StandartScale * 0.9f; 
+            float tileHeight = backgroundTex.Size.Y * StandartScale * 0.9f;
+
+            
+            for (int y = 0; y <= RoomCharHeight + 4; y++)
+            {
+                for (int x = 0; x <= RoomCharWidth + 20; x++)
+                {
+                    backgroundSprite.Position = new Vector2f(startX + x * tileWidth, startY + y * tileHeight);
+                    _renderer.Draw(backgroundSprite);
+                }
+            }
+        }
+
 
         public void DrawUI()
         {
@@ -350,9 +383,6 @@ namespace Avalanche.Graphics
         public void DrawBox(int width = RoomCharWidth, int height = RoomCharHeight, int customX = 0, int customY = 0, bool isCentred = true)
         {
             Texture wallTex = _textures[TextureType.Wall];
-            Texture doorOpenTex = _textures[TextureType.DoorOpen];
-            Texture doorClosedTex = _textures[TextureType.DoorClosed];
-            Texture doorLevelExitTex = _textures[TextureType.DoorLevelExit];
             Sprite wallSprite = new Sprite(wallTex);
 
             float startingLocX = (customX + RoomDefaultX) * PixelWidthMultiplier;
@@ -364,24 +394,28 @@ namespace Avalanche.Graphics
                 startingLocY = RoomDefaultY * PixelHeightMultiplier;
             }
 
+            // Коригування для уникнення зазорів
+            float wallWidth = wallTex.Size.X * StandartScale;
+            float wallHeight = wallTex.Size.Y * StandartScale;
+
             // Top border
             for (int i = 0; i <= width; i++)
             {
-                wallSprite.Position = new Vector2f(startingLocX + i * wallTex.Size.X, startingLocY);
+                wallSprite.Position = new Vector2f(startingLocX + i * wallWidth, startingLocY - wallHeight); // Легке зміщення вгору
                 wallSprite.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(wallSprite);
             }
 
             // Side walls
-            for (int i = 1; i <= height; i++)
+            for (int i = 0; i <= height; i++)
             {
                 // Left wall
-                wallSprite.Position = new Vector2f(startingLocX, startingLocY + i * wallTex.Size.Y);
+                wallSprite.Position = new Vector2f(startingLocX - wallWidth, startingLocY + i * wallHeight); // Легке зміщення вліво
                 wallSprite.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(wallSprite);
 
                 // Right wall
-                wallSprite.Position = new Vector2f(startingLocX + (width * wallTex.Size.X), startingLocY + i * wallTex.Size.Y);
+                wallSprite.Position = new Vector2f(startingLocX + width * wallWidth, startingLocY + i * wallHeight);
                 wallSprite.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(wallSprite);
             }
@@ -389,11 +423,12 @@ namespace Avalanche.Graphics
             // Bottom border
             for (int i = 0; i <= width; i++)
             {
-                wallSprite.Position = new Vector2f(startingLocX + i * wallTex.Size.X, startingLocY + (height * wallTex.Size.Y));
+                wallSprite.Position = new Vector2f(startingLocX + i * wallWidth, startingLocY + height * wallHeight);
                 wallSprite.Scale = new Vector2f(StandartScale, StandartScale);
                 _renderer.Draw(wallSprite);
             }
         }
+
 
         private void DrawThrowingRocks()
         {
