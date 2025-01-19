@@ -55,6 +55,8 @@ namespace Avalanche.Graphics
             };
 
             _warningSignSprite = new Sprite(GetTexture(TextureType.WarningSign));
+
+            Renderer.ResetEventHandlers();
         }
 
         public override void Render()

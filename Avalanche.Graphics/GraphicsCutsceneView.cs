@@ -39,6 +39,8 @@ namespace Avalanche.Graphics
                     _sceneTextures.Add(texDataObj);
                 }
             }
+
+            Renderer.ResetEventHandlers();
         }
 
         public override void Render()
