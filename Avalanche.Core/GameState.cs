@@ -40,5 +40,7 @@ namespace Avalanche.Core
 
         // NOTE: Added for the NameInput proper work in console mode after changing the controller for graphics
         public static GameModeType _mode { get; set; }
+
+        public static DifficultyLevelType _difficulty = DifficultyLevelType.Normal;
     }
 }
