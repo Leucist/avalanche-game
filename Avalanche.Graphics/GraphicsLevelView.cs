@@ -74,6 +74,8 @@ namespace Avalanche.Graphics
             DrawPlayer();
             DrawEnemy();
             DrawItems();
+            DrawBox();
+            DrawThrowingRocks();
         }
 
         private void DrawUI()
@@ -314,6 +316,91 @@ namespace Avalanche.Graphics
                 }
             }
 
+        }
+
+        private void DrawRoom()
+        {
+            List<Enemy> skelet = _model._currentRoom._enemies;
+
+            Texture skeletonTex = _textures[TextureType.Skeleton];
+
+            foreach (Enemy enemy in skelet)
+            {
+                Sprite s = new Sprite(skeletonTex)
+                {
+                    Position = new Vector2f((enemy.GetX() + RoomDefaultX) * PixelWidthMultiplier,
+                    (enemy.GetY() + RoomDefaultY) * PixelHeightMultiplier)
+                };
+                s.Scale = new Vector2f(2f, 2f);
+                _renderer.Draw(s);
+            }
+
+        }
+
+        public void DrawBox(int width = RoomCharWidth, int height = RoomCharHeight, int customX = 0, int customY = 0, bool isCentred = true)
+        {
+            Texture wallTex = _textures[TextureType.Wall];
+            Sprite wallSprite = new Sprite(wallTex);
+
+            float startingLocX = (customX + RoomDefaultX) * PixelWidthMultiplier;
+            float startingLocY = (customY + RoomDefaultY) * PixelHeightMultiplier;
+
+            if (isCentred)
+            {
+                startingLocX = RoomDefaultX * PixelWidthMultiplier;
+                startingLocY = RoomDefaultY * PixelHeightMultiplier;
+            }
+
+            // Top border
+            for (int i = 0; i <= width; i++)
+            {
+                wallSprite.Position = new Vector2f(startingLocX + i * wallTex.Size.X, startingLocY);
+                _renderer.Draw(wallSprite);
+            }
+
+            // Side walls
+            for (int i = 1; i <= height; i++)
+            {
+                // Left wall
+                wallSprite.Position = new Vector2f(startingLocX, startingLocY + i * wallTex.Size.Y);
+                _renderer.Draw(wallSprite);
+
+                // Right wall
+                wallSprite.Position = new Vector2f(startingLocX + (width * wallTex.Size.X), startingLocY + i * wallTex.Size.Y);
+                _renderer.Draw(wallSprite);
+            }
+
+            // Bottom border
+            for (int i = 0; i <= width; i++)
+            {
+                wallSprite.Position = new Vector2f(startingLocX + i * wallTex.Size.X, startingLocY + (height * wallTex.Size.Y));
+                _renderer.Draw(wallSprite);
+            }
+        }
+
+        private void DrawThrowingRocks()
+        {
+            List<Entity> otherEntities = _model._currentRoom._otherEntities;
+
+            Texture otherEntityTex;
+
+            foreach (Entity entity in otherEntities)
+            {
+                if (entity.GetType() == typeof(Rock))
+                {
+                    otherEntityTex = _textures[TextureType.Rock];
+                    Sprite s = new Sprite(otherEntityTex)
+                    {
+                        Position = new Vector2f((entity.GetX() + RoomDefaultX) * PixelWidthMultiplier,
+                        (entity.GetY() + RoomDefaultY) * PixelHeightMultiplier)
+                    };
+
+                    s.Scale = new Vector2f(2f, 2f);
+                    _renderer.Draw(s);
+
+                }
+
+            }
         }
     }
 }
