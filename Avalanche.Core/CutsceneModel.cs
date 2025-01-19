@@ -121,6 +121,7 @@ namespace Avalanche.Core
                 default:
                     NextCutscene();
                     GameState._state = GameStateType.Game;
+                    GameState._cutscene = (CutsceneType) _cutsceneNumber;
                     break;
             }
         }

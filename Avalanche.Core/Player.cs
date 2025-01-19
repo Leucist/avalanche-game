@@ -47,17 +47,19 @@ namespace Avalanche.Core
             _baseDamage = damage;
         }
 
-        public void Reset() {
+        public void Reset(bool fullReset = false) {
             _coords = [_baseX, _baseY];
-            _health = _baseHealth;
-            _damage = _baseDamage;
-            _mushrooms = 0;
-            _rocks = 0;
-            _heat = DefaultPlayerHeat;
-            _attackCooldown = DefaultAttackCooldown;
-            _attackCooldownCounter = 0;
-            _valueChangeCooldown = DefaultActionCooldown;
-            _valueChangeCooldownCounter = 0;
+            if (fullReset) {
+                _health = _baseHealth;
+                _damage = _baseDamage;
+                _mushrooms = 0;
+                _rocks = 0;
+                _heat = DefaultPlayerHeat;
+                _attackCooldown = DefaultAttackCooldown;
+                _attackCooldownCounter = 0;
+                _valueChangeCooldown = DefaultActionCooldown;
+                _valueChangeCooldownCounter = 0;
+            }
         }
 
         public void ConsumeMushroom()
@@ -114,7 +116,7 @@ namespace Avalanche.Core
             return _valueChangeCooldownCounter == 0;
         }
 
-        void AddItem(ItemType itemType)
+        public void AddItem(ItemType itemType)
         {
             switch (itemType)
             {

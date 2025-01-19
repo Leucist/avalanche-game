@@ -28,7 +28,7 @@
 
         public void Reset(int levelNumber) {
             _levelNumber = levelNumber;
-            _player.Reset();
+            _player.Reset(levelNumber == 0);    // full player reset if the level number is 0
 
             // - Damn repetative -
             // TODO Level Controller manages level instances or whatever, but not this monstrousity.
@@ -169,19 +169,24 @@
             // Check doors-player collisions
             foreach (var door in _currentRoom._doors) {
                 if (_player.CollidesWith(door.Key)) {
-                    // - If door is level exit
-                    if (door.Value._isLevelExit) {
-                        // If it's the last level
-                        if (_levelNumber == AppConstants.LevelsCount) {
-                            GameState._cutscene = CutsceneType.GameFinish;
-                            GameState._state = GameStateType.Cutscene;
-                        }
-                        Reset(++_levelNumber);
-                        return;
-                    }
 
-                    // - If door isn't closed
+                    // If door isn't closed
                     if (!door.Value._isClosed) {
+
+                        // If door is Level Exit
+                        if (door.Value._isLevelExit) {
+
+                            // If it's the Last Level
+                            if (_levelNumber == AppConstants.LevelsCount) {
+                                ResetGame(CutsceneType.GameFinish);
+                            }
+                            else {
+                                Reset(++_levelNumber);
+                            }
+                            
+                            return;
+                        }
+
                         // - Player gets into another room
                         int[] roomCouple = door.Value._betweenRoomsOfID;
                         _currentRoomID = (roomCouple[0] == _currentRoomID) ? roomCouple[1] : roomCouple[0];
@@ -209,10 +214,10 @@
                 if (_player.CollidesWith(item)) {
                     switch (item) {
                         case LayingRock _:
-                            _player._rocks++;
+                            _player.AddItem(ItemType.Rock);
                             break;
                         case Mushroom _:
-                            _player._mushrooms++;
+                            _player.AddItem(ItemType.Mushroom);
                             break;
                     }
                     _currentRoom._items.Remove(item);
@@ -309,8 +314,8 @@
 
             // If the player is dead, game is over.
             if (_player.IsDead()) {
-                GameState._state = GameStateType.Cutscene;
-                GameState._cutscene = CutsceneType.GameOver;
+                ResetGame(CutsceneType.GameOver);
+                return;
             }
 
             else {
@@ -326,6 +331,12 @@
         public void SwitchPause() {
             _isPaused = !_isPaused;
             _currentRoom!._isDirty = true;
+        }
+
+        private void ResetGame(CutsceneType cutscene) {
+            GameState._state = GameStateType.Cutscene;
+            GameState._cutscene = cutscene;
+            Reset(0);
         }
     }
 }

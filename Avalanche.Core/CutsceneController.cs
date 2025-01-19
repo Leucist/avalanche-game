@@ -10,6 +10,9 @@ namespace Avalanche.Core
         }
         
         public void Handle(ActionType action) {
+            // ~ note: okay, looks somewhat unorthodoxal, so "if" structure may be changed
+
+            // - IF USER presses NOTHING and CUTSCENE is not one of the stated below, it will return and NOT UPDATE
             if (action == ActionType.NullAction) {
                 // For frame-by-frame cutscenes to stay "interactive" &
                 // For video-like cutscenes to be played uninterrupted
@@ -18,6 +21,7 @@ namespace Avalanche.Core
                         return;
                     }
             }
+
             _model.Update(action);
         }
 
