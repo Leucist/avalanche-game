@@ -44,5 +44,9 @@ namespace Avalanche.Core
             string frameFilePath = Path.Combine(cutsceneFolderPath, frameFileName);
             return frameFilePath;
         }
+
+        public static string GetAudioFolder() {
+            return Path.Combine(FindSolutionDirectory(), "Avalanche.Core", "Audio");
+        }
     }
 }
