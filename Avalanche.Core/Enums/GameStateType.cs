@@ -3,7 +3,7 @@ namespace Avalanche.Core
     public enum GameStateType
     {
         Game,
-        LoadGameMenu,
+        // LoadGameMenu,
         MainMenu,
         NameInput,
         OptionsMenu,

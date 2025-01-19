@@ -21,16 +21,16 @@ public class GameController {
         Player player = new Player();  
 
         // Initialise Scene Controllers
-        controllers[GameStateType.MainMenu] = new MainMenuController();
-        controllers[GameStateType.NameInput] = new NameInputController(player);
-        controllers[GameStateType.Game] = new LevelController(player, 0);
-        controllers[GameStateType.Cutscene] = new CutsceneController();
+        controllers[GameStateType.MainMenu]     =   new MainMenuController();
+        controllers[GameStateType.OptionsMenu]  =   new OptionsController();
+        controllers[GameStateType.NameInput]    =   new NameInputController(player);
+        controllers[GameStateType.Game]         =   new LevelController(player, 0);
+        controllers[GameStateType.Cutscene]     =   new CutsceneController();
 
         // Initialise Scene Views & Link them to the main View
-        _gameView.AddView(GameStateType.MainMenu, controllers[GameStateType.MainMenu]);
-        _gameView.AddView(GameStateType.NameInput, controllers[GameStateType.NameInput]);
-        _gameView.AddView(GameStateType.Game, controllers[GameStateType.Game]);
-        _gameView.AddView(GameStateType.Cutscene, controllers[GameStateType.Cutscene]);
+        foreach (GameStateType state in Enum.GetValues(typeof(GameStateType))) {
+            if (state != GameStateType.Exit) _gameView.AddView(state, controllers[state]);
+        }
 
         // Clear input buffer
         _inputController.ClearBuffer();
