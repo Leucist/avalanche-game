@@ -74,9 +74,10 @@ namespace Avalanche.Graphics
             DrawPlayer();
             DrawEnemy();
             DrawItems();
-            DrawBox();
+            DrawBox();  // sigmaboy commit (cringe -_-)
             DrawThrowingRocks();
-            RenderDoors();
+            RenderDoors();  // must stay after DrawBox
+            RenderCampfires();
         }
 
         private void DrawUI()
@@ -318,26 +319,6 @@ namespace Avalanche.Graphics
             }
 
         }
-
-        private void DrawRoom()
-        {
-            List<Enemy> skelet = _model._currentRoom._enemies;
-
-            Texture skeletonTex = _textures[TextureType.Skeleton];
-
-            foreach (Enemy enemy in skelet)
-            {
-                Sprite s = new Sprite(skeletonTex)
-                {
-                    Position = new Vector2f((enemy.GetX() + RoomDefaultX) * PixelWidthMultiplier,
-                    (enemy.GetY() + RoomDefaultY) * PixelHeightMultiplier)
-                };
-                s.Scale = new Vector2f(2f, 2f);
-                _renderer.Draw(s);
-            }
-
-        }
-
         public void DrawBox(int width = RoomCharWidth, int height = RoomCharHeight, int customX = 0, int customY = 0, bool isCentred = true)
         {
             Texture wallTex = _textures[TextureType.Wall];
@@ -435,6 +416,20 @@ namespace Avalanche.Graphics
                 _renderer.Draw(s);
 
             }
-        }       
+        }
+
+        private void RenderCampfires()
+        {
+            Campfire campfire = _model._currentRoom._campfire;
+            Texture skeletonTex = _textures[TextureType.Fire];
+
+                Sprite s = new Sprite(skeletonTex)
+                {
+                    Position = new Vector2f((campfire.GetX() + RoomDefaultX) * PixelWidthMultiplier,
+                    (campfire.GetY() + RoomDefaultY) * PixelHeightMultiplier)
+                };
+                s.Scale = new Vector2f(2f, 2f);
+                _renderer.Draw(s);
+        }
     }
 }
