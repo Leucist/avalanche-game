@@ -115,58 +115,47 @@ namespace Avalanche.Core
         //     }
         // }
 
-        public void FillItems() {
+        public void FillItems()
+        {
             Random random = new Random();
-            int mushroomsCount = random.Next(1, 2);
-            int rocksCount = random.Next(1, 2);
+            int mushroomsCount = random.Next(1, 3);
+            int rocksCount = random.Next(1, 3);
 
-            // Fills _itemPositions with random values within room borders
-            while (_itemPositions.Count <= mushroomsCount + rocksCount) {
-                int x = random.Next(0, AppConstants.RoomCharWidth);
-                int y = random.Next(0, AppConstants.RoomCharHeight);
-
+            while (_itemPositions.Count < mushroomsCount + rocksCount)
+            {
+                int x = random.Next(1, RoomCharWidth - 1);
+                int y = random.Next(1, RoomCharHeight - 1);
                 _itemPositions.Add((x, y));
             }
 
-            // Creates items for the Room
             int i = 0;
-            foreach (var coords in _itemPositions) {
-                if (i++ < mushroomsCount) {
-                    _items.Add(new Mushroom(
-                        coords.Item1,
-                        coords.Item2
-                    ));
-                }
-                else {
-                    _items.Add(new LayingRock(
-                        coords.Item1,
-                        coords.Item2
-                    ));
-                }
-
-                if (_campfire == null)
+            foreach (var coords in _itemPositions)
+            {
+                if (i < mushroomsCount)
                 {
-                    int x = random.Next(1, RoomCharWidth - 1);
-                    int y = random.Next(1, RoomCharHeight - 1);
-                    _campfire = new Campfire(x, y, _player);
+                    _items.Add(new Mushroom(coords.Item1, coords.Item2));
                 }
-                // _items.Add(new GameObject(
-                //     coords.Item1,
-                //     coords.Item2
-                // ));
+                else if (i < mushroomsCount + rocksCount)
+                {
+                    _items.Add(new LayingRock(coords.Item1, coords.Item2));
+                }
+                i++;
+            }
+
+            if (_campfire == null)
+            {
+                int x = random.Next(1, RoomCharWidth - 1);
+                int y = random.Next(1, RoomCharHeight - 1);
+                _campfire = new Campfire(x, y, _player);
             }
         }
+
 
         public void Update() {
             // If campfire is present in the room, then update it
             if (_campfire != null)
             {
-                Console.WriteLine("Оновлюється багаття...");
                 _campfire.UpdateCampfireState();
-            }
-            else
-            {
-                Console.WriteLine("Багаття не знайдено.");
             }
 
             // - Open all doors (except level exit) in the room if there're no enemies left

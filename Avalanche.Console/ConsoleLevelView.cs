@@ -34,7 +34,7 @@ namespace Avalanche.Console
             // if ((_model._player._health != _previousHealthPointsCount) || _wasNeverDrawn)
             // {
             //System.Console.WriteLine($"Player's HP: {_model._player._health}");
-                System.Console.WriteLine($"Player's Heat: {_model._player._heat}");
+                //System.Console.WriteLine($"Player's Heat: {_model._player._heat}");
                 string label = "Health Points: ";
 
                 int uiX = RoomDefaultX + 4;
@@ -255,10 +255,15 @@ namespace Avalanche.Console
                 ConsoleRenderer.ClearScreen();
                 ConsoleRenderer.DrawBox(RoomCharWidth, RoomCharHeight);
 
-                // Рендеримо двері
                 RenderDoors();
 
-                // Рендеримо багаття
+                foreach (var item in _model._currentRoom!._items)
+                {
+                    // System.Console.WriteLine($"Rendering item at ({item.GetX()}, {item.GetY()}) of type {item.GetType().Name}");
+                    GameObjectType gameObjectType = item is LayingRock ? GameObjectType.Rock : GameObjectType.Mushroom;
+                    ConsoleRenderer.DrawGameObject(item.GetX(), item.GetY(), gameObjectType);
+                }
+
                 if (_model._currentRoom!._campfire != null)
                 {
                     Campfire campfire = _model._currentRoom._campfire;
@@ -291,7 +296,13 @@ namespace Avalanche.Console
 
                 _model._currentRoom._isDirty = false;
             }
+
+            _previousHealthPointsCount = _model._player._health;
+            _previousHeat = _model._player._heat;
+            _previousMushrooms = _model._player._mushrooms;
+            _previousRocks = _model._player._rocks;
         }
+
 
 
         private void RenderDoors()
