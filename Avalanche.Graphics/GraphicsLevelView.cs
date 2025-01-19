@@ -25,6 +25,9 @@ namespace Avalanche.Graphics
         private const int TileWidth = 32;
         private const int TileHeight = 32;
 
+        float GraphicsShiftX = RoomDefaultX;
+        float GraphicsShiftY = RoomDefaultX;
+
         public GraphicsLevelView(LevelModel model, GraphicsRenderer renderer) : base(renderer)
         {
             _model = model;
@@ -66,6 +69,8 @@ namespace Avalanche.Graphics
         {
             // Always draw everything, no change tracking
             DrawUI();
+            DrawPlayer();
+            DrawEnemy();
         }
 
         private void DrawUI()
@@ -239,5 +244,37 @@ namespace Avalanche.Graphics
             };
         }
 
+        private void DrawPlayer()
+        {
+            // Draw hearts
+            Texture heartTex = _textures[TextureType.Player];
+
+            Sprite s = new Sprite(heartTex)
+            {
+                Position = new Vector2f((_model._player.GetX()+ RoomDefaultX) * PixelWidthMultiplier, 
+                (_model._player.GetY()+ RoomDefaultY) * PixelHeightMultiplier)
+            };
+            s.Scale = new Vector2f(2f, 2f);
+            _renderer.Draw(s);
+
+        }
+        private void DrawEnemy()
+        {
+            List<Enemy> skelet = _model._currentRoom._enemies;
+
+            Texture skeletonTex = _textures[TextureType.Skeleton];
+
+            foreach (Enemy enemy in skelet)
+            {
+                Sprite s = new Sprite(skeletonTex)
+                {
+                    Position = new Vector2f((enemy.GetX()+ RoomDefaultX)* PixelWidthMultiplier ,
+                    (enemy.GetY() + RoomDefaultY )* PixelHeightMultiplier)
+                };
+                s.Scale = new Vector2f(2f, 2f);
+                _renderer.Draw(s);
+            }
+
+        }
     }
 }
