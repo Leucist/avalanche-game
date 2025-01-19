@@ -89,24 +89,24 @@ namespace Avalanche.Graphics
         {
             Texture backgroundTex = _textures[TextureType.DistinguishedFire];
 
-            // Початкова позиція фону
+            
             float startX = RoomDefaultX * PixelWidthMultiplier;
             float startY = RoomDefaultY * PixelHeightMultiplier;
 
-            // Масштаб текстури
+            
             Sprite backgroundSprite = new Sprite(backgroundTex)
             {
                 Scale = new Vector2f(StandartScale, StandartScale)
             };
 
-            // Зменшуємо відстань між текстурами, застосовуючи коефіцієнт масштабу
-            float tileWidth = backgroundTex.Size.X * StandartScale * 0.9f; // Зменшення ширини на 10%
-            float tileHeight = backgroundTex.Size.Y * StandartScale * 0.9f; // Зменшення висоти на 10%
+          
+            float tileWidth = backgroundTex.Size.X * StandartScale * 0.9f; 
+            float tileHeight = backgroundTex.Size.Y * StandartScale * 0.9f;
 
-            // Заповнюємо кімнату текстурою
+            
             for (int y = 0; y <= RoomCharHeight + 4; y++)
             {
-                for (int x = 0; x <= RoomCharWidth; x++)
+                for (int x = 0; x <= RoomCharWidth + 20; x++)
                 {
                     backgroundSprite.Position = new Vector2f(startX + x * tileWidth, startY + y * tileHeight);
                     _renderer.Draw(backgroundSprite);
