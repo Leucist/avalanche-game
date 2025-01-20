@@ -91,7 +91,11 @@ namespace Avalanche.Core
 
             //}
 
+            int difficultyModifier = (int) GameState._difficulty;
+
             Enemy enemyPrototype = new Enemy();
+            enemyPrototype.SetDamage(DefaultEntityDamage * difficultyModifier);
+            enemyPrototype.SetHealth(DefaultEntityHealth * difficultyModifier);
 
             foreach (var coords in _enemyPositions)
             {

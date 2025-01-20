@@ -19,25 +19,33 @@
         {
             _player = player;
             _levelNumber = levelNumber;
-            _enemiesCount = 4 * levelNumber + 3;
-            _enemySightDistance = AppConstants.DefaultEnemySightDistance;
-            _rooms = new Dictionary<int, RoomController>();
+            _rooms = [];
+
+            // - Params initialisation, get rewritten in ResetParams()
+            _enemiesCount = 0;
+            _enemySightDistance = 1;
+
             _isPaused = false;
+
             Reset(levelNumber);
         }
 
-        public void Reset(int levelNumber) {
+        private void ResetLevelParams(int levelNumber) {
             _levelNumber = levelNumber;
-            _player.Reset(levelNumber == 0);    // full player reset if the level number is 0
-
-            // - Damn repetative -
-            // TODO Level Controller manages level instances or whatever, but not this monstrousity.
-            _enemiesCount = 4 * levelNumber + 3;
-            _enemySightDistance = AppConstants.DefaultEnemySightDistance;
             _rooms = new Dictionary<int, RoomController>();
             _currentRoomID = 0;
+
+            // Use Game Difficulty level to enhance the challenge
+            int difficultyModifier = (int) GameState._difficulty;
+            _enemiesCount = (4 * levelNumber + 3) * difficultyModifier;
+            _enemySightDistance = AppConstants.DefaultEnemySightDistance * difficultyModifier;
+
             _isPaused = false;
-            // - - -
+        }
+
+        public void Reset(int levelNumber) {
+            ResetLevelParams(levelNumber);
+            _player.Reset(levelNumber == 0);    // full player reset if the level number is 0
 
             Random random = new Random();
             bool isForkedLastTime = false;

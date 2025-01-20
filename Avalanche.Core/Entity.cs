@@ -44,6 +44,10 @@ namespace Avalanche.Core
             _isAlerted = false;
         }
 
+        public void SetHealth(int health) { _health = health; }
+        public void SetDamage(int damage) { _damage = damage; }
+
+
         public void CheckColliders()
         {
             CardinalDirectionType? wallSide = CollidesWithWalls();
