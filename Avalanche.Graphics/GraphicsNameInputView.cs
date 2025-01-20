@@ -58,6 +58,10 @@ namespace Avalanche.Graphics
         }
 
         public override void Reset() {
+            // Reset strings
+            _userInput = "";
+            _lastWarning = "";
+            
             Renderer.ResetEventHandlers();
         }
 
