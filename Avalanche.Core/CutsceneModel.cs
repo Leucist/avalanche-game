@@ -59,18 +59,19 @@ namespace Avalanche.Core
 
         DateTime _frameDelay = DateTime.Now;
         public void Update(ActionType action) {
-            // Switch int pointer to the next frame
             if (GameState._mode == GameModeType.Graphics )
             {
-                if ((DateTime.Now - _frameDelay).TotalSeconds >= 0.15f)
+                if ((DateTime.Now - _frameDelay).TotalSeconds >= 0.35f)
                 {
-                    NextFrame();
                     _frameDelay = DateTime.Now;
+                    NextFrame();
+                    SoundMainScene();
                 }
             }
-            else  // if console
+            else 
             {
                 NextFrame();
+                SoundMainScene();
             }
             // Check if cutscene hasn't ended
             CheckIfCutsceneEnded();
@@ -122,6 +123,39 @@ namespace Avalanche.Core
                     NextCutscene();
                     GameState._state = GameStateType.Game;
                     GameState._cutscene = (CutsceneType) _cutsceneNumber;
+                    break;
+            }
+        }
+
+        private void SoundMainScene()
+        {
+            switch (_currentFrameNumber)
+            {
+                case 0:
+                    SoundManager.PlaySound(SoundType.VoiceOver1GameStart);
+                    break;
+                case 1:
+                    SoundManager.PlayMusic(SoundType.CutScene1Start);
+                    SoundManager.PlaySound(SoundType.VoiceOver2GameStart);
+                    break;
+                case 2:
+                    SoundManager.PlaySound(SoundType.VoiceOver3GameStart);
+                    break;
+                case 3:
+                    SoundManager.PlaySound(SoundType.VoiceOver4GameStart);
+                    break;
+                case 4:
+                    SoundManager.PlayMusic(SoundType.CutScene2Start);
+                    SoundManager.PlaySound(SoundType.VoiceOver5GameStart);
+                    break;
+                case 5:
+                    SoundManager.PlaySound(SoundType.VoiceOver6GameStart);
+                    break;
+                case 6:
+                    SoundManager.PlaySound(SoundType.VoiceOver7GameStart);
+                    break;
+                case 7:
+                    SoundManager.PlaySound(SoundType.VoiceOver8GameStart);
                     break;
             }
         }

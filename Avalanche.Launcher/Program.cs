@@ -35,9 +35,6 @@ namespace Avalanche.Launcher
             // Creates new game instance
             GameController gameController = new GameController(gameView, inputController);
 
-            // Initialise the Sound Manager
-            SoundGameManager.SetSoundPlayer(SoundPlayer.Instance);
-
             gameController.StartGame();
         }
 

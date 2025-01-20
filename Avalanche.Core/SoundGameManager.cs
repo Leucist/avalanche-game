@@ -1,48 +1,117 @@
-﻿namespace Avalanche.Core
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using SFML.Audio;
+
+namespace Avalanche.Core
 {
-    public static class SoundGameManager
+    public static class SoundManager
     {
-        private static ISoundPlayer? _soundPlayer;
-        private static Dictionary<SoundType, string> _sounds = new() {
-            {SoundType.MainMenuBackground, "Music/Visager - Ice Cave.mp3"}
-        };
 
-        public static void SetSoundPlayer(ISoundPlayer soundPlayer)
+        private static readonly Dictionary<SoundType, string> _sounds = new()
         {
-            _soundPlayer = soundPlayer;
+            { SoundType.MainMenuBackground,       Path.Combine("Music", "Visager - Ice Cave.mp3") },
+            { SoundType.VoiceOver1GameStart,      Path.Combine("Sounds", "CS1.mp3") },
+            { SoundType.VoiceOver2GameStart,      Path.Combine("Sounds", "CS2.mp3") },
+            { SoundType.VoiceOver3GameStart,      Path.Combine("Sounds", "CS3.mp3") },
+            { SoundType.VoiceOver4GameStart,      Path.Combine("Sounds", "CS4.mp3") },
+            { SoundType.VoiceOver5GameStart,      Path.Combine("Sounds", "CS5.mp3") },
+            { SoundType.VoiceOver6GameStart,      Path.Combine("Sounds", "CS6.mp3") },
+            { SoundType.VoiceOver7GameStart,      Path.Combine("Sounds", "CS7.mp3") },
+            { SoundType.VoiceOver8GameStart,      Path.Combine("Sounds", "CS8.mp3") },
+            { SoundType.CutScene1Start,           Path.Combine("Music", "wind.mp3") },
+            { SoundType.CutScene2Start,           Path.Combine("Music", "CaveAudio.mp3") }
+        }; 
+
+        private static readonly string _audioFolderPath = GetAudioFolder();
+
+        private static Music _currentMusic;
+
+        private static readonly List<Sound> _activeSounds = new();
+
+        public static void PlayMusic(SoundType type, bool loop = false)
+        {
+            StopMusic();
+
+            string filePath = ResolveFilePath(type);
+            if (string.IsNullOrEmpty(filePath)) return;
+
+            try
+            {
+                _currentMusic = new Music(filePath)
+                {
+                    Loop = loop
+                };
+                _currentMusic.Play();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to play music {filePath}: {ex.Message}");
+            }
         }
 
-        public static void Play(SoundType sound, bool loop = false) {
-            Play(_sounds[sound], loop);
+        public static void StopMusic()
+        {
+            if (_currentMusic != null)
+            {
+                _currentMusic.Stop();
+                _currentMusic.Dispose();
+                _currentMusic = null;
+            }
         }
 
-        public static void Play(string filename, bool loop = false)
+        public static void PlaySound(SoundType type)
         {
-            if (loop)
-                PlayOnRepeat(filename);
-            else
-                PlaySingleSound(filename);
+            string filePath = ResolveFilePath(type);
+            if (string.IsNullOrEmpty(filePath)) return;
+
+            try
+            {
+                var buffer = new SoundBuffer(filePath);
+                var sound = new Sound(buffer);
+                sound.Play();
+                _activeSounds.Add(sound);
+
+                CleanupStoppedSounds();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to play sound {filePath}: {ex.Message}");
+            }
         }
 
-        public static void PlayOnRepeat(string filename)
+        public static void CleanupStoppedSounds()
         {
-            // StopAll();
-            _soundPlayer?.PlayOnRepeat(filename);
+            _activeSounds.RemoveAll(s => s.Status == SoundStatus.Stopped);
         }
 
-        public static void PlaySingleSound(string filename)
+        private static string ResolveFilePath(SoundType type)
         {
-            _soundPlayer?.PlaySingleSound(filename);
+            if (!_sounds.TryGetValue(type, out var relativePath))
+            {
+                Console.WriteLine($"SoundType {type} not found in dictionary.");
+                return null;
+            }
+
+            string fullPath = Path.Combine(_audioFolderPath, relativePath);
+
+            if (!File.Exists(fullPath))
+            {
+                Console.WriteLine($"Audio file not found: {fullPath}");
+                return null;
+            }
+
+            return fullPath;
         }
 
-        public static void StopAll()
+        private static string GetAudioFolder()
         {
-            _soundPlayer?.StopAll();
-        }
+            string finalPath = Pathfinder.GetAudioFolder();
+            Console.WriteLine("currentDir = " + finalPath);
 
-        public static void StopOnRepeat()
-        {
-            _soundPlayer?.StopOnRepeat();
+            //Console.WriteLine($"[SoundManager] Using Audio folder: {finalPath}");
+
+            return finalPath;
         }
     }
 }
