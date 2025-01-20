@@ -138,7 +138,7 @@ namespace Avalanche.Core
                     break;
                 case 1:
                     SoundManager.StopAllSounds();
-                    SoundManager.PlayMusic(SoundType.CutScene1Start);
+                    SoundManager.PlayMusic(SoundType.CutScene1Start, true);
                     SoundManager.PlaySound(SoundType.VoiceOver2GameStart);
                     break;
                 case 2:
@@ -151,7 +151,7 @@ namespace Avalanche.Core
                     break;
                 case 4:
                     SoundManager.StopAllSounds();
-                    SoundManager.PlayMusic(SoundType.CutScene2Start);
+                    SoundManager.PlayMusic(SoundType.CutScene2Start, true);
                     SoundManager.PlaySound(SoundType.VoiceOver5GameStart);
                     break;
                 case 5:
