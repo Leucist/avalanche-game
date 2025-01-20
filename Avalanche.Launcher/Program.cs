@@ -15,7 +15,7 @@ namespace Avalanche.Launcher
             IGameView gameView;
             IInputController inputController;
 
-            GameState._mode = GameModeType.Graphics;
+            // GameState._mode = GameModeType.Graphics;
 
             if (GameState._mode == GameModeType.Console)
             {
