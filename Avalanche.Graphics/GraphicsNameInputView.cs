@@ -79,7 +79,7 @@ namespace Avalanche.Graphics
             // Title text
             Renderer.SetCursorAt(0, optionsStartY);
             string optionText = "Please, enter character name:";
-            fillColor = new Color(173, 216, 230, 230); // Light icy blue
+            fillColor = new Color(0, 255, 255); // Light icy blue
             Renderer.SetFillColor(fillColor);
             Renderer.WriteLine(optionText, fontSize, centered, outline);
 

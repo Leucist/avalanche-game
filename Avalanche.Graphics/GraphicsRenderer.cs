@@ -111,8 +111,8 @@ namespace Avalanche.Graphics
             text.Position = _cursorPointer.Position;
 
             if (outline) {
-                text.OutlineColor = new Color(30, 50, 70);
-                text.OutlineThickness = 1;
+                text.OutlineColor = new Color(0, 0, 0);
+                text.OutlineThickness = 2;
             }
             
             _window.Draw(text);
