@@ -105,7 +105,7 @@ namespace Avalanche.Graphics
                 var button = _menuButtons[i];
 
                 button.Text.FillColor = (i == _model._currentIndex)
-                    ? new Color(68, 10, 80, 230)    // Highlight the active button
+                    ? new Color(168, 10, 80, 230)    // Highlight the active button
                     : new Color(10, 40, 80, 220);   // Defailt colour
 
                 Renderer.Draw(button.Text);
