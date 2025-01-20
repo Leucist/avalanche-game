@@ -113,5 +113,15 @@ namespace Avalanche.Core
 
             return finalPath;
         }
+
+        public static void StopAllSounds()
+        {
+            foreach (var sound in _activeSounds)
+            {
+                sound.Stop();
+                sound.Dispose(); // Dispose the sound to release resources
+            }
+            _activeSounds.Clear(); // Clear the list after stopping all sounds
+        }
     }
 }
