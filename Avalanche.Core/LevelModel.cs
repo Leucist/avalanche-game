@@ -48,7 +48,6 @@
             _player.Reset(levelNumber == 0);    // full player reset if the level number is 0
 
             Random random = new Random();
-            bool isForkedLastTime = false;
             // Generate random number of rooms in boundaries
             int roomsCount = random.Next(1, _levelNumber+1) * 2 + 2;
 
