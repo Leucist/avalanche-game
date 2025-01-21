@@ -5,9 +5,8 @@ using SFML.Audio;
 
 namespace Avalanche.Core
 {
-    public static class SoundManager
+    public class SoundManager
     {
-
         private static readonly Dictionary<SoundType, string> _sounds = new()
         {
             { SoundType.MainMenuBackground,       Path.Combine("Music", "Visager - Ice Cave.mp3") },
@@ -21,15 +20,41 @@ namespace Avalanche.Core
             { SoundType.VoiceOver8GameStart,      Path.Combine("Sounds", "CS8.mp3") },
             { SoundType.CutScene1Start,           Path.Combine("Music", "wind.mp3") },
             { SoundType.CutScene2Start,           Path.Combine("Music", "CaveAudio.mp3") }
-        }; 
+        };
 
         private static readonly string _audioFolderPath = GetAudioFolder();
-
         private static Music _currentMusic;
-
         private static readonly List<Sound> _activeSounds = new();
 
-        public static void PlayMusic(SoundType type, bool loop = false)
+        private static SoundManager _instance;
+
+        // Lock object for thread-safe singleton instantiation
+        private static readonly object _lock = new();
+
+        // Private constructor to prevent instantiation
+        private SoundManager() { }
+
+        // Public property to get the singleton instance
+        public static SoundManager Instance
+        {
+            get
+            {
+                // Double-check locking for thread safety
+                if (_instance == null)
+                {
+                    lock (_lock)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new SoundManager();
+                        }
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        public void PlayMusic(SoundType type, bool loop = false)
         {
             StopMusic();
 
@@ -50,7 +75,7 @@ namespace Avalanche.Core
             }
         }
 
-        public static void StopMusic()
+        public void StopMusic()
         {
             if (_currentMusic != null)
             {
@@ -60,7 +85,7 @@ namespace Avalanche.Core
             }
         }
 
-        public static void PlaySound(SoundType type)
+        public void PlaySound(SoundType type)
         {
             string filePath = ResolveFilePath(type);
             if (string.IsNullOrEmpty(filePath)) return;
@@ -80,12 +105,12 @@ namespace Avalanche.Core
             }
         }
 
-        public static void CleanupStoppedSounds()
+        public void CleanupStoppedSounds()
         {
             _activeSounds.RemoveAll(s => s.Status == SoundStatus.Stopped);
         }
 
-        private static string ResolveFilePath(SoundType type)
+        private string ResolveFilePath(SoundType type)
         {
             if (!_sounds.TryGetValue(type, out var relativePath))
             {
@@ -109,19 +134,17 @@ namespace Avalanche.Core
             string finalPath = Pathfinder.GetAudioFolder();
             Console.WriteLine("currentDir = " + finalPath);
 
-            //Console.WriteLine($"[SoundManager] Using Audio folder: {finalPath}");
-
             return finalPath;
         }
 
-        public static void StopAllSounds()
+        public void StopAllSounds()
         {
             foreach (var sound in _activeSounds)
             {
                 sound.Stop();
-                sound.Dispose(); // Dispose the sound to release resources
+                sound.Dispose();
             }
-            _activeSounds.Clear(); // Clear the list after stopping all sounds
+            _activeSounds.Clear();
         }
     }
 }
