@@ -23,7 +23,7 @@ namespace Avalanche.Console
             _title = new string[]
             {
                 "█████ █████ █████ ███ █████ ██  █ █████",
-                "█   █ █   █   █    █  █   █ ██  █ █",
+                "  █   █ █   █   █    █  █   █ ██  █ █",
                 "█   █ █████   █    █  █   █ █ █ █ █████",
                 "█   █ ██      █    █  █   █ █  ██     █",
                 "█████ ██      █   ███ █████ █  ██ █████",
@@ -74,9 +74,17 @@ namespace Avalanche.Console
                 System.Console.WriteLine();
             }
 
+            ConsoleRenderer.SetTextColor(ConsoleColor.Yellow);
             foreach (string line in _title)
             {
-                System.Console.Write(new string(' ', windowWidth / 2 - line.Length / 2));
+                if (line == _title[1])
+                {
+                    System.Console.Write(new string(' ', windowWidth / 2 - line.Length / 2 - 3)); // Shift second row by 2
+                }
+                else
+                {
+                    System.Console.Write(new string(' ', windowWidth / 2 - line.Length / 2));
+                }
                 System.Console.WriteLine(line);
             }
 
@@ -90,10 +98,10 @@ namespace Avalanche.Console
             System.Console.WriteLine();
 
             // "Use arrows (Left, Right) to change difficulty"
-            System.Console.WriteLine(new string(' ', _xArrowsOffset) + _labelUseArrows);
+            System.Console.WriteLine(new string(' ', _xArrowsOffset) + "  " + _labelUseArrows);
 
             // "Use Enter to save your choice"
-            System.Console.WriteLine(new string(' ', _xArrowsOffset) + _labelPressEnter);
+            System.Console.WriteLine(new string(' ', _xArrowsOffset) + "  " + _labelPressEnter);
         }
 
         private void DrawDifficulty()
