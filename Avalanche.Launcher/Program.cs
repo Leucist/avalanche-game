@@ -17,7 +17,7 @@ namespace Avalanche.Launcher
 
             // GameState._mode = GameModeType.Graphics;
 
-            if (GameState._mode == GameModeType.Console)
+            if (GameState._mode == GameModeType.Graphics)
             {
                 System.Console.WriteLine("Launching console version of the game...");
                 gameView = new ConsoleGameView();
