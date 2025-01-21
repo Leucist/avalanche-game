@@ -1,3 +1,5 @@
+using Avalanche.Core;
+
 namespace Avalanche.Core
 {
     public class CutsceneModel
@@ -147,12 +149,12 @@ namespace Avalanche.Core
                 SoundType? music = null;
 
                 // Stop all single sounds playing
-                SoundManager.StopAllSounds();
+                SoundManager.Instance.StopAllSounds();
 
                 switch (_currentFrameNumber)
                 {
                     case 0:
-                        SoundManager.StopMusic();
+                        SoundManager.Instance.StopMusic();
                         music = SoundType.CutScene1Start;
                         sound = SoundType.VoiceOver1GameStart;
                         break;
@@ -180,8 +182,8 @@ namespace Avalanche.Core
                         break;
                 }
 
-                if (sound != null) SoundManager.PlaySound((SoundType) sound);
-                if (music != null) SoundManager.PlayMusic((SoundType) music, true);
+                if (sound != null) SoundManager.Instance.PlaySound((SoundType) sound);
+                if (music != null) SoundManager.Instance.PlayMusic((SoundType) music, true);
             }
         }
     }
