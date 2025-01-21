@@ -10,35 +10,30 @@ namespace Avalanche.Graphics
 {
     public class GraphicsCutsceneView : GraphicsView
     {
+        // used to CENTER the image
+        float _screenWidth = AppConstants.ScreenCharWidth * AppConstants.PixelWidthMultiplier;
+        float _screenHeight = AppConstants.ScreenCharHeight * AppConstants.PixelHeightMultiplier;
+
         private readonly CutsceneModel _model;
-        private readonly List<TextureDataObject> _sceneTextures;
+        // private readonly List<TextureDataObject> _sceneTextures;
+
+
+        private string _cutscenesFolderPath;
+        public int _framesCount { get; set; }
+        private int _prevFrameNumber;
 
         public GraphicsCutsceneView(CutsceneModel model, GraphicsRenderer renderer)
             : base(renderer)
         {
             _model = model;
 
-            _sceneTextures = new List<TextureDataObject>();
+            // _sceneTextures = new List<TextureDataObject>();
 
+            // Set Cutscenes folder for the graphics
             string solutionPath = Pathfinder.FindSolutionDirectory();
-            string cutsceneFolderPath = Path.Combine(
-                solutionPath,
-                "Avalanche.Graphics",
-                "Cutscenes",
-                "Cutscene_GameStart"
-            );
-
-            for (int i = 0; i <= 7; i++)
-            {
-                string filePath = Path.Combine(cutsceneFolderPath, $"{i}.png");
-                if (File.Exists(filePath))
-                {
-                    Texture tex = new Texture(filePath);
-                    // Position at (0,0); we'll re-center it when drawing
-                    var texDataObj = new TextureDataObject(tex, new Vector2f(0, 0));
-                    _sceneTextures.Add(texDataObj);
-                }
-            }
+            string graphicsFolder = "Avalanche.Graphics";
+            _cutscenesFolderPath = Path.Combine(solutionPath, graphicsFolder);
+            _prevFrameNumber = _model._currentFrameNumber - 1;
         }
 
         public override void Reset() {
@@ -47,40 +42,64 @@ namespace Avalanche.Graphics
 
         public override void Render()
         {
-            // which frame to display:
-            int currentFrameIndex = _model._currentFrameNumber;
+            // // Checks if there's nothing to Update
+            // if (_prevFrameNumber == _model._currentFrameNumber) return;
 
-            // If img out of range
-            if (currentFrameIndex < 0 || currentFrameIndex >= _sceneTextures.Count)
-                return;
+            // // Clear the screen
+            // Renderer.ClearWindow();
 
-            Sprite sprite = _sceneTextures[currentFrameIndex].Sprite;
+            // // Updates the indicator int
+            // _prevFrameNumber = _model._currentFrameNumber;
 
-            // CENTER the image
-            float screenWidth = AppConstants.ScreenCharWidth * AppConstants.PixelWidthMultiplier;
-            float screenHeight = AppConstants.ScreenCharHeight * AppConstants.PixelHeightMultiplier;
 
-            float texWidth = sprite.Texture.Size.X;
-            float texHeight = sprite.Texture.Size.Y;
 
-            // Scale so the image fits entirely on screen
-            float scaleX = screenWidth / texWidth;
-            float scaleY = screenHeight / texHeight;
-            float finalScale = Math.Min(scaleX, scaleY);
+            
+            // Get path to the current frame
+            string relativeFilePath = Pathfinder.GetFrameFilePath(
+                _model._currentFrameNumber,
+                (CutsceneType)_model._cutsceneNumber) + ".png";
+                
+            // Combine with the directory path
+            string filePath = Path.Combine(_cutscenesFolderPath, relativeFilePath);
 
-            // Apply that scale
-            sprite.Scale = new Vector2f(finalScale, finalScale);
+            // Actual reading art from the file and drawing
+            try
+            {
+                // Load the frame
+                Texture tex = new Texture(filePath);
+                var texDataObj = new TextureDataObject(tex, new Vector2f(0, 0));
 
-            // Compute scaled width/height
-            float scaledWidth = texWidth * finalScale;
-            float scaledHeight = texHeight * finalScale;
+                Sprite sprite = texDataObj.Sprite;
 
-            // Center it
-            float offsetX = (screenWidth - scaledWidth) * 0.5f;
-            float offsetY = (screenHeight - scaledHeight) * 0.5f;
-            sprite.Position = new Vector2f(offsetX, offsetY);
+                
 
-            Renderer.Draw(sprite);
+                float texWidth = sprite.Texture.Size.X;
+                float texHeight = sprite.Texture.Size.Y;
+
+                // Scale so the image fits entirely on screen
+                float scaleX = _screenWidth / texWidth;
+                float scaleY = _screenHeight / texHeight;
+                float finalScale = Math.Min(scaleX, scaleY);
+
+                // Apply that scale
+                sprite.Scale = new Vector2f(finalScale, finalScale);
+
+                // Compute scaled width/height
+                float scaledWidth = texWidth * finalScale;
+                float scaledHeight = texHeight * finalScale;
+
+                // Center it
+                float offsetX = (_screenWidth - scaledWidth) * 0.5f;
+                float offsetY = (_screenHeight - scaledHeight) * 0.5f;
+                sprite.Position = new Vector2f(offsetX, offsetY);
+
+                Renderer.Draw(sprite);
+            }
+
+            catch (Exception ex)
+            {
+               System.Console.WriteLine("Error reading the file: " + ex.Message);
+            }
         }
     }
 }

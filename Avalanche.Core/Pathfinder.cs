@@ -31,6 +31,10 @@ namespace Avalanche.Core
             return Path.Combine(FindSolutionDirectory(), "Avalanche.Graphics/fonts/Cinzel");
         }
 
+        public static string GetIconPath() {
+            return Path.Combine(FindSolutionDirectory(), "Avalanche.Graphics", "images", "icon.png");
+        }
+
 
         public static string GetCutsceneFolderPath(CutsceneType cutscene) {
             string cutscenesFolder = "Cutscenes";

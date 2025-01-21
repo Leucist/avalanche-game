@@ -160,5 +160,9 @@ namespace Avalanche.Graphics
                 }
             }
         }
+
+        public void ClearWindow() {
+            _window.Clear(Color.Black);
+        }
     }
 }
