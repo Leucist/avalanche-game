@@ -74,7 +74,6 @@ namespace Avalanche.Console
                 System.Console.WriteLine();
             }
 
-            ConsoleRenderer.SetTextColor(ConsoleColor.Yellow);
             foreach (string line in _title)
             {
                 if (line == _title[1])

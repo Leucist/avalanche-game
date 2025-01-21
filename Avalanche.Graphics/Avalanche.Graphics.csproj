@@ -13,4 +13,8 @@
   <ItemGroup>
     <PackageReference Include="SFML.Net" Version="2.6.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Cutscenes\Cutscene_GameIntroduction\" />
+  </ItemGroup>
 </Project>
