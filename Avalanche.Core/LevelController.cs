@@ -1,4 +1,6 @@
-﻿namespace Avalanche.Core
+﻿using Avalanche.Core.Commands;
+
+namespace Avalanche.Core
 {
     public class LevelController : ISceneController
     {
@@ -22,12 +24,14 @@
 
             if ((DateTime.Now - _buttonPressed).TotalSeconds >= 0.08)
             {
+                List<ICommand> commands = new List<ICommand>();
                 switch (action)
                 {
                     case ActionType.NullAction:
                         // _model.SetPlayerIdle();
                         break;
                     case ActionType.Up:
+                        // commands.Add(new MoveEntity(_model.Player));
                         _model.MovePlayer(DirectionAxisType.Y, -1);
                         break;
                     case ActionType.Down:
@@ -54,6 +58,9 @@
                         _model.SwitchPause();
                         break;
                 }
+                CommandManager.Instance.AddCommands(commands);
+                CommandManager.Instance.ExecuteAll();
+
                 _model.Update();
             }
         }

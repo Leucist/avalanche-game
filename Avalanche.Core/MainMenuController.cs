@@ -1,6 +1,6 @@
 ﻿namespace Avalanche.Core
 {
-    internal class MainMenuController : ISceneController
+    public class MainMenuController : ISceneController
     {
         private MainMenuModel _model;
         // private MainMenuView _view;
@@ -27,6 +27,10 @@
                     break;
             }
         }
+
+        public void MoveCursorUp()   => _model.MoveCursorUp();
+        public void MoveCursorDown() => _model.MoveCursorDown();
+        public void Select()         => HandleSelection(_model.GetCurrentKey());
 
         public object GetModel() {
             return _model;

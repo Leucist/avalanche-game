@@ -4,13 +4,13 @@ public class GameController {
     IGameView _gameView;
     IInputController _inputController;
     ISceneController? _currentSceneController;
-    // bool _isRunning;
+    CommandFactory _commandFactory;
 
     public GameController(IGameView gameView, IInputController inputController) {
         _gameView = gameView;
         _inputController = inputController;
         _currentSceneController = null;
-        // _isRunning = true;
+        _commandFactory = new();
     }
 
     public void StartGame() {
@@ -27,9 +27,13 @@ public class GameController {
         controllers[GameStateType.Game]         =   new LevelController(player, 0);
         controllers[GameStateType.Cutscene]     =   new CutsceneController();
 
+        _commandFactory.AddCommandFactory(GameStateType.MainMenu, controllers[GameStateType.MainMenu]);
         // Initialise Scene Views & Link them to the main View
         foreach (GameStateType state in Enum.GetValues(typeof(GameStateType))) {
-            if (state != GameStateType.Exit) _gameView.AddView(state, controllers[state]);
+            if (state != GameStateType.Exit) {
+                // _commandFactory.AddCommandFactory   (state, controllers[state]);
+                _gameView.AddView                   (state, controllers[state]);
+            }
         }
 
         // Clear input buffer
@@ -40,7 +44,7 @@ public class GameController {
         SoundManager.PlayMusic(SoundType.MainMenuBackground, true);
         //SoundGameManager.Play(SoundType.MainMenuBackground, true);  // starts playing the first song on the loop
         while (GameState._state != GameStateType.Exit) {
-            _currentSceneController = controllers[GameState._state];
+            // _currentSceneController = controllers[GameState._state];
             Update();
         }
     }
@@ -48,6 +52,9 @@ public class GameController {
     private void Update() {
         _gameView.Render();
         ActionType action = _inputController.GetUserAction();
-        _currentSceneController!.Handle(action);
+        ICommand command = _commandFactory.CreateCommand(action);
+        CommandManager.Instance.AddCommand(command);
+        CommandManager.Instance.ExecuteAll();
+        // _currentSceneController!.Handle(action);
     }
 }
