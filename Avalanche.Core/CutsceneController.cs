@@ -10,6 +10,9 @@ namespace Avalanche.Core
         }
         
         public void Handle(ActionType action) {
+            // *1 Quick hack:
+            if (_model._currentFrameNumber == 0 && !_model._isPlayingAudio) { _model.SoundMainScene(); }
+
             // ~ note: okay, looks somewhat unorthodoxal, so "if" structure may be changed
 
             // - IF USER presses NOTHING and CUTSCENE is not one of the stated below, it will return and NOT UPDATE
@@ -23,6 +26,8 @@ namespace Avalanche.Core
             }
 
             _model.Update(action);
+
+            if (!_model._isPlayingAudio) _model.SoundMainScene();
         }
 
         public object GetModel() {

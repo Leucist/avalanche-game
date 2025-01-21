@@ -6,10 +6,14 @@ namespace Avalanche.Core
         public int _currentFrameNumber { get; set; }
         public bool _isOver { get; set; }
 
+        // *1 Quick hack:
+        public bool _isPlayingAudio;
+
         public CutsceneModel(int cutsceneNumber) {
             _cutsceneNumber = cutsceneNumber;
             _currentFrameNumber = 0;
             _isOver = false;
+            _isPlayingAudio = false;    // *1 Quick hack:
         }
 
         public bool WasSwitched() {
@@ -56,11 +60,12 @@ namespace Avalanche.Core
             // Increment frame number
             _currentFrameNumber++;
 
-            SoundMainScene();
+            _isPlayingAudio = false;    // *1 Quick hack
         }
 
         DateTime _frameDelay = DateTime.Now;
         public void Update(ActionType action) {
+            // - Switch frame (as the View has already been rendered, this executes afterwards)
             if (GameState._mode == GameModeType.Graphics )
             {
                 if ((DateTime.Now - _frameDelay).TotalSeconds >= 0.35f)
@@ -73,6 +78,10 @@ namespace Avalanche.Core
             {
                 NextFrame();
             }
+
+            // // Play cutscene Audio
+            // SoundMainScene();
+
             // Check if cutscene hasn't ended
             CheckIfCutsceneEnded();
 
@@ -127,48 +136,53 @@ namespace Avalanche.Core
             }
         }
 
-        private void SoundMainScene()
+        // Made public for quick hack
+        public void SoundMainScene()
         {
             if (GameState._cutscene == CutsceneType.GameStart)
             {
+                _isPlayingAudio = true;    // *1 Quick hack
+
+                SoundType? sound = null;
+                SoundType? music = null;
+
+                // Stop all single sounds playing
+                SoundManager.StopAllSounds();
+
                 switch (_currentFrameNumber)
-            {
-                case 0:
-                    SoundManager.PlaySound(SoundType.VoiceOver1GameStart);
-                    break;
-                case 1:
-                    SoundManager.StopAllSounds();
-                    SoundManager.PlayMusic(SoundType.CutScene1Start, true);
-                    SoundManager.PlaySound(SoundType.VoiceOver2GameStart);
-                    break;
-                case 2:
-                    SoundManager.StopAllSounds();
-                    SoundManager.PlaySound(SoundType.VoiceOver3GameStart);
-                    break;
-                case 3:
-                    SoundManager.StopAllSounds();
-                    SoundManager.PlaySound(SoundType.VoiceOver4GameStart);
-                    break;
-                case 4:
-                    SoundManager.StopAllSounds();
-                    SoundManager.PlayMusic(SoundType.CutScene2Start, true);
-                    SoundManager.PlaySound(SoundType.VoiceOver5GameStart);
-                    break;
-                case 5:
-                    SoundManager.StopAllSounds();
-                    SoundManager.PlaySound(SoundType.VoiceOver6GameStart);
-                    break;
-                case 6:
-                    SoundManager.StopAllSounds();
-                    SoundManager.PlaySound(SoundType.VoiceOver7GameStart);
-                    break;
-                case 7:
-                    SoundManager.StopAllSounds();
-                    SoundManager.PlaySound(SoundType.VoiceOver8GameStart);
-                    break;
+                {
+                    case 0:
+                        SoundManager.StopMusic();
+                        music = SoundType.CutScene1Start;
+                        sound = SoundType.VoiceOver1GameStart;
+                        break;
+                    case 1:
+                        sound = SoundType.VoiceOver2GameStart;
+                        break;
+                    case 2:
+                        sound = SoundType.VoiceOver3GameStart;
+                        break;
+                    case 3:
+                        sound = SoundType.VoiceOver4GameStart;
+                        break;
+                    case 4:
+                        music = SoundType.CutScene2Start;
+                        sound = SoundType.VoiceOver5GameStart;
+                        break;
+                    case 5:
+                        sound = SoundType.VoiceOver6GameStart;
+                        break;
+                    case 6:
+                        sound = SoundType.VoiceOver7GameStart;
+                        break;
+                    case 7:
+                        sound = SoundType.VoiceOver8GameStart;
+                        break;
+                }
+
+                if (sound != null) SoundManager.PlaySound((SoundType) sound);
+                if (music != null) SoundManager.PlayMusic((SoundType) music, true);
             }
-            }
-            
         }
     }
 }
