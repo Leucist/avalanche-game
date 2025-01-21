@@ -1,24 +1,43 @@
-﻿using Avalanche.Core.Interfaces;
-using System.Numerics;
-using static Avalanche.Core.AppConstants;
+﻿using static Avalanche.Core.AppConstants;
 
 namespace Avalanche.Core
 {
     public class RoomModel
     {
-        public Player _player;
-        public int _id { get; set; }
-        public List<GameObject> _items { get; set; }
-        public List<Entity> _otherEntities { get; set; }
-        public List<Enemy> _enemies { get; set; }
-        private int _initialEnemiesCount { get; set; }
+        private Player _player;
+        private int _id;
+        private List<GameObject> _items;
+        private List<Entity> _otherEntities;
+        private List<Enemy> _enemies;
+        private int _initialEnemiesCount;
         private HashSet<(int, int)> _enemyPositions;
         private HashSet<(int, int)> _itemPositions;
-        // private int _enemiesCount;
-        public bool _isDirty { get; set; }
-        public List<int[]> _dirtyPixels;
-        public Dictionary<GameObject, Door> _doors { get; set; }
-        public Campfire? _campfire;
+        private bool _isDirty;
+        private List<int[]> _dirtyPixels;
+        private Dictionary<GameObject, Door> _doors;
+        private Campfire? _campfire;
+
+
+
+        public Dictionary<GameObject, Door> Doors   =>  _doors;
+        public List<GameObject> Items               =>  _items;
+        public List<Entity> OtherEntities           =>  _otherEntities;
+        public List<Enemy> Enemies                  =>  _enemies;
+        public Campfire Campfire                    => _campfire;
+        
+        public int GetPlayerHealth()    =>  _player._health;
+        public int GetPlayerHeat()      =>  _player._heat;
+        public int GetPlayerMushrooms() =>  _player._mushrooms;
+        public int GetPlayerRocks()     =>  _player._rocks;
+        
+        public List<int[]> GetDirtyPixels() => _dirtyPixels;
+        public bool IsDirty() => _isDirty;
+        public void MarkDirty() { _isDirty = true; }
+        public void MarkClean() { _isDirty = false; }
+        public void ClearDirtyPixels() { _dirtyPixels.Clear(); }
+
+        public void RemoveItem(GameObject item) { _items.Remove(item); }
+
 
         public RoomModel(
             int id, 
@@ -60,9 +79,11 @@ namespace Avalanche.Core
                 }
                 _doors[new GameObject(x, y)] = door.Value;
             }
+
+            Init();
         }
 
-        public void Init() {
+        private void Init() {
             FillEnemies();
             // FillEntities();
             FillItems();
@@ -111,7 +132,7 @@ namespace Avalanche.Core
         //     }
         // }
 
-        public void FillItems()
+        private void FillItems()
         {
             Random random = new Random();
             int mushroomsCount = random.Next(1, 3);
@@ -146,6 +167,10 @@ namespace Avalanche.Core
                 //     coords.Item2
                 // ));
             }
+        }
+
+        public void AddDirtyPixel(int[] coords) {
+            _dirtyPixels.Add(coords);
         }
 
 

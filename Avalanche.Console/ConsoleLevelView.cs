@@ -235,9 +235,9 @@ namespace Avalanche.Console
 
         public void DrawFirecamp()
         {
-            if (_model._currentRoom!._campfire != null)
+            if (_model._currentRoom!.Campfire != null)
             {
-                Campfire campfire = _model._currentRoom._campfire;
+                Campfire campfire = _model._currentRoom.Campfire;
                 if (campfire.IsBurning)
                 { 
                 ConsoleRenderer.DrawFirecampSymbol(campfire.GetX(), campfire.GetY(), "🔥");
@@ -286,7 +286,7 @@ namespace Avalanche.Console
 
                 RenderDoors();
 
-                foreach (var item in _model._currentRoom!._items)
+                foreach (var item in _model._currentRoom!.Items)
                 {
                     // System.Console.WriteLine($"Rendering item at ({item.GetX()}, {item.GetY()}) of type {item.GetType().Name}");
                     GameObjectType gameObjectType = item is LayingRock ? GameObjectType.Rock : GameObjectType.Mushroom;
@@ -296,10 +296,10 @@ namespace Avalanche.Console
                 _wasNeverDrawn = false;
             }
 
-            ConsoleRenderer.ClearDirtyPixels(_model._currentRoom!._dirtyPixels);
-            _model._currentRoom._dirtyPixels.Clear();
+            ConsoleRenderer.ClearDirtyPixels(_model._currentRoom!.GetDirtyPixels());
+            _model._currentRoom.ClearDirtyPixels();
 
-            if (_model._currentRoom._isDirty)
+            if (_model._currentRoom.IsDirty())
             {
                 RenderDoors();
 
@@ -307,17 +307,17 @@ namespace Avalanche.Console
                     _model._player.GetX(),
                     _model._player.GetY());
 
-                foreach (var enemy in _model._currentRoom._enemies)
+                foreach (var enemy in _model._currentRoom.Enemies)
                 {
                     ConsoleRenderer.DrawEnemy(enemy.GetX(), enemy.GetY());
                 }
 
-                foreach (var entity in _model._currentRoom._otherEntities)
+                foreach (var entity in _model._currentRoom.OtherEntities)
                 {
                     ConsoleRenderer.DrawGameObject(entity.GetX(), entity.GetY(), GameObjectType.Rock);
                 }
 
-                _model._currentRoom._isDirty = false;
+                _model._currentRoom.MarkClean();
             }
 
             _previousHealthPointsCount = _model._player._health;
@@ -330,7 +330,7 @@ namespace Avalanche.Console
 
         private void RenderDoors()
         {
-            foreach (var door in _model._currentRoom!._doors)
+            foreach (var door in _model._currentRoom!.Doors)
             {
                 // ConsoleRenderer.DrawDoor(door.Key.GetX(), door.Key.GetY(), door.Value._isLevelExit);
                 ConsoleRenderer.DrawDoor(door.Key.GetX(), door.Key.GetY(), door.Value._isClosed, door.Value._isLevelExit);

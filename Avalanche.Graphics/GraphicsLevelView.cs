@@ -66,9 +66,6 @@ namespace Avalanche.Graphics
             {
                 _textures[kv.Key] = new Texture(Path.Combine(_textureFolder, kv.Value));
             }
-
-            int totalWindowWidth = ScreenCharWidth * PixelWidthMultiplier;
-            int totalWindowHeight = ScreenCharHeight * PixelHeightMultiplier;
         }
 
         public override void Reset() {
@@ -328,7 +325,7 @@ namespace Avalanche.Graphics
         }
         private void DrawEnemy()
         {
-            List<Enemy> skelet = _model._currentRoom._enemies;
+            List<Enemy> skelet = _model._currentRoom!.Enemies;
 
             Texture skeletonTex = _textures[TextureType.Skeleton];
 
@@ -350,7 +347,7 @@ namespace Avalanche.Graphics
 
             Texture itemTex;
 
-            foreach (var item in _model._currentRoom!._items)
+            foreach (var item in _model._currentRoom!.Items)
             {
                 switch (item)
                 {
@@ -434,7 +431,7 @@ namespace Avalanche.Graphics
 
         private void DrawThrowingRocks()
         {
-            List<Entity> otherEntities = _model._currentRoom._otherEntities;
+            List<Entity> otherEntities = _model._currentRoom!.OtherEntities;
 
             Texture otherEntityTex;
 
@@ -460,7 +457,7 @@ namespace Avalanche.Graphics
         private void RenderDoors()
         {
             Texture doorTex;
-            foreach (var door in _model._currentRoom!._doors)
+            foreach (var door in _model._currentRoom!.Doors)
             {
                 if (!door.Value._isClosed && !door.Value._isLevelExit)
                 {
@@ -489,7 +486,7 @@ namespace Avalanche.Graphics
 
         private void RenderCampfires()
         {
-            Campfire campfire = _model._currentRoom._campfire;
+            Campfire campfire = _model._currentRoom!.Campfire;
             if (campfire.IsBurning)
             {
                 Texture skeletonTex = _textures[TextureType.Fire];

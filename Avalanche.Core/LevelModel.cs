@@ -6,7 +6,7 @@
         int _levelNumber;
         int _enemiesCount;
         private int _enemySightDistance;
-        public Dictionary<int, RoomController> _rooms;
+        public Dictionary<int, RoomProxy> _rooms;
         public int _currentRoomID;
         public RoomModel? _currentRoom;
         public Door? _levelExit;
@@ -32,7 +32,7 @@
 
         private void ResetLevelParams(int levelNumber) {
             _levelNumber = levelNumber;
-            _rooms = new Dictionary<int, RoomController>();
+            _rooms = new Dictionary<int, RoomProxy>();
             _currentRoomID = 0;
 
             // Use Game Difficulty level to enhance the challenge
@@ -75,15 +75,13 @@
             int enemiesToAdd, enemiesAdded = 0;
             for (int i = roomsCount - 1; i >= 0; i--) {
                 enemiesToAdd = _enemiesCount - enemiesAdded > 0 ? _enemiesCount / (roomsCount - 1) : 0;
-                _rooms[i] = new RoomController(i, enemiesToAdd, roomDoors[i], _player);
+                _rooms[i] = new RoomProxy(i, enemiesToAdd, roomDoors[i], _player);
 
                 enemiesAdded -= enemiesToAdd;
             }
 
             _currentRoomID = 0;
-            _currentRoom = _rooms[_currentRoomID]._model;
-
-            _currentRoom.Init();
+            _currentRoom = _rooms[_currentRoomID].Room;
         }
 
         // private void generateRoomConnections(int roomsCount) {
@@ -109,14 +107,14 @@
             int[] prevCoords = _player.GetCoords();
 
             // - Mark dirty pixels and turn on the 'isDirty' indicator
-            _currentRoom!._dirtyPixels.Add(prevCoords);
-            _currentRoom._isDirty = true;
+            _currentRoom!.AddDirtyPixel(prevCoords);
+            _currentRoom.MarkDirty();
 
             // Change player position
             _player.Move();
 
             // Check doors-player collisions
-            foreach (var door in _currentRoom._doors) {
+            foreach (var door in _currentRoom.Doors) {
                 if (_player.CollidesWith(door.Key)) {
 
                     // If door isn't closed
@@ -139,8 +137,7 @@
                         // - Player gets into another room
                         int[] roomCouple = door.Value._betweenRoomsOfID;
                         _currentRoomID = (roomCouple[0] == _currentRoomID) ? roomCouple[1] : roomCouple[0];
-                        _currentRoom = _rooms[_currentRoomID]._model;
-                        _currentRoom.Init();
+                        _currentRoom = _rooms[_currentRoomID].Room;
 
                         if (_player.Name.ToLower() == "engineer") {
                             GameState._state = GameStateType.Cutscene;
@@ -158,8 +155,8 @@
                 }
             }
 
-            for (int i = _currentRoom._items.Count - 1; i >= 0; i--) {
-                var item = _currentRoom._items[i];
+            for (int i = _currentRoom.Items.Count - 1; i >= 0; i--) {
+                var item = _currentRoom.Items[i];
                 if (_player.CollidesWith(item)) {
                     switch (item) {
                         case LayingRock _:
@@ -169,7 +166,7 @@
                             _player.AddItem(ItemType.Mushroom);
                             break;
                     }
-                    _currentRoom._items.Remove(item);
+                    _currentRoom.RemoveItem(item);
                 }
             }
 
@@ -197,7 +194,7 @@
 
         public void Shoot() {
             if (_player.ThrowRock()) {
-                _currentRoom!._otherEntities.Add(new Rock(_player));
+                _currentRoom!.OtherEntities.Add(new Rock(_player));
             }
         }
 
@@ -206,7 +203,7 @@
         }
 
         private void CheckCollisions(Entity movingEntity, int[] prevCoords) {
-            foreach (var enemy in _currentRoom!._enemies) {
+            foreach (var enemy in _currentRoom!.Enemies) {
                 // To avoid checking collision with itself
                 if (enemy == movingEntity) continue;
 
@@ -233,15 +230,15 @@
             _currentRoom!.Update();
 
             // - Handle Enemy attacks
-            for (int i = _currentRoom._enemies.Count - 1; i >= 0; i--) {
-                var enemy = _currentRoom._enemies[i];
+            for (int i = _currentRoom.Enemies.Count - 1; i >= 0; i--) {
+                var enemy = _currentRoom.Enemies[i];
                 // - Mark dirty pixels and turn on the 'isDirty' indicator
-                _currentRoom!._dirtyPixels.Add([enemy.GetX(), enemy.GetY()]);
-                _currentRoom._isDirty = true;
+                _currentRoom!.AddDirtyPixel([enemy.GetX(), enemy.GetY()]);
+                _currentRoom.MarkDirty();
                 
                 // If enemy is dead, it's being erased from the list
                 if (enemy.IsDead()) {
-                    _currentRoom._enemies.Remove(enemy);
+                    _currentRoom.Enemies.Remove(enemy);
                 }
                 if (!enemy.IsAlerted) {
                     // Set enemy's focus on the player if player can be noticed
@@ -279,7 +276,7 @@
 
         public void SwitchPause() {
             _isPaused = !_isPaused;
-            _currentRoom!._isDirty = true;
+            _currentRoom!.MarkDirty();
         }
 
         private void ResetGame(CutsceneType cutscene) {
