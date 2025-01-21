@@ -4,13 +4,15 @@ public class GameController {
     IGameView _gameView;
     IInputController _inputController;
     ISceneController? _currentSceneController;
-    CommandFactory _commandFactory;
+    CommandFactoryProvider _commandFactoryProvider;
+    CommandFactoriesManager _commandFactoriesManager;
 
     public GameController(IGameView gameView, IInputController inputController) {
         _gameView = gameView;
         _inputController = inputController;
         _currentSceneController = null;
-        _commandFactory = new();
+        _commandFactoryProvider = new();
+        _commandFactoriesManager = new();
     }
 
     public void StartGame() {
@@ -27,12 +29,14 @@ public class GameController {
         controllers[GameStateType.Game]         =   new LevelController(player, 0);
         controllers[GameStateType.Cutscene]     =   new CutsceneController();
 
-        _commandFactory.AddCommandFactory(GameStateType.MainMenu, controllers[GameStateType.MainMenu]);
+        ICommandFactory mainMenuFactory = _commandFactoryProvider.CreateFactory (GameStateType.MainMenu, controllers[GameStateType.MainMenu]);
+        _commandFactoriesManager.AddCommandFactory                              (GameStateType.MainMenu, mainMenuFactory);
         // Initialise Scene Views & Link them to the main View
         foreach (GameStateType state in Enum.GetValues(typeof(GameStateType))) {
             if (state != GameStateType.Exit) {
-                // _commandFactory.AddCommandFactory   (state, controllers[state]);
-                _gameView.AddView                   (state, controllers[state]);
+                // ICommandFactory factory = _commandFactoryProvider.CreateFactory (state, controllers[state]);
+                // _commandFactoriesManager.AddCommandFactory                      (state, factory);
+                _gameView.AddView                                               (state, controllers[state]);
             }
         }
 
@@ -52,7 +56,7 @@ public class GameController {
     private void Update() {
         _gameView.Render();
         ActionType action = _inputController.GetUserAction();
-        ICommand command = _commandFactory.CreateCommand(action);
+        ICommand command = _commandFactoriesManager.CreateCommand(action);
         CommandManager.Instance.AddCommand(command);
         CommandManager.Instance.ExecuteAll();
         // _currentSceneController!.Handle(action);
