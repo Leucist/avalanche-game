@@ -145,12 +145,13 @@
                             return;
                         }
 
-                        // // Reset Player position
-                        // GameObject nextDoor = _currentRoom._doors.First(d => d.Value._ID == door.Value._ID).Key;
-                        // _player.MoveTo(
-                        //     nextDoor.GetX() + 1,
-                        //     nextDoor.GetY() + 1
-                        // );
+                        // - Reset Player position
+                        // Get the Door of the same ID but in the new room
+                        GameObject nextDoor = _currentRoom.Doors.First(d => d.Value._ID == door.Value._ID).Key;
+                        _player.MoveTo(
+                            nextDoor.GetX(),
+                            nextDoor.GetY()
+                        );
                     }
                 }
             }
