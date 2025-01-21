@@ -5,7 +5,7 @@ using SFML.Audio;
 
 namespace Avalanche.Core
 {
-    public class SoundManager
+    public class SoundPlayer
     {
         private static readonly Dictionary<SoundType, string> _sounds = new()
         {
@@ -26,16 +26,16 @@ namespace Avalanche.Core
         private static Music _currentMusic;
         private static readonly List<Sound> _activeSounds = new();
 
-        private static SoundManager _instance;
+        private static SoundPlayer _instance;
 
         // Lock object for thread-safe singleton instantiation
         private static readonly object _lock = new();
 
         // Private constructor to prevent instantiation
-        private SoundManager() { }
+        private SoundPlayer() { }
 
         // Public property to get the singleton instance
-        public static SoundManager Instance
+        public static SoundPlayer Instance
         {
             get
             {
@@ -46,7 +46,7 @@ namespace Avalanche.Core
                     {
                         if (_instance == null)
                         {
-                            _instance = new SoundManager();
+                            _instance = new SoundPlayer();
                         }
                     }
                 }
