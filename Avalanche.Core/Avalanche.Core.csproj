@@ -21,9 +21,6 @@
     <None Update="Audio\Music\wind.mp3">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="Audio\Sounds\CS1.mp3">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="Audio\Sounds\CS2.mp3">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

@@ -15,6 +15,7 @@ namespace Avalanche.Core
         Heart,
         WarningSign,
         DistinguishedFire,
-        BackgroundWall
+        BackgroundWall,
+        SecondBackground
     }
 }
