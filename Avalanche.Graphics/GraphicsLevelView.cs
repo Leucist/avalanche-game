@@ -247,7 +247,7 @@ namespace Avalanche.Graphics
 
         private void DrawMushroomsUI(float xStart, float yStart)
         {
-            int totalItemsCount = 10;
+            int totalItemsCount = 5;
             int count = _model._player._mushrooms;
             if (count > totalItemsCount)
                 count = totalItemsCount;
@@ -275,7 +275,7 @@ namespace Avalanche.Graphics
 
         private void DrawRocksUI(float xStart, float yStart)
         {
-            int totalItemsCount = 10;
+            int totalItemsCount = 5;
             int count = _model._player._rocks;
             if (count > totalItemsCount)
                 count = totalItemsCount;
