@@ -43,7 +43,7 @@ namespace Avalanche.Core
             string[] files = Directory.GetFiles(
                 Path.Combine(
                     Pathfinder.FindSolutionDirectory(),
-                    "Avalanche.Console",
+                    "Avalanche." + GameState._mode.ToString(),
                     Pathfinder.GetCutsceneFolderPath((CutsceneType)_cutsceneNumber)
                     )
                 );
