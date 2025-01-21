@@ -23,6 +23,9 @@ namespace Avalanche.Graphics
                     ScreenCharHeight * PixelHeightMultiplier
                 ),
                 AppName);
+            // Set window icon
+            Image icon = new Image(Pathfinder.GetIconPath());
+            _window.SetIcon(icon.Size.X, icon.Size.Y, icon.Pixels);
             
             _renderer = new GraphicsRenderer(_window);
 
