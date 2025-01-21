@@ -59,7 +59,7 @@ namespace Avalanche.Graphics
             // text params
             uint fontSize = 32;
             // first button positioning
-            float optionsStartX = AppConstants.ScreenCharWidth * AppConstants.PixelWidthMultiplier / 2 - 50;
+            float optionsStartX = AppConstants.ScreenCharWidth * AppConstants.PixelWidthMultiplier / 2 - 80;
             float optionsStartY = 150;
 
             // TODO May be centered as it was before, temp removal
