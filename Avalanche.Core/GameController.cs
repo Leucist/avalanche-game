@@ -29,8 +29,8 @@ public class GameController {
         controllers[GameStateType.Game]         =   new LevelController(player, 0);
         controllers[GameStateType.Cutscene]     =   new CutsceneController();
 
-        ICommandFactory mainMenuFactory = _commandFactoryProvider.CreateFactory (GameStateType.MainMenu, controllers[GameStateType.MainMenu]);
-        _commandFactoriesManager.AddCommandFactory                              (GameStateType.MainMenu, mainMenuFactory);
+        // ICommandFactory mainMenuFactory = _commandFactoryProvider.CreateFactory (GameStateType.MainMenu, controllers[GameStateType.MainMenu]);
+        // _commandFactoriesManager.AddCommandFactory                              (GameStateType.MainMenu, mainMenuFactory);
         // Initialise Scene Views & Link them to the main View
         foreach (GameStateType state in Enum.GetValues(typeof(GameStateType))) {
             if (state != GameStateType.Exit) {
@@ -48,7 +48,7 @@ public class GameController {
         SoundPlayer.Instance.PlayMusic(SoundType.MainMenuBackground, true);
         //SoundGameManager.Play(SoundType.MainMenuBackground, true);  // starts playing the first song on the loop
         while (GameState._state != GameStateType.Exit) {
-            // _currentSceneController = controllers[GameState._state];
+            _currentSceneController = controllers[GameState._state];
             Update();
         }
     }
@@ -56,9 +56,9 @@ public class GameController {
     private void Update() {
         _gameView.Render();
         ActionType action = _inputController.GetUserAction();
-        ICommand command = _commandFactoriesManager.CreateCommand(action);
-        CommandManager.Instance.AddCommand(command);
-        CommandManager.Instance.ExecuteAll();
-        // _currentSceneController!.Handle(action);
+        // ICommand command = _commandFactoriesManager.CreateCommand(action);
+        // CommandManager.Instance.AddCommand(command);
+        // CommandManager.Instance.ExecuteAll();
+        _currentSceneController!.Handle(action);
     }
 }
