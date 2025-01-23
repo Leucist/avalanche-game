@@ -13,7 +13,7 @@ To run this project, you need to have the .NET SDK installed. Ensure that you ha
 dotnet --version
 ```
 
-For the graphical interface, you will need to install MonoGame.
+The graphical version of the game requires **SFML.Net** and its dependencies.
 
 ## Installation and Running
 
@@ -28,10 +28,38 @@ cd avalanche-game
 dotnet restore
 ```
 
-3. Run the launcher:
+3. Install required dependencies:
+
+For **Windows**, ensure you have the necessary SFML dependencies installed. You can download the required DLLs from [SFML's official website](https://www.sfml-dev.org/download.php) and place them in the game directory.
+
+For **Linux**, install the necessary libraries:
+```bash
+sudo pacman -S csfml openal flac
+```
+On Debian-based distributions (e.g., Ubuntu):
+```bash
+sudo apt install libcsfml-audio2.6 libopenal1 libflac8
+```
+
+4. Run the game.
+
+ **Graphical** version:
 ```bash
 dotnet run --project Avalanche.Launcher
 ```
+
+**Console** version:
+```bash
+dotnet run --project Avalanche.Launcher -- console
+```
+
+### Alternative Launch Methods
+You can also start the graphical version by double-clicking the corresponding launcher script:
+
+- **Linux:** `Linux Launchers/run_graphics.sh`
+- **Windows:** `Windows Launchers/run_graphics.bat`
+  
+
 
 ## Project Structure
 
@@ -75,7 +103,7 @@ To contribute to the project:
 ### Music
 The game features music licensed under **CC BY 4.0**. Special thanks to:
 
-- **Ice Cave** by **Visager** – [Free Music Archive](https://freemusicarchive.org/) ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))
+- "**Ice Cave**" by **Visager** – [Free Music Archive](https://freemusicarchive.org/) ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))
 
 The music has been used with proper attribution according to the license terms.
 
